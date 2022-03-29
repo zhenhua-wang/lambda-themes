@@ -1,4 +1,4 @@
-;; lambda-themes.el --- A custom theme  -*- lexical-binding: t; -*-
+;;; lambda-themes.el --- A custom theme  -*- lexical-binding: t; -*-
 ;; Copyright (C) 2020 Colin McLear
 ;; -------------------------------------------------------------------
 ;; Authors: Colin McLear
@@ -6,8 +6,8 @@
 ;; URL: https://github.com/mclear-tools/lambda-themes
 ;; -------------------------------------------------------------------
 ;; Created: 2021-03-16
-;; Version: 0.6
-;; Package-Requires: ((emacs "26.1"))
+;; Version: 0.1
+;; Package-Requires: ((emacs "25.1"))
 ;; -------------------------------------------------------------------
 ;; This file is not part of GNU Emacs.
 ;;
@@ -25,1188 +25,1108 @@
 ;; along with this program. If not, see <http://www.gnu.org/licenses/>
 ;; -------------------------------------------------------------------
 ;;; Commentary:
-;; This theme started as a fork of nano-emacs.
-;; See https://github.com/rougier/nano-emacs.
-;; Color palatte has been expanded and face definitions revised
+;; Lamda-themes provides a set of light and dark medium contrast themes that
+;; offer a balance between readability and aesthetics. The main focus is on
+;; keeping colors easily distinguishable and with enough contrast, while still
+;; being aesthetically pleasing.
 ;; -------------------------------------------------------------------
 ;;; Code
 
+;;;; Requirements
+(eval-when-compile
+  (require 'cl-lib))
+(require 'autothemer)
 
-;;;; Theme Variables
-
-(defvar evil-emacs-state-cursor)
-(defvar evil-normal-state-cursor)
-(defvar evil-visual-state-cursor)
-(defvar evil-insert-state-cursor)
-(defvar evil-replace-state-cursor)
-(defvar evil-motion-state-cursor)
-(defvar evil-operator-state-cursor)
-(defvar hl-todo-keyword-faces)
+(unless (>= emacs-major-version 25)
+  (error "Requires Emacs 25 or later"))
 
 ;;;; Theme Options
 
-(defcustom lambda-set-theme 'light
+(defcustom lambda-themes-set-theme 'light
   "Choose which theme variant, light or dark, to use."
   :group 'lambda-themes
   :type 'symbol)
 
 ;; Cursors
-(defcustom lambda-set-evil-cursors t
+(defcustom lambda-themes-set-evil-cursors t
   "If t then use lambda evil cursor colors."
   :group 'lambda-themes
   :type 'boolean)
 
 ;; Font options
-(defcustom lambda-set-italic-comments t
+(defcustom lambda-themes-set-italic-comments t
   "If t then use italics for comments."
   :group 'lambda-themes
   :type 'boolean)
 
-(defcustom lambda-set-italic-keywords t
+(defcustom lambda-themes-set-italic-keywords t
   "If t then use italics for keywords."
   :group 'lambda-themes
   :type 'boolean)
 
-(defcustom lambda-set-variable-pitch t
+(defcustom lambda-themes-set-variable-pitch t
   "If t then use variable-pitch for headings."
   :group 'lambda-themes
   :type 'boolean)
 
+;;;; Faces
+(defface lambda-bg nil "")
+(defface lambda-fg nil "")
+(defface lambda-ultralight nil "")
+(defface lambda-highlight nil "")
+(defface lambda-lowlight nil "")
+(defface lambda-urgent nil "")
+(defface lambda-crucial nil "")
+(defface lambda-focus nil "")
+(defface lambda-strong nil "")
+(defface lambda-mild nil "")
+(defface lambda-faint nil "")
+(defface lambda-blue nil "")
+(defface lambda-green nil "")
+(defface lambda-red nil "")
+(defface lambda-yellow nil "")
+(defface lambda-orange nil "")
+(defface lambda-purple nil "")
+(defface lambda-aqua nil "")
+(defface lambda-gray nil "")
+
 ;;;; After Load Theme Hook
-(defvar lambda-after-load-theme-hook nil
-  "Hook run after lambda-theme is loaded using `load-theme'.")
+(defvar lambda-themes-after-load-theme-hook nil
+  "Hook run after bespoke-theme is loaded using `load-theme'.")
 
 ;;;; Disable Theme Function
-(defun lambda--disable-all-themes ()
+(defun lambda-themes--disable-all-themes ()
   "Disable all active themes."
   (dolist (i custom-enabled-themes)
     (disable-theme i)))
 
 ;;;; Theme Toggle
+(defcustom lambda-themes-active-theme 'light "Variable for holding light/dark value of theme appearance."
+  :group 'lambda-themes
+  :type 'symbol)
+
 ;;;###autoload
-(defun lambda/toggle-theme ()
-  "Toggle between dark and light variants"
+(defun lambda-themes-toggle-theme ()
+  "Toggle between dark and light variants."
   (interactive)
-  (if (eq lambda-set-theme 'light)
+  (if (eq lambda-themes-active-theme 'light)
       (progn
-        (lambda--disable-all-themes)
-        (setq lambda-set-theme 'dark)
-        (load-theme 'lambda t)
-        (run-hooks 'lambda-after-load-theme-hook))
+        (lambda-themes--disable-all-themes)
+        (load-theme 'lambda-dark t)
+        (setq lambda-themes-active-theme 'dark)
+        (run-hooks 'lambda-themes-after-load-theme-hook))
     (progn
-      (lambda--disable-all-themes)
-      (setq lambda-set-theme 'light)
-      (load-theme 'lambda t)
-      (run-hooks 'lambda-after-load-theme-hook)
+      (lambda-themes--disable-all-themes)
+      (load-theme 'lambda-light t)
+      (setq lambda-themes-active-theme 'light)
+      (run-hooks 'lambda-themes-after-load-theme-hook)
       )))
 
-;;;; Call Theme Functions
-;;;###autoload
-(defun lambda/light-theme ()
-  "Set light variant of lambda-theme"
-  (interactive)
-  (lambda--disable-all-themes)
-  (setq lambda-set-theme 'light)
-  (load-theme 'lambda t)
-  (run-hooks 'lambda-after-load-theme-hook))
-
-;;;###autoload
-(defun lambda/dark-theme ()
-  "Set dark variant of lambda-theme"
-  (interactive)
-  (lambda--disable-all-themes)
-  (setq lambda-set-theme 'dark)
-  (load-theme 'lambda t)
-  (run-hooks 'lambda-after-load-theme-hook))
-
-
-;;;; Define group & colors
-
-(defgroup lambda-themes nil
-  "Faces and colors for lambda themes"
-  :group 'faces)
-
-;; Derive our default color set from core Emacs faces.
-;; This allows use of lambda colors in independently themed Emacsen
-;;
-;; We memorize the default colorset in this var in order not to confuse
-;; customize: the STANDARD argument of defcustom gets re-evaluated by customize
-;; to determine if the current value is default or not.
-(defvar lambda-base-colors--defaults
-  `((foreground . ,(face-foreground 'default nil t))
-    (background . ,(face-background 'default nil t))
-    (highlight . ,(face-background 'fringe nil t))
-    (critical . ,(face-foreground 'error nil t))
-    (salient . ,(face-foreground 'font-lock-keyword-face nil t))
-    (strong . ,(face-foreground 'default nil t))
-    (popout . ,(face-foreground 'font-lock-string-face nil t))
-    (subtle . ,(face-background 'mode-line-inactive nil t))
-    (faded . ,(face-foreground 'shadow nil t))))
-
-(defun lambda-base-colors--get (name)
-  "Get default color associated with symbol NAME."
-  (cdr (assoc name lambda-base-colors--defaults)))
-
-(defcustom lambda-foreground (lambda-base-colors--get 'foreground)
-  ""
-  :type 'color
-  :group 'lambda-themes)
-
-(defcustom lambda-background (lambda-base-colors--get 'background)
-  ""
-  :type 'color
-  :group 'lambda-themes)
-
-(defcustom lambda-highlight (lambda-base-colors--get 'highlight)
-  ""
-  :type 'color
-  :group 'lambda-themes)
-
-(defcustom lambda-critical (lambda-base-colors--get 'critical)
-  ""
-  :type 'color
-  :group 'lambda-themes)
-
-(defcustom lambda-salient (lambda-base-colors--get 'salient)
-  ""
-  :type 'color
-  :group 'lambda-themes)
-
-(defcustom lambda-strong (lambda-base-colors--get 'strong)
-  ""
-  :type 'color
-  :group 'lambda-themes)
-
-(defcustom lambda-popout (lambda-base-colors--get 'popout)
-  ""
-  :type 'color
-  :group 'lambda-themes)
-
-(defcustom lambda-subtle (lambda-base-colors--get 'subtle)
-  ""
-  :type 'color
-  :group 'lambda-themes)
-
-(defcustom lambda-faded (lambda-base-colors--get 'faded)
-  ""
-  :type 'color
-  :group 'lambda-themes)
-
-
-;;;; Define Faces
-;; The themes are fully defined by these faces
-
-;;;;; Core faces
-(defface lambda-default nil
-  "Default face is for regular use."
-  :group 'faces)
-
-(defface lambda-critical nil
-  "Critical face is for information that requires action---e.g.,
-syntax or spelling errors. It should be of high constrast when
-compared to other faces. This can be realized (for example) by
-setting an intense background color, typically a shade of red or
-orange. It should be used rarely."
-  :group 'faces)
-
-(defface lambda-popout nil
-  "Popout face is used for information that needs attention.
-To achieve such effect, the hue of the face has to be
-sufficiently different from other faces such that it attracts
-attention through the popout effect (see
-https://metapraxis.com/blog/blog/the-pop-out-effect/)."
-  :group 'faces)
-
-(defface lambda-strong nil
-  "Strong face is used for information of a structural nature.
-It is the same color as the default color. Only the
-weight differs by one level (e.g., light/regular or
-regular/bold). Usage might include titles, keywords,
-directory, etc."
-  :group 'faces)
-
-(set-face-attribute 'lambda-strong nil
-                    :foreground (face-foreground 'lambda-default)
-                    :weight 'bold)
-
-(defface lambda-salient nil
-  "Salient face is used for important information, though not
-necessarily that which needs immediate action or attention. To
-suggest the information is important, the face uses a different
-hue with approximately the same intensity as the default face.
-This might be used, e.g., for links."
-  :group 'faces)
-
-(defface lambda-faded nil
-  "Faded face is for less (immediately) important information. It
-is made by using the same hue as the default but with a lesser
-intensity than the default. It can be used for comments,
-secondary information."
-  :group 'faces)
-
-(defface lambda-subtle nil
-  "Subtle face is used to suggest a physical area on the screen.
-It's main use is for differentiating regions without drawing a
-significant amount of attention. It is also closely related in
-shade to the modeline color and to the highlight color."
-  :group 'faces)
-
-;;;;; Accent faces
-;; The accent colors are used to fill out the color palatte. They are meant to be
-;; used for attention or contrast with the core colors. Readability is important.
-
-(defface lambda-highlight nil
-  "This should be used primarily for highlighting. It is meant
-subtlety stand out from the mode line and other adjacent faces."
-  :group 'faces)
-
-(defface lambda-modeline nil
-  "Default face for the mode line."
-  :group 'faces)
-
-(defface lambda-inactive nil
-  "Face for the inactive mode line"
-  :group 'faces)
-
-(defface lambda-red nil
-  "A reddish accent face"
-  :group 'faces)
-
-(defface lambda-green nil
-  "A greenish accent face"
-  :group 'faces)
-
-(defface lambda-blue nil
-  "A bluish accent face"
-  :group 'faces)
-
-(defface lambda-yellow nil
-  "A yellowish accent face"
-  :group 'faces)
-
-(defface lambda-brown nil
-  "A brownish accent face"
-  :group 'faces)
-
 ;;;; Define Theme
-(deftheme lambda "A custom theme for yak shaving, with light and dark variants")
+(defmacro lambda-themes-deftheme (name description palette &rest body)
+  `(autothemer-deftheme
+    ,name
+    ,description
+    ,palette
 
-;;;; Set Colors
+;;;;; Default
+    ((default                                           (:background lambda-bg :foreground lambda-fg))
+     (cursor                                            (:background lambda-fg))
+     ;; (mode-line                                         (:background lambda-ultralight :box (:line-width 1 :color lambda-mild :style nil)))
+     ;; (mode-line-inactive                                (:background lambda-bg :foreground lambda-faint (:line-width 1 :color lambda-mild :style nil)))
+     (fringe                                            (:background lambda-bg :weight 'light))
+     (hl-line                                           (:background lambda-highlight))
+     (region                                            (:background lambda-mild))
+     (secondary-selection                               (:background lambda-lowlight))
+     (buffer-menu-buffer                                (:foreground lambda-strong))
+     (minibuffer-prompt                                 (:background lambda-bg :foreground lambda-crucial))
+     (vertical-border                                   (:foreground lambda-bg))
+     (internal-border                                   (:background lambda-bg :foreground lambda-bg))
+     (show-paren-match                                  (:foreground lambda-crucial :weight 'bold))
+     (show-paren-mismatch                               (:foreground lambda-urgent :weight 'bold :box t))
+     (link                                              (:foreground lambda-blue :underline t))
+     (shadow                                            (:foreground lambda-lowlight))
 
-(defun lambda-theme--light-dark (light dark)
-  "Determine theme using the LIGHT or the DARK color variants of lambda-theme."
-  (if (eq lambda-set-theme 'light)
-      light
-    dark))
-(defalias '--l/d #'lambda-theme--light-dark)
-
-(defun lambda--set-theme-variant ()
-  "Set theme colors according to LIGHT or DARK variant"
-  (setq lambda-foreground (--l/d "#282b35" "#eceff1"))
-  (setq lambda-background (--l/d "#fffef9" "#282b35"))
-
-  (setq lambda-modeline   (--l/d "#e3e7ef" "#3c4353"))
-  (setq lambda-headline   (--l/d ""        ""       ))
-  (setq lambda-highlight  (--l/d "#dbe1eb" "#444B5c"))
-  (setq lambda-active     (--l/d ""         ""      ))
-  (setq lambda-inactive   (--l/d "#cbd3e1" "#525868"))
-
-  (setq lambda-critical   (--l/d "#f53137" "#f46715"))
-  (setq lambda-salient    (--l/d "#303db4" "#88c0d0"))
-  (setq lambda-strong     (--l/d "#000000" "#ffffff"))
-  (setq lambda-popout     (--l/d "#940b96" "#bc85cf"))
-  (setq lambda-subtle     (--l/d "#eceff1" "#333a47"))
-  (setq lambda-faded      (--l/d "#727d97" "#959eb1"))
-
-  (setq lambda-blue       (--l/d "#30608c" "#81a1c1"))
-  (setq lambda-green      (--l/d "#00796b" "#8eb89d"))
-  (setq lambda-red        (--l/d "#960d36" "#bf616a"))
-  (setq lambda-brown      (--l/d "#966e53" "#d08770"))
-  (setq lambda-yellow     (--l/d "#e0a500" "#e9b85d")))
-
-;;;; Customize Faces
-
-;; Call color settings
-(lambda--set-theme-variant)
-
-;; Declare class and set faces
-(let ((class '((class color) (min-colors 89))))
-  (custom-theme-set-faces
-   `lambda
-   `(default ((,class :foreground ,lambda-foreground :background ,lambda-background)))
-
-
-;;;;; Basic Faces
-   `(buffer-menu-buffer                            ((,class :foreground ,lambda-strong)))
-   `(minibuffer-prompt                             ((,class :foreground ,lambda-green)))
-   `(link                                          ((,class :foreground ,lambda-salient)))
-   `(region                                        ((,class :background ,lambda-highlight)))
-   `(fringe                                        ((,class :foreground ,lambda-faded :weight light)))
-   `(highlight                                     ((,class :background ,lambda-subtle)))
-   `(lazy-highlight                                ((,class :foreground ,lambda-green)))
-   `(trailing-whitespace                           ((,class :foreground ,lambda-faded)))
-   `(secondary-selection                           ((,class :foreground ,lambda-yellow :background ,lambda-subtle)))
-   `(show-paren-match                              ((,class :foreground ,lambda-yellow :weight bold)))
-   `(show-paren-mismatch                           ((,class :foreground ,lambda-critical :weight bold :box t)))
-   `(tooltip nil                                   ((,class :height 0.85)))
-
-;;;;; Lambda Faces
-   ;; NOTE: We want the lambda colors to be available as faces. It seems like there
-   ;; should be a better way to do this but...
-   `(lambda-foreground ((,class :foreground ,lambda-foreground)))
-   `(lambda-background ((,class :background ,lambda-background)))
-   `(lambda-modeline   ((,class :background ,lambda-modeline)))
-   `(lambda-highlight  ((,class :foreground ,lambda-highlight)))
-   `(lambda-inactive   ((,class :foreground ,lambda-inactive)))
-   `(lambda-critical   ((,class :foreground ,lambda-critical)))
-   `(lambda-salient    ((,class :foreground ,lambda-salient)))
-   `(lambda-strong     ((,class :foreground ,lambda-strong)))
-   `(lambda-popout     ((,class :foreground ,lambda-popout)))
-   `(lambda-subtle     ((,class :foreground ,lambda-subtle)))
-   `(lambda-faded      ((,class :foreground ,lambda-faded)))
-   `(lambda-blue       ((,class :foreground ,lambda-blue)))
-   `(lambda-green      ((,class :foreground ,lambda-green)))
-   `(lambda-red        ((,class :foreground ,lambda-red)))
-   `(lambda-brown      ((,class :foreground ,lambda-brown)))
-   `(lambda-yellow     ((,class :foreground ,lambda-yellow)))
-
-;;;;; Buttons
-   `(custom-button                                 ((,class :foreground ,lambda-foreground :background ,lambda-highlight :box nil)))
-   `(custom-button-mouse                           ((,class :foreground ,lambda-foreground :background ,lambda-subtle :box nil)))
-   `(custom-button-pressed                         ((,class :foreground ,lambda-background :background ,lambda-foreground :box nil)))
+     ;; NOTE: We want the lambda-themes- colors to be available as faces. It seems like there
+     ;; should be a better way to do this but...
+     (lambda-fg         (:foreground lambda-fg))
+     (lambda-bg         (:background lambda-bg))
+     (lambda-ultralight (:background lambda-ultralight))
+     (lambda-highlight  (:foreground lambda-highlight))
+     (lambda-lowlight   (:foreground lambda-lowlight))
+     (lambda-urgent     (:foreground lambda-urgent))
+     (lambda-focus      (:foreground lambda-focus))
+     (lambda-strong     (:foreground lambda-strong))
+     (lambda-crucial    (:foreground lambda-crucial))
+     (lambda-mild       (:foreground lambda-mild))
+     (lambda-faint      (:foreground lambda-faint))
+     (lambda-blue       (:foreground lambda-blue))
+     (lambda-green      (:foreground lambda-green))
+     (lambda-red        (:foreground lambda-red))
+     (lambda-orange     (:foreground lambda-orange))
+     (lambda-yellow     (:foreground lambda-yellow))
+     (lambda-aqua       (:foreground lambda-aqua))
+     (lambda-purple     (:foreground lambda-purple))
+     (lambda-gray       (:foreground lambda-gray))
 
 ;;;;; Bookmarks
-   `(bookmark-menu-heading                         ((,class :foreground ,lambda-strong)))
-   `(bookmark-menu-bookmark                        ((,class :foreground ,lambda-salient)))
-   `(bookmark-face                                 ((,class :foreground ,lambda-salient)))
+     (bookmark-menu-heading                         (:foreground lambda-strong))
+     (bookmark-menu-bookmark                        (:foreground lambda-focus))
+     (bookmark-face                                 (:foreground lambda-focus))
 
 ;;;;; Childframes
 ;;;;;; Mini-Frame
-   `(mini-popup-background ((,class :background ,lambda-subtle)))
-   `(mini-popup-border     ((,class :background ,lambda-subtle)))
+     (mini-popup-background (:background lambda-faint))
+     (mini-popup-border     (:background lambda-faint))
 
 ;;;;;; Mini-Popup (Childframe)
-   `(mini-popup-background ((,class :background ,lambda-subtle)))
-   `(mini-popup-border     ((,class :background ,lambda-subtle)))
+     (mini-popup-background (:background lambda-faint))
+     (mini-popup-border     (:background lambda-faint))
 
 ;;;;;; Posframe
 
-   `(which-key-posframe                           ((,class :background ,lambda-subtle)))
-   `(which-key-posframe-border                    ((,class :background ,lambda-subtle)))
-   `(transient-posframe-border                    ((,class :background ,lambda-subtle)))
-   `(transient-posframe                           ((,class :foreground ,lambda-strong :background ,lambda-subtle)))
+     (which-key-posframe                           (:background lambda-faint))
+     (which-key-posframe-border                    (:background lambda-faint))
+     (transient-posframe-border                    (:background lambda-faint))
+     (transient-posframe                           (:foreground lambda-strong :background lambda-faint))
 
 ;;;;; Completion/Narrowing
-
-;;;;;; Company
-   `(company-scrollbar-fg                          ((,class :foreground ,lambda-faded)))
-   `(company-scrollbar-bg                          ((,class :foreground ,lambda-faded)))
-   `(company-preview                               ((,class :foreground ,lambda-faded :weight bold)))
-   `(company-preview-common                        ((,class :foreground ,lambda-faded)))
-   `(company-tooltip-selection                     ((,class :foreground ,lambda-salient)))
-   `(company-tooltip                               ((,class :background ,lambda-subtle)))
-   `(company-tooltip-common                        ((,class :background ,lambda-subtle)))
-   `(company-tooltip-common-selection              ((,class :foreground ,lambda-salient)))
-   `(company-tooltip-annotation                    ((,class :foreground ,lambda-faded)))
-   `(company-tooltip-annotation-selection          ((,class :foreground ,lambda-salient)))
-
-;;;;;; Corfu
-   `(corfu-annotations                             ((,class :foreground ,lambda-faded)))
-   `(corfu-bar                                     ((,class :foreground ,lambda-modeline)))
-   `(corfu-border                                  ((,class :foreground ,lambda-subtle)))
-   `(corfu-current                                 ((,class :foreground ,lambda-popout :background ,lambda-highlight)))
-   `(corfu-default                                 ((,class :inherit default :background ,lambda-subtle)))
-   `(corfu-deprecated                              ((,class :foreground ,lambda-faded)))
-   `(corfu-echo                                    ((,class :inherit default)))
-
-;;;;;; Counsel
-   `(counsel-active-mode                           ((,class :foreground ,lambda-salient)))
-   `(counsel-application-name                      ((,class :foreground ,lambda-red)))
-   `(counsel-key-binding                           ((,class :inherit default)))
-   `(counsel-outline-1                             ((,class :inherit org-level-1)))
-   `(counsel-outline-2                             ((,class :inherit org-level-2)))
-   `(counsel-outline-3                             ((,class :inherit org-level-3)))
-   `(counsel-outline-4                             ((,class :inherit org-level-4)))
-   `(counsel-outline-5                             ((,class :inherit org-level-5)))
-   `(counsel-outline-6                             ((,class :inherit org-level-6)))
-   `(counsel-outline-7                             ((,class :inherit org-level-7)))
-   `(counsel-outline-8                             ((,class :inherit org-level-8)))
-   `(counsel-outline-default                       ((,class :foreground ,lambda-foreground)))
-   `(counsel-variable-documentation                ((,class :inherit default :foreground ,lambda-yellow)))
-
 ;;;;;; Helm
-   `(helm-selection                                ((,class :foreground ,lambda-subtle :weight bold)))
-   `(helm-match                                    ((,class :foreground ,lambda-strong)))
-   `(helm-source-header                            ((,class :foreground ,lambda-salient)))
-   `(helm-visible-mark                             ((,class :foreground ,lambda-strong)))
-   `(helm-swoop-target-line-face                   ((,class :foreground ,lambda-subtle :weight bold)))
-   `(helm-moccur-buffer                            ((,class :foreground ,lambda-strong)))
-   `(helm-ff-file                                  ((,class :foreground ,lambda-faded)))
-   `(helm-ff-prefix                                ((,class :foreground ,lambda-strong)))
-   `(helm-ff-dotted-directory                      ((,class :foreground ,lambda-faded)))
-   `(helm-ff-directory                             ((,class :foreground ,lambda-strong)))
-   `(helm-ff-executable                            ((,class :foreground ,lambda-popout)))
-   `(helm-grep-match                               ((,class :foreground ,lambda-strong)))
-   `(helm-grep-file                                ((,class :foreground ,lambda-faded)))
-   `(helm-grep-lineno                              ((,class :foreground ,lambda-faded)))
-   `(helm-grep-finish                              ((,class :foreground ,lambda-foreground)))
+     (helm-M-x-key                              (:foreground lambda-orange))
+     (helm-action                               (:foreground lambda-strong :underline t))
+     (helm-bookmark-addressbook                 (:foreground lambda-red))
+     (helm-bookmark-directory                   (:foreground lambda-purple))
+     (helm-bookmark-file                        (:foreground lambda-blue))
+     (helm-bookmark-gnus                        (:foreground lambda-purple))
+     (helm-bookmark-info                        (:foreground lambda-aqua))
+     (helm-bookmark-man                         (:foreground lambda-orange))
+     (helm-bookmark-w3m                         (:foreground lambda-yellow))
+     (helm-buffer-directory                     (:foreground lambda-white :background lambda-blue))
+     (helm-buffer-not-saved                     (:foreground lambda-red))
+     (helm-buffer-process                       (:foreground lambda-yellow))
+     (helm-buffer-saved-out                     (:foreground lambda-red))
+     (helm-buffer-size                          (:foreground lambda-purple))
+     (helm-candidate-number                     (:foreground lambda-green))
+     (helm-eshell-prompts-buffer-name           (:foreground lambda-green))
+     (helm-eshell-prompts-promptidx             (:foreground lambda-aqua))
+     (helm-ff-directory                         (:foreground lambda-purple))
+     (helm-ff-executable                        (:foreground lambda-aqua))
+     (helm-ff-file                              (:foreground lambda-orange))
+     (helm-ff-invalid-symlink                   (:foreground lambda-white :background lambda-red))
+     (helm-ff-prefix                            (:foreground lambda-black :background lambda-yellow))
+     (helm-ff-symlink                           (:foreground lambda-orange))
+     (helm-grep-cmd-line                        (:foreground lambda-green))
+     (helm-grep-file                            (:foreground lambda-purple))
+     (helm-grep-finish                          (:foreground lambda-aqua))
+     (helm-grep-lineno                          (:foreground lambda-orange))
+     (helm-grep-match                           (:foreground lambda-yellow))
+     (helm-grep-running                         (:foreground lambda-red))
+     (helm-header                               (:foreground lambda-aqua))
+     (helm-helper                               (:foreground lambda-aqua))
+     (helm-history-deleted                      (:foreground lambda-black :background lambda-red))
+     (helm-history-remote                       (:foreground lambda-red))
+     (helm-lisp-completion-info                 (:foreground lambda-orange))
+     (helm-lisp-show-completion                 (:foreground lambda-red))
+     (helm-locate-finish                        (:foreground lambda-white :background lambda-aqua))
+     (helm-match                                (:foreground lambda-orange))
+     (helm-moccur-buffer                        (:foreground lambda-aqua :underline t))
+     (helm-prefarg                              (:foreground lambda-aqua))
+     (helm-selection                            (:foreground lambda-white :background lambda-faint))
+     (helm-selection-line                       (:foreground lambda-white :background lambda-faint))
+     (helm-separator                            (:foreground lambda-red))
+     (helm-source-header                        (:foreground lambda-lowlight))
+     (helm-visible-mark                         (:foreground lambda-black :background lambda-lowlight))
 
-
-;;;;;; Ivy
-   `(ivy-action                                    ((,class :foreground ,lambda-faded)))
-   `(ivy-completions-annotations                   ((,class :foreground ,lambda-faded)))
-   `(ivy-confirm-face                              ((,class :foreground ,lambda-faded)))
-   `(ivy-current-match                             ((,class :foreground ,lambda-strong :weight bold :background ,lambda-highlight)))
-   `(ivy-cursor                                    ((,class :inherit default)))
-   `(ivy-grep-info                                 ((,class :foreground ,lambda-strong)))
-   `(ivy-grep-line-number                          ((,class :foreground ,lambda-faded)))
-   `(ivy-highlight-face                            ((,class :foreground ,lambda-strong)))
-   `(ivy-match-required-face                       ((,class :foreground ,lambda-faded)))
-   `(ivy-minibuffer-match-face-1                   ((,class :foreground ,lambda-popout)))
-   `(ivy-minibuffer-match-face-2                   ((,class :foreground ,lambda-popout)))
-   `(ivy-minibuffer-match-face-3                   ((,class :foreground ,lambda-popout)))
-   `(ivy-minibuffer-match-face-4                   ((,class :foreground ,lambda-popout)))
-   `(ivy-minibuffer-match-highlight                ((,class :foreground ,lambda-strong)))
-   `(ivy-modified-buffer                           ((,class :foreground ,lambda-popout)))
-   `(ivy-modified-outside-buffer                   ((,class :foreground ,lambda-strong)))
-   `(ivy-org                                       ((,class :foreground ,lambda-faded)))
-   `(ivy-prompt-match                              ((,class :foreground ,lambda-faded)))
-   `(ivy-remote                                    ((,class :inherit default)))
-   `(ivy-separator                                 ((,class :foreground ,lambda-faded)))
-   `(ivy-subdir                                    ((,class :foreground ,lambda-faded)))
-   `(ivy-virtual                                   ((,class :foreground ,lambda-faded)))
-   `(ivy-yanked-word                               ((,class :foreground ,lambda-faded)))
-
-;;;;;; Ido
-   `(ido-first-match                               ((,class :foreground ,lambda-salient)))
-   `(ido-only-match                                ((,class :foreground ,lambda-faded)))
-   `(ido-subdir                                    ((,class :foreground ,lambda-strong)))
-
-;;;;;; Selectrum
-   `(selectrum-current-candidate                   ((,class :weight bold :background ,lambda-highlight)))
-   `(selectrum-prescient-secondary-highlight       ((,class :weight bold :foreground ,lambda-blue)))
-   `(selectrum-prescient-primary-highlight         ((,class :weight bold :foreground ,lambda-salient)))
-   `(selectrum-completion-docsig                   ((,class :slant  italic :inherit selectrum-completion-annotation)))
-   `(selectrum-completion-annotation               ((,class :inherit completions-annotations)))
-   `(selectrum-group-separator                     ((,class :strike-through t :inherit shadow)))
-   `(selectrum-group-title                         ((,class :slant  italic :inherit shadow)))
-   `(selectrum-quick-keys-match                    ((,class :inherit isearch)))
-   `(selectrum-quick-keys-highlight                ((,class :foreground ,lambda-popout)))
+;;;;;; Helm-rg
+     (helm-rg-preview-line-highlight              (:foreground lambda-black :background lambda-green))
+     (helm-rg-base-rg-cmd-face                    (:foreground lambda-highlight))
+     (helm-rg-extra-arg-face                      (:foreground lambda-yellow))
+     (helm-rg-inactive-arg-face                   (:foreground lambda-aqua))
+     (helm-rg-active-arg-face                     (:foreground lambda-green))
+     (helm-rg-directory-cmd-face                  (:foreground lambda-orange :background lambda-black))
+     (helm-rg-error-message                       (:foreground lambda-red))
+     (helm-rg-title-face                          (:foreground lambda-purple))
+     (helm-rg-directory-header-face               (:foreground lambda-white :background lambda-mild))
+     (helm-rg-file-match-face                     (:foreground lambda-aqua))
+     (helm-rg-colon-separator-ripgrep-output-face (:foreground lambda-faint :background lambda-bg))
+     (helm-rg-line-number-match-face              (:foreground lambda-orange))
+     (helm-rg-match-text-face                     (:foreground lambda-white :background lambda-purple))
 
 ;;;;;; Vertico
-   `(vertico-current                               ((,class :weight regular :background ,lambda-highlight)))
+     (vertico-current                             (:weight 'regular :background lambda-highlight))
+     (vertico-group-separator                     (:foreground lambda-lowlight :strike-through t))
+     (vertico-multiline                           (:foreground lambda-gray))
+     (vertico-group-title                         (:foreground lambda-gray))
 
 ;;;;;; Orderless
 
-   `(orderless-match-face-0                        ((,class :weight bold :foreground ,lambda-yellow)))
-   `(orderless-match-face-1                        ((,class :weight bold :foreground ,lambda-yellow)))
-   `(orderless-match-face-2                        ((,class :weight bold :foreground ,lambda-yellow)))
-   `(orderless-match-face-3                        ((,class :weight bold :foreground ,lambda-yellow)))
+     (orderless-match-face-0                      (:weight 'bold :foreground lambda-crucial))
+     (orderless-match-face-1                      (:weight 'bold :foreground lambda-crucial))
+     (orderless-match-face-2                      (:weight 'bold :foreground lambda-crucial))
+     (orderless-match-face-3                      (:weight 'bold :foreground lambda-crucial))
+
+;;;;;; Corfu
+     (corfu-annotations                           (:foreground lambda-mild))
+     (corfu-bar                                   (:foreground lambda-ultralight))
+     (corfu-border                                (:foreground lambda-faint))
+     (corfu-current                               (:foreground lambda-crucial :background lambda-highlight))
+     (corfu-default                               (:inherit 'default :background lambda-faint))
+     (corfu-deprecated                            (:foreground lambda-mild))
+     (corfu-echo                                  (:inherit 'default))
+
+;;;;;; Company-mode
+     (company-scrollbar-bg                        (:background lambda-faint))
+     (company-scrollbar-fg                        (:background lambda-mild))
+     (company-tooltip                             (:background lambda-mild))
+     (company-tooltip-annotation                  (:foreground lambda-green))
+     (company-tooltip-annotation-selection        (:inherit 'company-tooltip-annotation))
+     (company-tooltip-selection                   (:foreground lambda-purple :background lambda-faint))
+     (company-tooltip-common                      (:foreground lambda-blue :underline t))
+     (company-tooltip-common-selection            (:foreground lambda-blue :underline t))
+     (company-preview-common                      (:foreground lambda-highlight))
+     (company-preview                             (:background lambda-blue))
+     (company-preview-search                      (:background lambda-aqua))
+     (company-template-field                      (:foreground lambda-black :background lambda-yellow))
+     (company-echo-common                         (:foreground lambda-red))
+
+;;;;;; Ivy
+     (ivy-current-match                           (:foreground lambda-ultralight :weight 'bold :underline t))
+     (ivy-minibuffer-match-face-1                 (:foreground lambda-orange))
+     (ivy-minibuffer-match-face-2                 (:foreground lambda-yellow))
+     (ivy-minibuffer-match-face-3                 (:foreground lambda-orange))
+     (ivy-minibuffer-match-face-4                 (:foreground lambda-yellow))
+
+;;;;;; Ido
+     (ido-only-match                              (:inherit 'success))
+     (ido-first-match                             (:foreground lambda-ultralight :weight 'bold :underline t))
+     (ido-subdir                                  (:inherit 'dired-directory))
+
+;;;;;; Consult
+     (consult-separator                           (:foreground lambda-gray))
+     (consult-file                                (:foreground lambda-focus))
+     (consult-line-number                         (:foreground lambda-strong))
+     (consult-help                                (:foreground lambda-gray))
+     (consult-completing-read-multiple            (:foreground lambda-gray))
+     (consult-grep-context                        (:foreground lambda-lowlight))
+
+;;;;;; Selectrum
+     (selectrum-current-candidate                   (:weight 'bold :background lambda-highlight))
+     (selectrum-prescient-secondary-highlight       (:weight 'bold :foreground lambda-blue))
+     (selectrum-prescient-primary-highlight         (:weight 'bold :foreground lambda-focus))
+     (selectrum-completion-docsig                   (:slant 'italic :inherit 'selectrum-completion-annotation))
+     (selectrum-completion-annotation               (:inherit 'completions-annotations))
+     (selectrum-group-separator                     (:strike-through t :inherit 'shadow))
+     (selectrum-group-title                         (:slant 'italic :inherit 'shadow))
+     (selectrum-quick-keys-match                    (:inherit 'isearch))
+     (selectrum-quick-keys-highlight                (:foreground lambda-crucial))
+
+;;;;; Diffs & VC
+
+;;;;;; Diff
+     (diff-header                               (:foreground lambda-lowlight))
+     (diff-file-header                          (:foreground lambda-fg))
+     (diff-hunk-header                          (:background lambda-fg))
+     (diff-context                              (:background lambda-mild :foreground lambda-fg))
+
+     (diff-changed                              (:background nil :foreground lambda-blue))
+     (diff-refine-changed                       (:foreground lambda-blue))
+     (diff-added                                (:background nil :foreground lambda-green))
+     (diff-refine-added                         (:background nil :foreground lambda-green))
+     (diff-removed                              (:background nil :foreground lambda-red))
+     (diff-refine-removed                       (:background nil :foreground lambda-red))
+
+     (diff-indicator-changed                    (:inherit 'diff-changed))
+     (diff-indicator-added                      (:inherit 'diff-added))
+     (diff-indicator-removed                    (:inherit 'diff-removed))
 
 
+;;;;;; Git-gutter
+     (git-gutter:modified                       (:foreground lambda-blue))
+     (git-gutter:added                          (:foreground lambda-green))
+     (git-gutter:deleted                        (:foreground lambda-red))
 
-;;;;; Customize
-   `(widget-field                                  ((,class :background ,lambda-subtle)))
-   `(widget-button                                 ((,class :foreground ,lambda-foreground :bold t)))
-   `(widget-single-line-field                      ((,class :background ,lambda-subtle)))
-   `(custom-group-subtitle                         ((,class :foreground ,lambda-foreground :bold t)))
-   `(custom-group-tag                              ((,class :foreground ,lambda-foreground :bold t)))
-   `(custom-group-tag-1                            ((,class :foreground ,lambda-foreground :bold t)))
-   `(custom-comment                                ((,class :foreground ,lambda-faded)))
-   `(custom-comment-tag                            ((,class :foreground ,lambda-faded)))
-   `(custom-changed                                ((,class :foreground ,lambda-salient)))
-   `(custom-modified                               ((,class :foreground ,lambda-salient)))
-   `(custom-face-tag                               ((,class :foreground ,lambda-foreground :bold t)))
-   `(custom-variable-tag                           ((,class :foreground ,lambda-foreground :bold t)))
-   `(custom-invalid                                ((,class :foreground ,lambda-popout)))
-   `(custom-visibility                             ((,class :foreground ,lambda-salient)))
-   `(custom-state                                  ((,class :foreground ,lambda-salient)))
-   `(custom-link                                   ((,class :foreground ,lambda-salient)))
-   `(custom-button                                 ((,class :foreground ,lambda-faded :background ,lambda-background :box `(:line-width 1 :color ,(face-foreground 'lambda-faded) :style nil))))
-   `(custom-button-mouse                           ((,class :foreground ,lambda-faded :background ,lambda-subtle :box `(:line-width 1 :color ,(face-foreground 'lambda-faded) :style nil))))
-   `(custom-button-pressed                         ((,class :foreground ,lambda-foreground :background ,lambda-salient :inverse-video nil :box `(:line-width 1 :color ,(face-foreground 'lambda-salient) :style nil))))
+;;;;;; Git-gutter+
+     (git-gutter+-modified                      (:foreground lambda-blue))
+     (git-gutter+-added                         (:foreground lambda-green))
+     (git-gutter+-deleted                       (:foreground lambda-red))
 
-;;;;; Deft
-   `(deft-filter-string-error-face                 ((,class :foreground ,lambda-popout)))
-   `(deft-filter-string-face                       ((,class :foreground ,lambda-yellow)))
-   `(deft-header-face                              ((,class :foreground ,lambda-salient)))
-   `(deft-separator-face                           ((,class :foreground ,lambda-faded)))
-   `(deft-summary-face                             ((,class :foreground ,lambda-faded)))
-   `(deft-time-face                                ((,class :foreground ,lambda-salient)))
-   `(deft-title-face                               ((,class :foreground ,lambda-strong :weight semi-bold)))
+;;;;;; Git-gutter-fringe
+     (git-gutter-fr:modified                    (:inherit 'git-gutter:modified))
+     (git-gutter-fr:added                       (:inherit 'git-gutter:added))
+     (git-gutter-fr:deleted                     (:inherit 'git-gutter:deleted))
 
-;;;;; Diff
-   `(diff-header                                   ((,class :foreground ,lambda-faded)))
-   `(diff-file-header                              ((,class :foreground ,lambda-strong)))
-   `(diff-context                                  ((,class :inherit    default)))
-   `(diff-removed                                  ((,class :foreground ,lambda-faded)))
-   `(diff-changed                                  ((,class :foreground ,lambda-popout)))
-   `(diff-added                                    ((,class :foreground ,lambda-salient)))
-   `(diff-refine-added                             ((,class :foreground ,lambda-strong)))
-   `(diff-refine-changed                           ((,class :foreground ,lambda-popout)))
-   `(diff-refine-removed                           ((,class :foreground ,lambda-faded :strike-through t)))
-   `(magit-section-highlight                       ((,class :background ,lambda-subtle)))
+;;;;;; Diff-hl
+     (diff-hl-change (:slant 'normal :weight 'normal  :foreground lambda-blue))
+     (diff-hl-delete (:slant 'normal :weight 'normal  :foreground lambda-red))
+     (diff-hl-insert (:slant 'normal :weight 'normal  :foreground lambda-green))
 
+;;;;;; Ediff
+     (ediff-even-diff-A                         (:background lambda-mild))
+     (ediff-even-diff-B                         (:background lambda-mild))
+     (ediff-even-diff-C                         (:background lambda-mild))
+     (ediff-even-diff-Ancestor                  (:background lambda-mild))
+     (ediff-odd-diff-A                          (:background lambda-faint))
+     (ediff-odd-diff-B                          (:background lambda-faint))
+     (ediff-odd-diff-C                          (:background lambda-faint))
+     (ediff-odd-diff-Ancestor                   (:background lambda-faint))
 
-;;;;; Dired
+     ;; TODO: Fix fine diffs
+     ;; (ediff-fine-diff-A                         (:background lambda-ediff-fine-diff-A))
+     ;; (ediff-fine-diff-Ancestor                  (:background lambda-ediff-fine-diff-Ancestor))
+     ;; (ediff-fine-diff-B                         (:background lambda-ediff-fine-diff-B))
+     ;; (ediff-fine-diff-C                         (:background lambda-ediff-fine-diff-C))
+     ;; (ediff-current-diff-A                      (:background lambda-ediff-current-diff-A))
+     ;; (ediff-current-diff-Ancestor               (:background lambda-ediff-current-diff-Ancestor))
+     ;; (ediff-current-diff-B                      (:background lambda-ediff-current-diff-B))
+     ;; (ediff-current-diff-C                      (:background lambda-ediff-current-diff-C))
+
+     (js2-warning                               (:underline (:color lambda-yellow :style 'wave)))
+     (js2-error                                 (:underline (:color lambda-red :style 'wave)))
+     (js2-external-variable                     (:underline (:color lambda-aqua :style 'wave)))
+     (js2-jsdoc-tag                             (:background nil :foreground lambda-lowlight))
+     (js2-jsdoc-type                            (:background nil :foreground lambda-highlight))
+     (js2-jsdoc-value                           (:background nil :foreground lambda-lowlight))
+     (js2-function-param                        (:background nil :foreground lambda-aqua))
+     (js2-function-call                         (:background nil :foreground lambda-blue))
+     (js2-instance-member                       (:background nil :foreground lambda-orange))
+     (js2-private-member                        (:background nil :foreground lambda-yellow))
+     (js2-private-function-call                 (:background nil :foreground lambda-aqua))
+     (js2-jsdoc-html-tag-name                   (:background nil :foreground lambda-highlight))
+     (js2-jsdoc-html-tag-delimiter              (:background nil :foreground lambda-lowlight))
+
+;;;;;; Magit
+     (magit-bisect-bad                          (:foreground lambda-red))
+     (magit-bisect-good                         (:foreground lambda-green))
+     (magit-bisect-skip                         (:foreground lambda-yellow))
+     (magit-blame-heading                       (:foreground lambda-ultralight :background lambda-faint))
+     (magit-branch-local                        (:foreground lambda-blue))
+     (magit-branch-current                      (:underline lambda-blue :inherit 'magit-branch-local))
+     (magit-branch-remote                       (:foreground lambda-green))
+     (magit-cherry-equivalent                   (:foreground lambda-purple))
+     (magit-cherry-unmatched                    (:foreground lambda-aqua))
+     (magit-diff-added                          (:foreground lambda-green))
+     (magit-diff-added-highlight                (:foreground lambda-green :inherit 'magit-diff-context-highlight))
+     (magit-diff-base                           (:background lambda-yellow :foreground lambda-lowlight))
+     (magit-diff-base-highlight                 (:background lambda-yellow :foreground lambda-ultralight))
+     (magit-diff-context                        (:foreground lambda-fg))
+     (magit-diff-context-highlight              (:background lambda-faint  :foreground lambda-strong))
+     (magit-diff-hunk-heading                   (:background lambda-faint  :foreground lambda-strong))
+     (magit-diff-hunk-heading-highlight         (:background lambda-faint  :foreground lambda-strong))
+     (magit-diff-hunk-heading-selection         (:background lambda-faint  :foreground lambda-orange))
+     (magit-diff-lines-heading                  (:background lambda-orange :foreground lambda-strong))
+     (magit-diff-removed                        (:foreground lambda-red))
+     (magit-diff-removed-highlight              (:foreground lambda-red :inherit 'magit-diff-context-highlight))
+     (magit-diffstat-added                      (:foreground lambda-green))
+     (magit-diffstat-removed                    (:foreground lambda-red))
+     (magit-dimmed                              (:foreground lambda-faint))
+     (magit-hash                                (:foreground lambda-blue))
+     (magit-log-author                          (:foreground lambda-red))
+     (magit-log-date                            (:foreground lambda-aqua))
+     (magit-log-graph                           (:foreground lambda-faint))
+     (magit-process-ng                          (:foreground lambda-red :weight 'bold))
+     (magit-process-ok                          (:foreground lambda-green :weight 'bold))
+     (magit-reflog-amend                        (:foreground lambda-purple))
+     (magit-reflog-checkout                     (:foreground lambda-blue))
+     (magit-reflog-cherry-pick                  (:foreground lambda-green))
+     (magit-reflog-commit                       (:foreground lambda-green))
+     (magit-reflog-merge                        (:foreground lambda-green))
+     (magit-reflog-other                        (:foreground lambda-aqua))
+     (magit-reflog-rebase                       (:foreground lambda-purple))
+     (magit-reflog-remote                       (:foreground lambda-blue))
+     (magit-reflog-reset                        (:foreground lambda-red))
+     (magit-refname                             (:foreground lambda-strong))
+     (magit-section-heading                     (:foreground lambda-focus :weight 'bold))
+     (magit-section-heading-selection           (:foreground lambda-focus))
+     (magit-section-highlight                   (:background lambda-mild))
+     (magit-sequence-drop                       (:foreground lambda-focus))
+     (magit-sequence-head                       (:foreground lambda-aqua))
+     (magit-sequence-part                       (:foreground lambda-focus))
+     (magit-sequence-stop                       (:foreground lambda-green))
+     (magit-signature-bad                       (:foreground lambda-red :weight 'bold))
+     (magit-signature-error                     (:foreground lambda-red))
+     (magit-signature-expired                   (:foreground lambda-orange))
+     (magit-signature-good                      (:foreground lambda-green))
+     (magit-signature-revoked                   (:foreground lambda-purple))
+     (magit-signature-untrusted                 (:foreground lambda-blue))
+     (magit-tag                                 (:foreground lambda-yellow))
+     (magit-header-line         (:foreground lambda-fg :background lambda-faint
+                                 :box (:line-width 3 :color lambda-faint :style nil) :overline nil :underline nil))
+     (magit-header-line-log-select (:foreground lambda-fg :background lambda-faint
+                                    :box (:line-width 3) :color lambda-faint :style nil :overline nil :underline nil))
+
+;;;;; Directories
 ;;;;;; All The Icons Dired
-   `(all-the-icons-dired-dir-face                  ((,class :forground ,lambda-salient)))
+     (all-the-icons-dired-dir-face              (:foreground lambda-focus))
 
-;;;;;; Dired (plus)
-   `(diredp-write-priv                             ((,class :foreground ,lambda-critical)))
-   `(diredp-tagged-autofile-name                   ((,class :foreground ,lambda-background)))
-   `(diredp-symlink                                ((,class :foreground ,lambda-popout)))
-   `(diredp-read-priv                              ((,class :foreground ,lambda-popout)))
-   `(diredp-rare-priv                              ((,class :foreground ,lambda-popout :background ,lambda-critical)))
-   `(diredp-other-priv                             ((,class :background ,lambda-red)))
-   `(diredp-omit-file-name                         ((,class :strike-through ,lambda-faded :inherit diredp-ignored-file-name)))
-   `(diredp-number                                 ((,class :foreground ,lambda-salient)))
-   `(diredp-no-priv                                ((,class :foreground ,lambda-critical)))
-   `(diredp-mode-line-flagged                      ((,class :foreground ,lambda-critical)))
-   `(diredp-mode-line-marked                       ((,class :foreground ,lambda-salient)))
-   `(diredp-link-priv                              ((,class :foreground ,lambda-popout)))
-   `(diredp-ignored-file-name                      ((,class :foreground ,lambda-faded)))
-   `(diredp-flag-mark-line                         ((,class :foreground ,lambda-popout)))
-   `(diredp-flag-mark                              ((,class :foreground ,lambda-popout :background ,lambda-salient)))
-   `(diredp-file-suffix                            ((,class :foreground ,lambda-faded)))
-   `(diredp-file-name                              ((,class :foreground ,lambda-foreground)))
-   `(diredp-executable-tag                         ((,class :foreground ,lambda-critical)))
-   `(diredp-exec-priv                              ((,class :foreground ,lambda-critical)))
-   `(diredp-dir-priv                               ((,class :foreground ,lambda-faded)))
-   `(diredp-dir-name                               ((,class :foreground ,lambda-green)))
-   `(diredp-dir-heading                            ((,class :inherit ,(if lambda-set-variable-pitch 'variable-pitch 'default) :foreground ,lambda-blue :background ,lambda-subtle)))
-   `(diredp-deletion-file-name                     ((,class :foreground ,lambda-critical)))
-   `(diredp-deletion                               ((,class :foreground ,lambda-popout :background ,lambda-critical)))
-   `(diredp-date-time                              ((,class :foreground ,lambda-faded)))
-   `(diredp-compressed-file-suffix                 ((,class :foreground ,lambda-faded)))
-   `(diredp-compressed-file-name                   ((,class :foreground ,lambda-background)))
-   `(diredp-autofile-name                          ((,class :background ,lambda-subtle)))
+;;;;;; dired+
+     (diredp-file-name                          (:foreground lambda-strong))
+     (diredp-file-suffix                        (:foreground lambda-lowlight))
+     (diredp-compressed-file-suffix             (:foreground lambda-blue))
+     (diredp-dir-name                           (:foreground lambda-blue))
+     (diredp-dir-heading                        (:foreground lambda-blue))
+     (diredp-symlink                            (:foreground lambda-orange))
+     (diredp-date-time                          (:foreground lambda-lowlight))
+     (diredp-number                             (:foreground lambda-blue))
+     (diredp-no-priv                            (:foreground lambda-faint))
+     (diredp-other-priv                         (:foreground lambda-faint))
+     (diredp-rare-priv                          (:foreground lambda-faint))
+     (diredp-ignored-file-name                  (:foreground lambda-faint))
+
+     (diredp-dir-priv                           (:foreground lambda-blue  :background lambda-blue))
+     (diredp-exec-priv                          (:foreground lambda-blue  :background lambda-blue))
+     (diredp-link-priv                          (:foreground lambda-aqua  :background lambda-aqua))
+     (diredp-read-priv                          (:foreground lambda-red  :background lambda-red))
+     (diredp-write-priv                         (:foreground lambda-aqua :background lambda-aqua))
 
 ;;;;;; Dired Colors (Diredfl)
-   `(diredfl-write-priv                            ((,class :foreground ,lambda-critical)))
-   `(diredfl-tagged-autofile-name                  ((,class :foreground ,lambda-background)))
-   `(diredfl-symlink                               ((,class :foreground ,lambda-popout)))
-   `(diredfl-read-priv                             ((,class :foreground ,lambda-popout)))
-   `(diredfl-rare-priv                             ((,class :foreground ,lambda-popout :background ,lambda-critical)))
-   `(diredfl-other-priv                            ((,class :background ,lambda-red)))
-   `(diredfl-omit-file-name                        ((,class :strike-through ,lambda-faded :inherit diredp-ignored-file-name)))
-   `(diredfl-number                                ((,class :foreground ,lambda-salient)))
-   `(diredfl-no-priv                               ((,class :foreground ,lambda-critical)))
-   `(diredfl-mode-line-flagged                     ((,class :foreground ,lambda-critical)))
-   `(diredfl-mode-line-marked                      ((,class :foreground ,lambda-salient)))
-   `(diredfl-link-priv                             ((,class :foreground ,lambda-popout)))
-   `(diredfl-ignored-file-name                     ((,class :foreground ,lambda-faded)))
-   `(diredfl-flag-mark-line                        ((,class :foreground ,lambda-popout)))
-   `(diredfl-flag-mark                             ((,class :foreground ,lambda-popout :background ,lambda-salient)))
-   `(diredfl-file-suffix                           ((,class :foreground ,lambda-faded)))
-   `(diredfl-file-name                             ((,class :foreground ,lambda-foreground)))
-   `(diredfl-executable-tag                        ((,class :foreground ,lambda-critical)))
-   `(diredfl-exec-priv                             ((,class :foreground ,lambda-critical)))
-   `(diredfl-dir-priv                              ((,class :foreground ,lambda-faded)))
-   `(diredfl-dir-name                              ((,class :foreground ,lambda-green)))
-   `(diredfl-dir-heading                           ((,class :inherit ,(if lambda-set-variable-pitch 'variable-pitch 'default) :foreground ,lambda-blue :background ,lambda-subtle)))
-   `(diredfl-deletion-file-name                    ((,class :foreground ,lambda-critical)))
-   `(diredfl-deletion                              ((,class :foreground ,lambda-popout :background ,lambda-critical)))
-   `(diredfl-date-time                             ((,class :foreground ,lambda-faded)))
-   `(diredfl-compressed-file-suffix                ((,class :foreground ,lambda-faded)))
-   `(diredfl-compressed-file-name                  ((,class :foreground ,lambda-background)))
-   `(diredfl-autofile-name                         ((,class :background ,lambda-subtle)))
-
-;;;;; Flyspell
-   `(flyspell-duplicate                            ((,class :foreground ,lambda-red)))
-   `(flyspell-incorrect                            ((,class :foreground ,lambda-critical)))
-
-;;;;; Font Lock
-   `(font-lock-comment-face                        ((,class :foreground ,lambda-faded :slant ,(if lambda-set-italic-comments 'italic 'normal))))
-   `(font-lock-comment-delimiter-face              ((,class :foreground ,lambda-faded :weight bold :slant ,(if lambda-set-italic-comments 'italic 'normal))))
-   `(font-lock-doc-face                            ((,class :foreground ,lambda-faded)))
-   `(font-lock-string-face                         ((,class :foreground ,lambda-popout)))
-   `(font-lock-constant-face                       ((,class :foreground ,lambda-green)))
-   `(font-lock-builtin-face                        ((,class :foreground ,lambda-green)))
-   `(font-lock-function-name-face                  ((,class :foreground ,lambda-strong :weight semi-bold)))
-   `(font-lock-variable-name-face                  ((,class :foreground ,lambda-yellow)))
-   `(font-lock-type-face                           ((,class :foreground ,lambda-salient)))
-   `(font-lock-keyword-face                        ((,class :foreground ,lambda-salient :slant ,(if lambda-set-italic-keywords 'italic 'normal))))
-   `(font-lock-reference-face                      ((,class :foreground ,lambda-salient)))
-   `(font-lock-warning-face                        ((,class :foreground ,lambda-critical)))
-   `(font-lock-regexp-grouping-backslash           ((,class :foreground ,lambda-critical)))
-   `(font-lock-regexp-grouping-construct           ((,class :foreground ,lambda-critical)))
-
-;;;;; Git
-;;;;;; Git-gutter
-   `(git-gutter:added        ((,class :foreground ,lambda-green)))
-   `(git-gutter:deleted      ((,class :foreground ,lambda-red)))
-   `(git-gutter:modified     ((,class :foreground ,lambda-popout)))
-   `(git-gutter:separator    ((,class :foreground ,lambda-subtle)))
-   `(git-gutter:unchanged    ((,class :foreground ,lambda-background)))
-;;;;;; Git-gutter-fr
-   `(git-gutter-fr:added        ((,class :foreground ,lambda-green)))
-   `(git-gutter-fr:deleted      ((,class :foreground ,lambda-red)))
-   `(git-gutter-fr:modified     ((,class :foreground ,lambda-popout)))
-
-;;;;; Goggles
-   `(goggles-added   ((,class :background ,lambda-green)))
-   `(goggles-changed ((,class :background ,lambda-popout)))
-   `(goggles-removed ((,class :background ,lambda-red)))
-
-;;;;; Help(ful)
-
-   `(helpful-heading ((,class :inherit ,(if lambda-set-variable-pitch 'variable-pitch 'default) :foreground ,lambda-blue :height 1.25)))
+     (diredfl-write-priv                            (:foreground lambda-urgent))
+     (diredfl-tagged-autofile-name                  (:foreground lambda-bg))
+     (diredfl-symlink                               (:foreground lambda-urgent))
+     (diredfl-read-priv                             (:foreground lambda-urgent))
+     (diredfl-rare-priv                             (:foreground lambda-urgent :background lambda-urgent))
+     (diredfl-other-priv                            (:background lambda-red))
+     (diredfl-omit-file-name                        (:strike-through lambda-mild :foreground lambda-mild))
+     (diredfl-number                                (:foreground lambda-focus))
+     (diredfl-no-priv                               (:foreground lambda-urgent))
+     (diredfl-mode-line-flagged                     (:foreground lambda-urgent))
+     (diredfl-mode-line-marked                      (:foreground lambda-focus))
+     (diredfl-link-priv                             (:foreground lambda-urgent))
+     (diredfl-ignored-file-name                     (:foreground lambda-mild))
+     (diredfl-flag-mark-line                        (:foreground lambda-urgent))
+     (diredfl-flag-mark                             (:foreground lambda-urgent :background lambda-focus))
+     (diredfl-file-suffix                           (:foreground lambda-lowlight))
+     (diredfl-file-name                             (:foreground lambda-fg))
+     (diredfl-executable-tag                        (:foreground lambda-urgent))
+     (diredfl-exec-priv                             (:foreground lambda-urgent))
+     (diredfl-dir-priv                              (:foreground lambda-mild))
+     (diredfl-dir-name                              (:foreground lambda-green))
+     (diredfl-dir-heading                           (:inherit 'variable-pitch :foreground lambda-blue :background lambda-faint))
+     (diredfl-deletion-file-name                    (:foreground lambda-urgent))
+     (diredfl-deletion                              (:foreground lambda-urgent :background lambda-urgent))
+     (diredfl-date-time                             (:foreground lambda-green))
+     (diredfl-compressed-file-suffix                (:foreground lambda-mild))
+     (diredfl-compressed-file-name                  (:foreground lambda-bg))
+     (diredfl-autofile-name                         (:background lambda-faint))
 
 
-;;;;; Highlight-Indentation
-   `(highlight-indentation-face ((,class :inherit ,lambda-highlight)))
-   `(highlight-indentation-current-column-face ((,class :background ,lambda-yellow)))
+;;;;; Editing
 
-;;;;; Highlight Indentation Guides
-   `(highlight-indent-guides-stack-odd-face        ((,class :foreground ,lambda-brown)))
-   `(highlight-indent-guides-stack-even-face       ((,class :foreground ,lambda-yellow)))
-   `(highlight-indent-guides-top-odd-face          ((,class :foreground ,lambda-brown)))
-   `(highlight-indent-guides-top-even-face         ((,class :foreground ,lambda-yellow)))
-   `(highlight-indent-guides-odd-face              ((,class :foreground ,lambda-brown)))
-   `(highlight-indent-guides-even-face             ((,class :foreground ,lambda-yellow)))
-   `(highlight-indent-guides-character-face        ((,class :foreground ,lambda-highlight)))
-   `(highlight-indent-guides-top-character-face    ((,class :foreground ,lambda-highlight)))
-   `(highlight-indent-guides-stack-character-face  ((,class :foreground ,lambda-highlight)))
+;;;;;; Flycheck
+     (flycheck-warning                          (:underline (:style 'wave :color lambda-yellow)))
+     (flycheck-error                            (:underline (:style 'wave :color lambda-red)))
+     (flycheck-info                             (:underline (:style 'wave :color lambda-blue)))
+     (flycheck-fringe-warning                   (:foreground lambda-yellow))
+     (flycheck-fringe-error                     (:foreground lambda-red))
+     (flycheck-fringe-info                      (:foreground lambda-blue))
+     (flycheck-error-list-warning               (:foreground lambda-yellow :bold t))
+     (flycheck-error-list-error                 (:foreground lambda-red :bold t))
+     (flycheck-error-list-info                  (:foreground lambda-blue :bold t))
 
-;;;;; Imenu List
-   `(imenu-list-entry-face-0                       ((,class :inherit imenu-list-entry-face :foreground ,lambda-faded)))
-   `(imenu-list-entry-face-1                       ((,class :inherit imenu-list-entry-face :foreground ,lambda-faded)))
-   `(imenu-list-entry-face-2                       ((,class :inherit imenu-list-entry-face :foreground ,lambda-faded)))
-   `(imenu-list-entry-face-3                       ((,class :inherit imenu-list-entry-face :foreground ,lambda-faded)))
+;;;;;; Flyspell
+     (flyspell-duplicate                        (:underline (:color lambda-red :style 'line)))
+     (flyspell-incorrect                        (:underline (:color lambda-red :style 'line)))
 
-;;;;; Info (Documentation)
-   `(info-menu-header                              ((,class :foreground ,lambda-strong)))
-   `(info-header-node                              ((,class :foreground ,lambda-green)))
-   `(info-index-match                              ((,class :foreground ,lambda-salient)))
-   `(Info-quoted                                   ((,class :foreground ,lambda-faded)))
-   `(info-title-1                                  ((,class :foreground ,lambda-strong)))
-   `(info-title-2                                  ((,class :foreground ,lambda-strong)))
-   `(info-title-3                                  ((,class :foreground ,lambda-strong)))
-   `(info-title-4                                  ((,class :foreground ,lambda-strong)))
-
-;;;;; Interface
-   `(widget-field                                  ((,class :background ,lambda-subtle)))
-   `(widget-button                                 ((,class :foreground ,lambda-strong)))
-   `(widget-single-line-field                      ((,class :foreground ,lambda-subtle)))
-   `(custom-group-subtitle                         ((,class :foreground ,lambda-strong)))
-   `(custom-group-tag                              ((,class :foreground ,lambda-strong)))
-   `(custom-group-tag-1                            ((,class :foreground ,lambda-strong)))
-   `(custom-comment                                ((,class :foreground ,lambda-faded)))
-   `(custom-comment-tag                            ((,class :foreground ,lambda-faded)))
-   `(custom-changed                                ((,class :foreground ,lambda-salient)))
-   `(custom-modified                               ((,class :foreground ,lambda-salient)))
-   `(custom-face-tag                               ((,class :foreground ,lambda-strong)))
-   `(custom-variable-tag                           ((,class :inherit    default)))
-   `(custom-invalid                                ((,class :foreground ,lambda-popout)))
-   `(custom-visibility                             ((,class :foreground ,lambda-salient)))
-   `(custom-state                                  ((,class :foreground ,lambda-salient)))
-   `(custom-link                                   ((,class :foreground ,lambda-salient)))
-
-;;;;; Markdown Mode
-   `(markdown-blockquote-face                      ((,class :foreground ,lambda-salient)))
-   `(markdown-bold-face                            ((,class :foreground ,lambda-strong :weight bold)))
-   `(markdown-code-face                            ((,class :inherit    default)))
-   `(markdown-comment-face                         ((,class :foreground ,lambda-faded)))
-   `(markdown-footnote-marker-face                 ((,class :inherit    default)))
-   `(markdown-footnote-text-face                   ((,class :inherit    default)))
-   `(markdown-gfm-checkbox-face                    ((,class :inherit    default)))
-   `(markdown-header-delimiter-face                ((,class :foreground ,lambda-faded)))
-   `(markdown-header-face                          ((,class :inherit ,(if lambda-set-variable-pitch 'variable-pitch 'default))))
-   `(markdown-header-face-1                        ((,class :inherit outline-1)))
-   `(markdown-header-face-2                        ((,class :inherit outline-2)))
-   `(markdown-header-face-3                        ((,class :inherit outline-1)))
-   `(markdown-header-face-4                        ((,class :inherit outline-2)))
-   `(markdown-header-face-5                        ((,class :inherit outline-1)))
-   `(markdown-header-face-6                        ((,class :inherit outline-2)))
-   `(markdown-header-rule-face                     ((,class :inherit default)))
-   `(markdown-highlight-face                       ((,class :inherit default)))
-   `(markdown-hr-face                              ((,class :inherit default)))
-   `(markdown-html-attr-name-face                  ((,class :inherit default)))
-   `(markdown-html-attr-value-face                 ((,class :inherit default)))
-   `(markdown-html-entity-face                     ((,class :inherit default)))
-   `(markdown-html-tag-delimiter-face              ((,class :inherit default)))
-   `(markdown-html-tag-name-face                   ((,class :inherit default)))
-   `(markdown-inline-code-face                     ((,class :foreground ,lambda-popout)))
-   `(markdown-italic-face                          ((,class :foreground ,lambda-strong :slant italic)))
-   `(markdown-language-info-face                   ((,class :inherit   default)))
-   `(markdown-language-keyword-face                ((,class :inherit   default)))
-   `(markdown-line-break-face                      ((,class :inherit   default)))
-   `(markdown-link-face                            ((,class :foreground ,lambda-salient)))
-   `(markdown-link-title-face                      ((,class :inherit    default)))
-   `(markdown-list-face                            ((,class :foreground ,lambda-faded)))
-   `(markdown-markup-face                          ((,class :foreground ,lambda-faded)))
-   `(markdown-math-face                            ((,class :inherit    default)))
-   `(markdown-metadata-key-face                    ((,class :foreground ,lambda-faded)))
-   `(markdown-metadata-value-face                  ((,class :foreground ,lambda-faded)))
-   `(markdown-missing-link-face                    ((,class :inherit    default)))
-   `(markdown-plain-url-face                       ((,class :inherit    default)))
-   `(markdown-pre-face                             ((,class :inherit    default)))
-   `(markdown-reference-face                       ((,class :foreground ,lambda-salient)))
-   `(markdown-strike-through-face                  ((,class :foreground ,lambda-faded)))
-   `(markdown-table-face                           ((,class :inherit    default)))
-   `(markdown-url-face                             ((,class :foreground ,lambda-salient)))
-
-;;;;; Magit
-   `(magit-branch-current      ((,class :foreground ,lambda-salient :box t :weight semi-bold)))
-   `(magit-branch-local        ((,class :foreground ,lambda-salient :weight semi-bold)))
-   `(magit-branch-remote       ((,class :foreground ,lambda-green :weight semi-bold)))
-   `(magit-branch-remote-head  ((,class :foreground ,lambda-popout :box t)))
-   `(magit-branch-upstream     ((,class :inherit italic)))
-   `(magit-cherry-equivalent   ((,class :background ,lambda-background :foreground ,lambda-popout)))
-   `(magit-cherry-unmatched ((,class :background ,lambda-background :foreground ,lambda-salient)))
-   `(magit-head                ((,class :inherit magit-branch-local)))
-   `(magit-header-line ((,class :foreground ,lambda-foreground)))
-   `(magit-header-line-key ((,class :foregrond ,lambda-green)))
-   `(magit-header-line-log-select ((,class :foreground ,lambda-foreground)))
-   `(magit-keyword ((,class :foreground ,lambda-popout)))
-   `(magit-keyword-squash ((,class :inherit bold :foreground ,lambda-yellow)))
-   `(magit-section ((,class :background ,lambda-subtle :foreground ,lambda-foreground)))
-   `(magit-section-heading     ((,class :weight semi-bold :foreground ,lambda-yellow)))
-   `(magit-section-heading-selection ((,class :foreground ,lambda-salient)))
-   `(magit-section-highlight ((,class :background ,lambda-highlight)))
-   `(magit-tag                 ((,class :foreground ,lambda-yellow)))
-   `(magit-header-line         ((,class :foreground ,lambda-foreground
-                                        :background ,lambda-modeline
-                                        :box (:line-width (if (fboundp 'lambda-modeline) lambda-modeline-size 3))
-                                        :color ,lambda-modeline
-                                        :style nil)
-                                :overline nil
-                                :underline nil))
-   `(magit-header-line-log-select ((,class :foreground ,lambda-foreground
-                                           :background ,lambda-modeline
-                                           :box (:line-width (if (fboundp 'lambda-modeline) lambda-modeline-size 3))
-                                           :color ,lambda-modeline
-                                           :style nil)
-                                   :overline nil
-                                   :underline nil))
+;;;;;; Highlight indentation mode
+     (highlight-indentation-current-column-face (:background lambda-faint))
+     (highlight-indentation-face                (:background lambda-mild))
 
 
 
 
-;;;;; Message
-   `(message-cited-text                            ((,class :foreground ,lambda-faded)))
-   `(message-header-cc                             ((,class :inherit default)))
-   `(message-header-name                           ((,class :foreground ,lambda-strong)))
-   `(message-header-newsgroups                     ((,class :inherit default)))
-   `(message-header-other                          ((,class :inherit default)))
-   `(message-header-subject                        ((,class :foreground ,lambda-salient)))
-   `(message-header-to                             ((,class :foreground ,lambda-salient)))
-   `(message-header-xheader                        ((,class :inherit default)))
-   `(message-mml                                   ((,class :foreground ,lambda-popout)))
-   `(message-separator                             ((,class :foreground ,lambda-faded)))
+;;;;;; Hi-lock-mode
+     (hi-black-b                                (:foreground lambda-black :weight 'bold))
+     (hi-black-hb                               (:foreground lambda-black :weight 'bold :height 1.5))
+     (hi-blue                                   (:foreground lambda-faint :background lambda-blue))
+     (hi-blue-b                                 (:foreground lambda-blue :weight 'bold))
+     (hi-green                                  (:foreground lambda-faint :background lambda-green))
+     (hi-green-b                                (:foreground lambda-green :weight 'bold))
+     (hi-pink                                   (:foreground lambda-faint :background lambda-purple))
+     (hi-red-b                                  (:foreground lambda-red :weight 'bold))
+     (hi-yellow                                 (:foreground lambda-faint :background lambda-yellow))
 
-;;;;; Meow
-   `(meow-normal-cursor         ((,class :background ,lambda-yellow)))
-   `(meow-insert-cursor         ((,class :background ,lambda-critical)))
-   `(meow-keypad-cursor         ((,class :background ,lambda-brown)))
-   `(meow-motion-cursor         ((,class :background ,lambda-green)))
-   `(meow-kmacro-cursor         ((,class :background ,lambda-salient)))
-   `(meow-beacon-cursor         ((,class :background ,lambda-yellow)))
-   `(meow-beacon-fake-selection ((,class :background ,lambda-modeline)))
-   `(meow-beacon-fake-cursor    ((,class :background ,lambda-yellow)))
+;;;;;; Line numbers
+     (line-number                               (:foreground lambda-lowlight))
+     (line-number-current-line                  (:foreground lambda-orange :background lambda-faint))
+     (linum                                     (:foreground lambda-faint :background lambda-mild))
+     (linum-highlight-face                      (:foreground lambda-orange :background lambda-faint))
+     (linum-relative-current-face               (:foreground lambda-orange :background lambda-faint))
 
-;;;;; Mode line/Header line
-;;;;;; Conditional Loading
-   ;; NOTE: these settings are specifically for lambda-modeline
-   ;; See https://github.com/mclear-tools/lambda-modeline
-   ;; Mode line settings based on position
-   (when (fboundp 'lambda-modeline)
-     (when (eq lambda-modeline-position 'top)
-       `(header-line ((,class :foreground ,lambda-foreground
-                              :background ,lambda-modeline
-                              :box (:line-width ,lambda-modeline-size
-                                    :color ,lambda-modeline
-                                    :style nil)
-                              :overline nil
-                              :underline nil)))))
+;;;;;; Undo-tree
+     (undo-tree-visualizer-active-branch-face   (:foreground lambda-ultralight))
+     (undo-tree-visualizer-current-face         (:foreground lambda-red))
+     (undo-tree-visualizer-default-face         (:foreground lambda-faint))
+     (undo-tree-visualizer-register-face        (:foreground lambda-yellow))
+     (undo-tree-visualizer-unmodified-face      (:foreground lambda-aqua))
 
-   (when (fboundp 'lambda-modeline)
-     (when (eq lambda-modeline-position 'top)
-       `(mode-line  ((,class :height 0.1
-                             :underline ,lambda-subtle
-                             :overline nil
-                             :box nil)))))
+;;;;;; Whitespace-mode
+
+     (whitespace-space                          (:background lambda-bg :foreground lambda-faint))
+     (whitespace-hspace                         (:background lambda-bg :foreground lambda-faint))
+     (whitespace-tab                            (:background lambda-bg :foreground lambda-faint))
+     (whitespace-newline                        (:background lambda-bg :foreground lambda-faint))
+     (whitespace-trailing                       (:background lambda-mild :foreground lambda-red))
+     (whitespace-line                           (:background lambda-mild :foreground lambda-red))
+     (whitespace-space-before-tab               (:background lambda-bg :foreground lambda-faint))
+     (whitespace-indentation                    (:background lambda-bg :foreground lambda-faint))
+     (whitespace-empty                          (:background nil :foreground nil))
+     (whitespace-space-after-tab                (:background lambda-bg :foreground lambda-faint))
+
+;;;;; Programming
+
+;;;;;; Rainbow Delimiters
+
+     (rainbow-delimiters-depth-1-face           (:foreground lambda-purple))
+     (rainbow-delimiters-depth-2-face           (:foreground lambda-green))
+     (rainbow-delimiters-depth-3-face           (:foreground lambda-red))
+     (rainbow-delimiters-depth-4-face           (:foreground lambda-blue))
+     (rainbow-delimiters-depth-5-face           (:foreground lambda-purple))
+     (rainbow-delimiters-depth-6-face           (:foreground lambda-green))
+     (rainbow-delimiters-depth-7-face           (:foreground lambda-red))
+     (rainbow-delimiters-depth-8-face           (:foreground lambda-blue))
+     (rainbow-delimiters-depth-9-face           (:foreground lambda-purple))
+     (rainbow-delimiters-depth-10-face          (:foreground lambda-green))
+     (rainbow-delimiters-depth-11-face          (:foreground lambda-red))
+     (rainbow-delimiters-depth-12-face          (:foreground lambda-blue))
+     (rainbow-delimiters-unmatched-face         (:background lambda-bg :foreground lambda-red :weight 'bold))
+
+;;;;;; Langtool
+     (langtool-errline                          (:foreground lambda-faint :background lambda-red))
+     (langtool-correction-face                  (:foreground lambda-yellow :weight 'bold))
+
+;;;;;; Smartparens
+     (sp-pair-overlay-face                      (:background lambda-faint))
+     (sp-show-pair-match-face                   (:background lambda-faint)) ;; Pair tags highlight
+     (sp-show-pair-mismatch-face                (:background lambda-red)) ;; Highlight for bracket without pair
+     ;;(sp-wrap-overlay-face                     (:inherit 'sp-wrap-overlay-face))
+     ;;(sp-wrap-tag-overlay-face                 (:inherit 'sp-wrap-overlay-face))
+
+;;;;;; Cider
+     (cider-debug-code-overlay-face             (:background lambda-faint :foreground lambda-ultralight))
+     (cider-deprecated-face                     (:background lambda-faint :foreground lambda-orange))
+     (cider-enlightened-local-face              (:foreground lambda-orange :weight 'bold))
+     (cider-error-highlight-face                (:foreground lambda-red :underline t :style 'wave))
+     (cider-fringe-good-face                    (:foreground lambda-green))
+     (cider-instrumented-face                   (:background lambda-mild :box (:line-width -1 :color lambda-red)))
+     (cider-result-overlay-face                 (:background lambda-faint :box (:line-width -1 :color lambda-yellow)))
+     (cider-test-error-face                     (:background lambda-red))
+     (cider-test-error-face                     (:background lambda-orange))
+     (cider-test-success-face                   (:background lambda-green))
+     (cider-traced                              (:background lambda-aqua))
+     (cider-warning-highlight-face              (:foreground lambda-yellow :underline t :style 'wave))
+
+;;;;;; Latex
+     (font-latex-bold-face                      (:foreground lambda-green :bold t))
+     (font-latex-italic-face                    (:foreground lambda-green :underline t))
+     (font-latex-math-face                      (:foreground lambda-strong))
+     (font-latex-script-char-face               (:foreground lambda-aqua))
+     (font-latex-sectioning-5-face              (:foreground lambda-yellow :bold t))
+     (font-latex-sedate-face                    (:foreground lambda-strong))
+     (font-latex-string-face                    (:foreground lambda-orange))
+     (font-latex-verbatim-face                  (:foreground lambda-strong))
+     (font-latex-warning-face                   (:foreground lambda-red :weight 'bold))
+     (preview-face                              (:background lambda-mild))
+
+;;;;;; Lsp
+     (lsp-lsp-flycheck-warning-unnecessary-face (:underline (:color lambda-orange :style 'wave)
+                                                 :foreground lambda-urgent))
+     (lsp-ui-doc-background                     (:background lambda-mild))
+     (lsp-ui-doc-header                         (:background lambda-blue))
+     (lsp-ui-peek-filename                      (:foreground lambda-red))
+     (lsp-ui-sideline-code-action               (:foreground lambda-yellow))
+     (lsp-ui-sideline-current-symbol            (:foreground lambda-aqua))
+     (lsp-ui-sideline-symbol                    (:foreground lambda-faint))
+
+;;;;;; Web-mode
+     (web-mode-doctype-face          (:foreground lambda-blue))
+     (web-mode-html-tag-bracket-face (:foreground lambda-blue))
+     (web-mode-html-tag-face         (:foreground lambda-blue))
+     (web-mode-html-attr-name-face   (:foreground lambda-yellow))
+     (web-mode-html-attr-equal-face  (:foreground lambda-yellow))
+     (web-mode-html-attr-value-face  (:foreground lambda-green))
 
 
-   (when (fboundp 'lambda-modeline)
-     (when (eq lambda-modeline-position 'top)
-       `(mode-line-inactive  ((,class :height 0.1
-                                      :underline ,lambda-subtle
-                                      :overline nil
-                                      :box nil)))))
+;;;;; UI (Frames, Windows, Buffers)
+
+;;;;;; Ace-jump-mode
+     (ace-jump-face-background                  (:foreground lambda-lowlight :background lambda-bg :inverse-video nil))
+     (ace-jump-face-foreground                  (:foreground lambda-red :background lambda-bg :inverse-video nil))
+
+;;;;;; Ace-window
+     (aw-background-face                        (:foreground lambda-lowlight :background lambda-bg :inverse-video nil))
+     (aw-leading-char-face                      (:foreground lambda-red :background lambda-bg :height 4.0))
+
+;;;;;; Buttons
+     (custom-button                                 (:foreground lambda-fg :background lambda-highlight :box nil))
+     (custom-button-mouse                           (:foreground lambda-fg :background lambda-mild :box nil))
+     (custom-button-pressed                         (:foreground lambda-bg :background lambda-fg :box nil))
+
+;;;;;; Customize faces
+
+     (custom-group-subtitle                         (:foreground lambda-fg :bold t))
+     (custom-group-tag                              (:foreground lambda-fg :bold t))
+     (custom-group-tag-1                            (:foreground lambda-fg :bold t))
+     (custom-comment                                (:foreground lambda-mild))
+     (custom-comment-tag                            (:foreground lambda-mild))
+     (custom-changed                                (:foreground lambda-focus))
+     (custom-modified                               (:foreground lambda-focus))
+     (custom-face-tag                               (:foreground lambda-fg :bold t))
+     (custom-variable-tag                           (:foreground lambda-fg :bold t))
+     (custom-invalid                                (:foreground lambda-crucial))
+     (custom-visibility                             (:foreground lambda-focus))
+     (custom-state                                  (:foreground lambda-focus))
+     (custom-link                                   (:foreground lambda-focus))
+     (custom-button                                 (:foreground lambda-mild :background lambda-bg :box (:line-width 1 :color lambda-mild :style nil)))
+     (custom-button-mouse                           (:foreground lambda-mild :background lambda-faint :box (:line-width 1 :color lambda-mild :style nil)))
+     (custom-button-pressed                         (:foreground lambda-fg :background lambda-focus :inverse-video nil :box (:line-width 1 :color lambda-focus :style nil)))
 
 
-   (when (fboundp 'lambda-modeline)
-     (when (eq lambda-modeline-position 'bottom)
-       `(mode-line ((,class :foreground ,lambda-foreground
-                            :background ,lambda-modeline
-                            :box (:line-width ,lambda-modeline-size
-                                  :color ,lambda-modeline
-                                  :style nil)
-                            :overline nil
-                            :underline nil)))))
-
-   (when (fboundp 'lambda-modeline)
-     (when (eq lambda-modeline-position 'bottom)
-       `(mode-line-inactive ((,class :foreground ,lambda-subtle
-                                     :background ,lambda-modeline
-                                     :box (:line-width ,lambda-modeline-size
-                                           :color ,lambda-modeline
-                                           :style nil)
-                                     :overline nil
-                                     :underline nil)))))
-
-   ;; No underline in terminal
-   ;; FIXME: for some reason this seems necessary
-   ;; to disable underline in terminal
-   (when (not (display-graphic-p))
-     (set-face-attribute 'mode-line nil
-                         :underline nil)
-     (set-face-attribute 'mode-line-inactive nil
-                         :underline nil))
+;;;;;; Elscreen
+     (elscreen-tab-background-face              (:background lambda-bg :box nil)) ;; Tab bar, not the tabs
+     (elscreen-tab-control-face                 (:background lambda-faint :foreground lambda-red :underline nil :box nil)) ;; The controls
+     (elscreen-tab-current-screen-face          (:background lambda-faint :foreground lambda-strong :box nil)) ;; Current tab
+     (elscreen-tab-other-screen-face            (:background lambda-faint :foreground lambda-lowlight :underline nil :box nil)) ;; Inactive tab
 
 
-   (when (fboundp 'lambda-modeline)
-     (when (eq lambda-modeline-position nil)
-       `(mode-line ((,class :foreground ,lambda-foreground
-                            :background ,lambda-modeline
-                            :box (:line-width ,lambda-modeline-size
-                                  :color ,lambda-modeline
-                                  :style nil)
-                            :overline nil
-                            :underline nil)))))
+;;;;;; Highlight-Indentation
+     (highlight-indentation-face (:inherit lambda-highlight))
+     (highlight-indentation-current-column-face (:background lambda-yellow))
 
-   (when (fboundp 'lambda-modeline)
-     (when (eq lambda-modeline-position nil)
-       `(mode-line-inactive ((,class :foreground ,lambda-faded
-                                     :background ,lambda-modeline
-                                     :box (:line-width ,lambda-modeline-size
-                                           :color ,lambda-modeline
-                                           :style nil)
-                                     :overline nil
-                                     :underline nil)))))
+;;;;;; Highlight Indentation Guides
+     (highlight-indent-guides-stack-odd-face        (:foreground lambda-orange))
+     (highlight-indent-guides-stack-even-face       (:foreground lambda-yellow))
+     (highlight-indent-guides-top-odd-face          (:foreground lambda-orange))
+     (highlight-indent-guides-top-even-face         (:foreground lambda-yellow))
+     (highlight-indent-guides-odd-face              (:foreground lambda-orange))
+     (highlight-indent-guides-even-face             (:foreground lambda-yellow))
+     (highlight-indent-guides-character-face        (:foreground lambda-highlight))
+     (highlight-indent-guides-top-character-face    (:foreground lambda-highlight))
+     (highlight-indent-guides-stack-character-face  (:foreground lambda-highlight))
 
-;;;;;; Mode line indicators
 
-   ;; Active
-   (when (fboundp 'lambda-modeline)
-     `(lambda-modeline-active               ((,class (:foreground ,lambda-foreground
-                                                       :background ,lambda-modeline
-                                                       :box (:line-width ,lambda-modeline-size
-                                                             :color ,lambda-modeline
-                                                             :style nil)
-                                                       :overline nil
-                                                       :underline nil)))))
+;;;;;; Popup
+     (popup-face                                (:underline nil :foreground lambda-highlight :background lambda-mild))
+     (popup-menu-mouse-face                     (:underline nil :foreground lambda-white :background lambda-green))
+     (popup-menu-selection-face                 (:underline nil :foreground lambda-white :background lambda-green))
+     (popup-tip-face                            (:underline nil :foreground lambda-lowlight :background lambda-faint))
 
-   `(lambda-modeline-active-name          ((,class (:background ,lambda-modeline
-                                                     :foreground ,lambda-foreground))))
-   `(lambda-modeline-active-primary       ((,class (:foreground ,lambda-faded :weight light))))
-   `(lambda-modeline-active-secondary     ((,class (:foreground ,lambda-foreground))))
-   `(lambda-modeline-active-status-RW ((,class :foreground ,lambda-background
-                                                :background ,lambda-blue
-                                                :box (:line-width 1 :color ,lambda-blue :style nil))))
+;;;;;; Splash Faces
 
-   `(lambda-modeline-active-status-** ((,class :foreground ,lambda-background
-                                                :background ,lambda-red
-                                                :box (:line-width 1 :color ,lambda-red :style nil))))
+     (lem-splash-menu-face     (:foreground lambda-purple :weight 'light))
+     (lem-splash-footer-face   (:foreground lambda-gray))
+     (lem-splash-image-face    (:foreground lambda-gray))
 
-   `(lambda-modeline-active-status-RO ((,class :foreground ,lambda-background
-                                                :background ,lambda-yellow
-                                                :box (:line-width 1 :color ,lambda-yellow :style nil))))
+;;;;;; Tabbar
+     (tabbar-default                             (:foreground lambda-ultralight :background lambda-mild :bold nil :height 1.0 :box (:line-width -5 :color lambda-mild)))
+     (tabbar-separator                           (:foreground lambda-ultralight :background lambda-mild))
+     (tabbar-highlight                           (:inherit 'highlight))
+     (tabbar-button                              (:foreground lambda-mild :background lambda-mild :box nil :line-width 0))
+     (tabbar-button-highlight                    (:inherit 'tabbar-button :inverse-video t))
+     (tabbar-modified                            (:foreground lambda-green :background lambda-mild :box (:line-width -5 :color lambda-mild)))
+     (tabbar-unselected                          (:inherit 'tabbar-default))
+     (tabbar-unselected-modified                 (:inherit 'tabbar-modified))
+     (tabbar-selected                            (:inherit 'tabbar-default :foreground lambda-yellow))
+     (tabbar-selected-modified                   (:inherit 'tabbar-selected))
 
-   ;; Inactive
-   (when (fboundp 'lambda-modeline)
-     `(lambda-modeline-inactive             ((,class (:foreground ,lambda-subtle
-                                                       :background ,lambda-modeline
-                                                       :box (:line-width ,lambda-modeline-size
-                                                             :color ,lambda-modeline
-                                                             :style nil)
-                                                       :overline nil
-                                                       :underline nil)))))
-   `(lambda-modeline-inactive-name        ((,class (:foreground ,lambda-faded :background ,lambda-modeline :weight light))))
-   `(lambda-modeline-inactive-primary     ((,class (:foreground ,lambda-faded :background ,lambda-modeline :weight light))))
-   `(lambda-modeline-inactive-secondary   ((,class (:foreground ,lambda-faded :background ,lambda-modeline :weight light))))
+;;;;;; Tab-bar
+     (tab-bar-tab-inactive (:background lambda-bg :foreground lambda-ultralight))
+     (tab-bar-tab (:background lambda-faint :foreground lambda-ultralight))
+     (tab-bar (:background lambda-bg :foreground lambda-ultralight))
 
-   `(lambda-modeline-inactive-status-RO   ((,class :foreground ,lambda-subtle
-                                                    :background ,lambda-inactive
-                                                    :box (:line-width 1
-                                                          :color ,lambda-inactive
-                                                          :style nil)
-                                                    :overline nil
-                                                    :underline nil)))
+;;;;;; Tab-bar Echo
+     (tab-bar-echo-area-tab                      (:foreground lambda-strong :underline t :weight 'bold))
+     (tab-bar-echo-area-tab-group-current        (:foreground lambda-strong))
+     (tab-bar-echo-area-tab-ungrouped            (:foreground lambda-strong :weight 'light))
 
-   `(lambda-modeline-inactive-status-RW ((,class :foreground ,lambda-subtle
-                                                  :background ,lambda-inactive
-                                                  :box (:line-width 1
-                                                        :color ,lambda-inactive
-                                                        :style nil)
-                                                  :overline nil
-                                                  :underline nil)))
+;;;;;; Tool tips
+     (tooltip                                   (:foreground lambda-highlight :background lambda-mild))
 
-   `(lambda-modeline-inactive-status-**  ((,class :foreground ,lambda-subtle
-                                                   :background ,lambda-inactive
-                                                   :box (:line-width 1
-                                                         :color ,lambda-inactive
-                                                         :style nil)
-                                                   :overline nil
-                                                   :underline nil)))
+;;;;;; Widget faces
+     (widget-button-pressed-face                (:foreground lambda-red))
+     (widget-documentation-face                 (:foreground lambda-green))
+     (widget-field                              (:background lambda-faint))
+     (widget-button                             (:foreground lambda-fg :bold t))
+     (widget-single-line-field                  (:background lambda-faint))
 
-   (when (not (fboundp 'lambda-modeline))
-     `(mode-line ((,class :foreground ,lambda-foreground
-                          :background ,lambda-modeline
-                          :box (:line-width 3
-                                :color ,lambda-modeline
-                                :style nil)
-                          :overline nil
-                          :underline nil))))
+;;;;;; Window Divs
+     ;; divide windows more attractively
+     (window-divider                               (:foreground lambda-bg))
+     (window-divider-first-pixel                   (:foreground lambda-bg))
+     (window-divider-last-pixel                    (:foreground lambda-bg))
+     ;; divide windows better in terminal
+     ;; see https://www.reddit.com/r/emacs/comments/3u0d0u/how_do_i_make_the_vertical_window_divider_more/
+     ;; (when (not (display-graphic-p))
+     ;;   (set-face-background 'vertical-border lambda-bg)
+     ;;   (set-face-foreground 'vertical-border (face-background 'vertical-border)))
 
-   (when (not (fboundp 'lambda-modeline))
-     `(mode-line-inactive ((,class :foreground ,lambda-faded
-                                   :background ,lambda-modeline
-                                   :box (:line-width 3
-                                         :color ,lambda-modeline
-                                         :style nil)
-                                   :overline nil
-                                   :underline nil))))
+;;;;; Help, Info, & Menus
 
-;;;;; Mu4e
-   `(mu4e-attach-number-face                      ((,class :foreground ,lambda-strong)))
-   `(mu4e-cited-1-face                            ((,class :foreground ,lambda-faded)))
-   `(mu4e-cited-2-face                            ((,class :foreground ,lambda-faded)))
-   `(mu4e-cited-3-face                            ((,class :foreground ,lambda-faded)))
-   `(mu4e-cited-4-face                            ((,class :foreground ,lambda-faded)))
-   `(mu4e-cited-5-face                            ((,class :foreground ,lambda-faded)))
-   `(mu4e-cited-6-face                            ((,class :foreground ,lambda-faded)))
-   `(mu4e-cited-7-face                            ((,class :foreground ,lambda-faded)))
-   `(mu4e-compose-header-face                     ((,class :foreground ,lambda-faded)))
-   `(mu4e-compose-separator-face                  ((,class :foreground ,lambda-faded)))
-   `(mu4e-contact-face                            ((,class :foreground ,lambda-salient)))
-   `(mu4e-context-face                            ((,class :foreground ,lambda-faded)))
-   `(mu4e-draft-face                              ((,class :foreground ,lambda-faded :weight light :slant italic)))
-   `(mu4e-flagged-face                            ((,class :foreground ,lambda-yellow)))
-   `(mu4e-footer-face                             ((,class :foreground ,lambda-faded)))
-   `(mu4e-forwarded-face                          ((,class :inherit    default)))
-   `(mu4e-header-face                             ((,class :inherit    default)))
-   `(mu4e-header-highlight-face                   ((,class :inherit highlight)))
-   `(mu4e-header-key-face                         ((,class :foreground ,lambda-strong :weight bold)))
-   `(mu4e-header-marks-face                       ((,class :foreground ,lambda-faded)))
-   `(mu4e-header-title-face                       ((,class :foreground ,lambda-strong)))
-   `(mu4e-header-value-face                       ((,class :inherit    default)))
-   `(mu4e-highlight-face                          ((,class :foreground ,lambda-salient)))
-   `(mu4e-link-face                               ((,class :foreground ,lambda-salient)))
-   `(mu4e-modeline-face                           ((,class :foreground ,lambda-modeline)))
-   `(mu4e-moved-face                              ((,class :foreground ,lambda-faded)))
-   `(mu4e-ok-face                                 ((,class :foreground ,lambda-faded)))
-   `(mu4e-region-code                             ((,class :foreground ,lambda-faded)))
-   `(mu4e-replied-face                            ((,class :foreground ,lambda-popout)))
-   `(mu4e-special-header-value-face               ((,class :inherit    default)))
-   `(mu4e-system-face                             ((,class :foreground ,lambda-faded)))
-   `(mu4e-title-face                              ((,class :weight bold :foreground ,lambda-popout)))
-   `(mu4e-trashed-face                            ((,class :foreground ,lambda-inactive :weight light)))
-   `(mu4e-unread-face                             ((,class :inherit    bold)))
-   `(mu4e-url-number-face                         ((,class :foreground ,lambda-faded)))
-   `(mu4e-view-body-face                          ((,class :inherit    default)))
-   `(mu4e-warning-face                            ((,class :foreground ,lambda-critical)))
+;;;;;; Help(ful)
 
-;;;;; Org-agenda
-   `(org-agenda-calendar-event                    ((,class :inherit default)))
-   `(org-agenda-calendar-sexp                     ((,class :foreground ,lambda-faded)))
-   `(org-agenda-clocking                          ((,class :foreground ,lambda-faded)))
-   `(org-agenda-column-dateline                   ((,class :foreground ,lambda-faded)))
-   `(org-agenda-current-time                      ((,class :foreground ,lambda-faded)))
-   `(org-agenda-date                              ((,class :foreground ,lambda-salient)))
-   `(org-agenda-date-today                        ((,class :inherit ,(if lambda-set-variable-pitch 'variable-pitch 'default) :height 1.25 :foreground ,lambda-blue)))
-   `(org-super-agenda-header                      ((,class :inherit ,(if lambda-set-variable-pitch 'variable-pitch 'default) :foreground ,lambda-blue)))
-   `(org-agenda-date-weekend                      ((,class :foreground ,lambda-faded)))
-   `(org-agenda-diary                             ((,class :foreground ,lambda-faded)))
-   `(org-agenda-dimmed-todo-face                  ((,class :foreground ,lambda-faded)))
-   `(org-agenda-done                              ((,class :foreground ,lambda-faded :strike-through t)))
-   `(org-agenda-filter-category                   ((,class :foreground ,lambda-faded)))
-   `(org-agenda-filter-effort                     ((,class :foreground ,lambda-faded)))
-   `(org-agenda-filter-regexp                     ((,class :foreground ,lambda-faded)))
-   `(org-agenda-filter-tags                       ((,class :foreground ,lambda-faded)))
-   `(org-agenda-restriction-lock                  ((,class :foreground ,lambda-faded)))
-   `(org-agenda-structure                         ((,class :foreground ,lambda-faded)))
+     (helpful-heading (:inherit'variable-pitch :foreground lambda-blue))
 
-;;;;; Org mode
-   `(org-archived                                 ((,class :foreground ,lambda-faded)))
-   `(org-block                                    ((,class :foreground ,lambda-faded)))
-   `(org-block-begin-line                         ((,class :foreground ,lambda-faded)))
-   `(org-block-end-line                           ((,class :foreground ,lambda-faded)))
-   `(org-checkbox                                 ((,class :foreground ,lambda-faded)))
-   `(org-checkbox-statistics-done                 ((,class :foreground ,lambda-faded)))
-   `(org-checkbox-statistics-todo                 ((,class :foreground ,lambda-faded)))
-   `(org-cite                                     ((,class :foreground ,lambda-salient)))
-   `(org-cite-key                                 ((,class :foreground ,lambda-green)))
-   `(org-clock-overlay                            ((,class :foreground ,lambda-faded)))
-   `(org-code                                     ((,class :foreground ,lambda-faded)))
-   `(org-column                                   ((,class :foreground ,lambda-faded)))
-   `(org-column-title                             ((,class :foreground ,lambda-faded)))
-   `(org-date                                     ((,class :foreground ,lambda-faded)))
-   `(org-date-selected                            ((,class :foreground ,lambda-faded)))
-   `(org-default                                  ((,class :foreground ,lambda-faded)))
-   `(org-document-info                            ((,class :foreground ,lambda-faded :weight light)))
-   `(org-document-info-keyword                    ((,class :foreground ,lambda-faded :weight light)))
-   `(org-document-title                           ((,class :inherit ,(if lambda-set-variable-pitch 'variable-pitch 'default) :height 1.1 :foreground ,lambda-salient)))
-   `(org-done                                     ((,class :foreground ,lambda-faded :strike-through t)))
-   `(org-drawer                                   ((,class :foreground ,lambda-faded :weight light)))
-   `(org-ellipsis                                 ((,class :foreground ,lambda-faded)))
-   `(org-footnote                                 ((,class :foreground ,lambda-faded)))
-   `(org-formula                                  ((,class :foreground ,lambda-faded)))
-   `(org-habit-alert-face                         ((,class :inherit default)))
-   `(org-headline-done                            ((,class :foreground ,lambda-faded)))
-   `(org-latex-and-related                        ((,class :foreground ,lambda-faded)))
-   `(org-level-1                                  ((,class :inherit 'outline-1)))
-   `(org-level-2                                  ((,class :inherit 'outline-2)))
-   `(org-level-3                                  ((,class :inherit 'outline-3)))
-   `(org-level-4                                  ((,class :inherit 'outline-4)))
-   `(org-level-5                                  ((,class :inherit 'outline-5)))
-   `(org-level-6                                  ((,class :inherit 'outline-6)))
-   `(org-level-7                                  ((,class :inherit 'outline-7)))
-   `(org-level-8                                  ((,class :inherit 'outline-8)))
-   `(org-link                                     ((,class :foreground ,lambda-salient)))
-   `(org-list-dt                                  ((,class :foreground ,lambda-blue)))
-   `(org-macro                                    ((,class :foreground ,lambda-faded)))
-   `(org-meta-line                                ((,class :foreground ,lambda-faded :weight light)))
-   `(org-mode-line-clock                          ((,class :foreground ,lambda-faded)))
-   `(org-mode-line-clock-overrun                  ((,class :foreground ,lambda-faded)))
-   `(org-priority                                 ((,class :foreground ,lambda-faded)))
-   `(org-property-value                           ((,class :foreground ,lambda-faded :weight light)))
-   `(org-quote                                    ((,class :foreground ,lambda-salient)))
-   `(org-scheduled                                ((,class :foreground ,lambda-salient)))
-   `(org-scheduled-previously                     ((,class :foreground ,lambda-salient)))
-   `(org-scheduled-today                          ((,class :foreground ,lambda-salient)))
-   `(org-sexp-date                                ((,class :foreground ,lambda-faded)))
-   `(org-special-keyword                          ((,class :foreground ,lambda-faded :weight light)))
-   `(org-table                                    ((,class :inherit    default)))
-   `(org-tag                                      ((,class :foreground ,lambda-faded)))
-   `(org-tag-group                                ((,class :foreground ,lambda-faded)))
-   `(org-target                                   ((,class :foreground ,lambda-faded)))
-   `(org-time-grid                                ((,class :foreground ,lambda-faded)))
-   `(org-todo                                     ((,class :weight normal :foreground ,lambda-yellow)))
-   `(org-upcoming-deadline                        ((,class :foreground ,lambda-strong)))
-   `(org-upcoming-distant-deadline                ((,class :foreground ,lambda-foreground)))
-   `(org-verbatim                                 ((,class :foreground ,lambda-faded)))
-   `(org-verse                                    ((,class :foreground ,lambda-faded)))
-   `(org-warning                                  ((,class :foreground ,lambda-popout)))
+;;;;;; Hydra
+     (hydra-face-red (:foreground lambda-red :weight 'bold))
+     (hydra-face-blue (:foreground lambda-blue :weight 'bold))
+     (hydra-face-amaranth (:foreground lambda-yellow :weight 'bold))
+     (hydra-face-pink (:foreground lambda-purple :weight 'bold))
+     (hydra-face-teal (:foreground lambda-aqua :weight 'bold))
 
+;;;;;; Imenu List
+     (imenu-list-entry-face-0                       (:inherit 'imenu-list-entry-face :foreground lambda-mild))
+     (imenu-list-entry-face-1                       (:inherit 'imenu-list-entry-face :foreground lambda-mild))
+     (imenu-list-entry-face-2                       (:inherit 'imenu-list-entry-face :foreground lambda-mild))
+     (imenu-list-entry-face-3                       (:inherit 'imenu-list-entry-face :foreground lambda-mild))
+
+;;;;;; Info (Documentation)
+     (info-menu-header                              (:foreground lambda-strong))
+     (info-header-node                              (:foreground lambda-green))
+     (info-index-match                              (:foreground lambda-focus))
+     (Info-quoted                                   (:foreground lambda-mild))
+     (info-title-1                                  (:foreground lambda-strong))
+     (info-title-2                                  (:foreground lambda-strong))
+     (info-title-3                                  (:foreground lambda-strong))
+     (info-title-4                                  (:foreground lambda-strong))
+
+;;;;;; Marginalia
+     (marginalia-documentation                  (:italic t :foreground lambda-strong))
+
+;;;;;; Message-mode
+     (message-header-to                         (:inherit 'font-lock-variable-name-face))
+     (message-header-cc                         (:inherit 'font-lock-variable-name-face))
+     (message-header-subject                    (:foreground lambda-orange :weight 'bold))
+     (message-header-newsgroups                 (:foreground lambda-yellow :weight 'bold))
+     (message-header-other                      (:inherit 'font-lock-variable-name-face))
+     (message-header-name                       (:inherit 'font-lock-keyword-face))
+     (message-header-xheader                    (:foreground lambda-blue))
+     (message-separator                         (:inherit 'font-lock-comment-face))
+     (message-cited-text                        (:inherit 'font-lock-comment-face))
+     (message-mml                               (:foreground lambda-green :weight 'bold))
+
+;;;;;; Which-function-mode
+     (which-func                                 (:foreground lambda-blue))
+
+;;;;; Built-in syntax
+
+     (font-lock-builtin-face                            (:foreground lambda-strong :weight 'light))
+     (font-lock-constant-face                           (:foreground lambda-strong))
+     (font-lock-comment-face                            (:foreground lambda-gray :slant 'italic :weight 'light))
+     (font-lock-function-name-face                      (:foreground lambda-strong :weight 'bold))
+     (font-lock-keyword-face                            (:foreground lambda-strong :weight 'light))
+     (font-lock-string-face                             (:foreground lambda-strong :background lambda-faint))
+     (font-lock-variable-name-face                      (:foreground lambda-strong))
+     (font-lock-type-face                               (:foreground lambda-strong))
+     (font-lock-warning-face                            (:foreground lambda-urgent :weight 'bold))
+
+;;;;; Basic faces
+     (error                                             (:foreground lambda-urgent :bold t))
+     (success                                           (:foreground lambda-green :bold t))
+     (warning                                           (:foreground lambda-crucial :bold t))
+     (alert-low-face                                    (:foreground lambda-orange))
+     (trailing-whitespace                               (:background lambda-red))
+     (escape-glyph                                      (:foreground lambda-aqua))
+     (highlight                                         (:background lambda-highlight))
+     (homoglyph                                         (:foreground lambda-focus))
+     (match                                             (:foreground lambda-lowlight :background lambda-focus))
+
+;;;;; Writing
 ;;;;; Outline
-   `(outline-minor-0      ((,class :background ,lambda-highlight)))
-   `(outline-1            ((,class :inherit ,(if lambda-set-variable-pitch 'variable-pitch 'default) :weight normal :foreground ,lambda-green)))
-   `(outline-2            ((,class :inherit ,(if lambda-set-variable-pitch 'variable-pitch 'default) :weight normal :foreground ,lambda-blue)))
-   `(outline-3            ((,class :inherit ,(if lambda-set-variable-pitch 'variable-pitch 'default) :weight normal :foreground ,lambda-brown)))
-   `(outline-4            ((,class :inherit ,(if lambda-set-variable-pitch 'variable-pitch 'default) :weight normal :foreground ,lambda-yellow)))
-   `(outline-5            ((,class :inherit outline-1)))
-   `(outline-6            ((,class :inherit outline-2)))
-   `(outline-7            ((,class :inherit outline-3)))
-   `(outline-8            ((,class :inherit outline-4)))
+     (outline-minor-0      (:background lambda-ultralight))
+     (outline-1            (:inherit 'variable-pitch :foreground lambda-green))
+     (outline-2            (:inherit 'variable-pitch :foreground lambda-blue))
+     (outline-3            (:inherit 'variable-pitch :foreground lambda-red))
+     (outline-4            (:inherit 'variable-pitch :foreground lambda-purple))
+     (outline-5            (:inherit 'outline-1))
+     (outline-6            (:inherit 'outline-2))
+     (outline-7            (:inherit 'outline-3))
+     (outline-8            (:inherit 'outline-4))
 
-;;;;; Rainbow Delimiters
-   `(rainbow-delimiters-depth-1-face ((,class :foreground ,lambda-popout     :weight medium)))
-   `(rainbow-delimiters-depth-2-face ((,class :foreground ,lambda-salient    :weight light)))
-   `(rainbow-delimiters-depth-3-face ((,class :foreground ,lambda-brown      :weight light)))
-   `(rainbow-delimiters-depth-4-face ((,class :foreground ,lambda-yellow     :weight light)))
-   `(rainbow-delimiters-depth-5-face ((,class :foreground ,lambda-green      :weight light)))
-   `(rainbow-delimiters-depth-6-face ((,class :foreground ,lambda-red        :weight light)))
-   `(rainbow-delimiters-depth-7-face ((,class :foreground ,lambda-blue       :weight light)))
-   `(rainbow-delimiters-depth-8-face ((,class :foreground ,lambda-faded      :weight light)))
-   `(rainbow-delimiters-depth-9-face ((,class :foreground ,lambda-foreground :weight light)))
+;;;;; Markdown-mode
+     (markdown-header-face-1                    (:inherit 'outline-1))
+     (markdown-header-face-2                    (:inherit 'outline-2))
+     (markdown-header-face-3                    (:inherit 'outline-3))
+     (markdown-header-face-4                    (:inherit 'outline-4))
+     (markdown-header-face-5                    (:inherit 'outline-5))
+     (markdown-header-face-6                    (:inherit 'outline-6))
 
-;;;;; Search
-   `(evil-ex-search                               ((,class :background ,lambda-popout)))
-   `(isearch                                      ((,class :background ,lambda-popout :foreground ,lambda-highlight :weight bold)))
-   `(isearch-fail                                 ((,class :background ,lambda-critical)))
-   `(isearch-group-1                              ((,class :background ,lambda-blue)))
-   `(isearch-group-2                              ((,class :background ,lambda-red)))
-   `(query-replace                                ((,class :background ,lambda-yellow)))
+;;;;; Org-mode
+     (org-hide                                  (:foreground lambda-faint))
+     (org-level-1                               (:inherit 'outline-1))
+     (org-level-2                               (:inherit 'outline-2))
+     (org-level-3                               (:inherit 'outline-3))
+     (org-level-4                               (:inherit 'outline-4))
+     (org-level-5                               (:inherit 'outline-5))
+     (org-level-6                               (:inherit 'outline-6))
+     (org-level-7                               (:inherit 'outline-7))
+     (org-level-8                               (:inherit 'outline-8))
+     (org-special-keyword                       (:inherit 'font-lock-comment-face))
+     (org-drawer                                (:inherit 'font-lock-function-name-face))
+     (org-column                                (:background lambda-faint))
+     (org-column-title                          (:background lambda-faint :underline t :weight 'bold))
+     (org-warning                               (:foreground lambda-red :weight 'bold :underline nil :bold t))
+     (org-archived                              (:foreground lambda-ultralight :weight 'bold))
+     (org-link                                  (:foreground lambda-aqua :underline t))
+     (org-footnote                              (:foreground lambda-aqua :underline t))
+     (org-ellipsis                              (:foreground lambda-lowlight))
+     (org-date                                  (:foreground lambda-blue :underline t))
+     (org-sexp-date                             (:foreground lambda-blue :underline t))
+     (org-tag                                   (:bold t :weight 'bold))
+     (org-list-dt                               (:bold t :weight 'bold))
+     (org-todo                                  (:foreground lambda-red :weight 'bold :bold t))
+     (org-done                                  (:foreground lambda-aqua :weight 'bold :bold t))
+     (org-agenda-done                           (:foreground lambda-aqua))
+     (org-headline-done                         (:foreground lambda-aqua))
+     (org-table                                 (:foreground lambda-blue))
+     (org-block                                 (:background lambda-faint))
+     (org-block-begin-line                      (:background lambda-mild))
+     (org-block-end-line                        (:background lambda-mild))
+     (org-formula                               (:foreground lambda-yellow))
+     (org-document-title                        (:foreground lambda-blue))
+     (org-document-info                         (:foreground lambda-blue))
+     (org-agenda-structure                      (:inherit 'font-lock-comment-face))
+     (org-agenda-date-today                     (:foreground lambda-ultralight :weight 'bold :italic t))
+     (org-scheduled                             (:foreground lambda-yellow))
+     (org-scheduled-today                       (:foreground lambda-blue))
+     (org-scheduled-previously                  (:foreground lambda-red))
+     (org-upcoming-deadline                     (:inherit 'font-lock-keyword-face))
+     (org-deadline-announce                     (:foreground lambda-red))
+     (org-time-grid                             (:foreground lambda-orange))
+     (org-latex-and-related                     (:foreground lambda-blue))
 
-;;;;; Semantic
-   `(italic                                       ((,class :slant italic)))
-   `(bold                                         ((,class :foreground ,lambda-strong :weight bold)))
-   `(bold-italic                                  ((,class :foreground ,lambda-strong :weight bold :slant italic)))
-   `(underline                                    ((,class :underline t)))
-   `(shadow                                       ((,class :foreground ,lambda-faded)))
-   `(success                                      ((,class :foreground ,lambda-salient)))
-   `(warning                                      ((,class :foreground ,lambda-popout)))
-   `(error                                        ((,class :foreground ,lambda-critical)))
-   `(match                                        ((,class :forgeround ,lambda-popout :weight bold)))
+;;;;; Org-habit
+     (org-habit-clear-face                      (:background lambda-blue))
+     (org-habit-clear-future-face               (:background lambda-blue))
+     (org-habit-ready-face                      (:background lambda-green))
+     (org-habit-ready-future-face               (:background lambda-green))
+     (org-habit-alert-face                      (:background lambda-yellow))
+     (org-habit-alert-future-face               (:background lambda-yellow))
+     (org-habit-overdue-face                    (:background lambda-red))
+     (org-habit-overdue-future-face             (:background lambda-red))
 
-;;;;; Speed Bar
 
-   `(speedbar-button-face                         ((,class :foreground ,lambda-faded)))
-   `(speedbar-directory-face                      ((,class :foreground ,lambda-foreground :bold t)))
-   `(speedbar-file-face                           ((,class :foreground ,lambda-foreground :background ,lambda-background)))
-   `(speedbar-highlight-face                      ((,class :foreground ,lambda-highlight)))
-   `(speedbar-selected-face                       ((,class :background ,lambda-subtle :bold t)))
-   `(speedbar-separator-face                      ((,class :foreground ,lambda-faded)))
-   `(speedbar-tag-face                            ((,class :foreground ,lambda-faded)))
+;;;;; term
+     (term-color-black                          (:foreground lambda-faint :background lambda-mild))
+     (term-color-blue                           (:foreground lambda-blue :background lambda-blue))
+     (term-color-cyan                           (:foreground lambda-aqua :background lambda-aqua))
+     (term-color-green                          (:foreground lambda-green :background lambda-green))
+     (term-color-magenta                        (:foreground lambda-purple :background lambda-purple))
+     (term-color-red                            (:foreground lambda-red :background lambda-red))
+     (term-color-white                          (:foreground lambda-highlight :background lambda-highlight))
+     (term-color-yellow                         (:foreground lambda-yellow :background lambda-yellow))
+     (term-default-fg-color                     (:foreground lambda-ultralight))
+     (term-default-bg-color                     (:background lambda-bg))
 
-;;;;; Tabs
-   `(tab-bar-echo-area-tab               ((,class :foreground ,lambda-faded :underline t :weight bold)))
-   `(tab-bar-echo-area-tab-group-current ((,class :foreground ,lambda-faded)))
+;;;;; ag (The Silver Searcher)
+     (ag-hit-face                               (:foreground lambda-blue))
+     (ag-match-face                             (:foreground lambda-red))
 
-;;;;; Term
-   `(term-bold                                    ((,class :foreground ,lambda-strong :weight semi-bold)))
-   `(term-color-black                             ((,class :foreground ,lambda-background :background ,lambda-background)))
-   `(term-color-white                             ((,class :foreground ,lambda-foreground :background ,lambda-foreground)))
-   `(term-color-blue                              ((,class :foreground ,lambda-blue :background ,lambda-blue)))
-   `(term-color-cyan                              ((,class :foreground ,lambda-salient :background ,lambda-salient)))
-   `(term-color-green                             ((,class :foreground ,lambda-green :background ,lambda-green)))
-   `(term-color-magenta                           ((,class :foreground ,lambda-popout :background ,lambda-popout)))
-   `(term-color-red                               ((,class :foreground ,lambda-critical :background ,lambda-critical)))
-   `(term-color-yellow                            ((,class :foreground ,lambda-yellow :background ,lambda-yellow)))
+;;;;; elfeed
+     (elfeed-search-title-face                  (:foreground lambda-lowlight  ))
+     (elfeed-search-unread-title-face           (:foreground lambda-ultralight))
+     (elfeed-search-date-face                   (:inherit 'font-lock-builtin-face :underline t))
+     (elfeed-search-feed-face                   (:inherit 'font-lock-variable-name-face))
+     (elfeed-search-tag-face                    (:inherit 'font-lock-keyword-face))
+     (elfeed-search-last-update-face            (:inherit 'font-lock-comment-face))
+     (elfeed-search-unread-count-face           (:inherit 'font-lock-comment-face))
+     (elfeed-search-filter-face                 (:inherit 'font-lock-string-face))
 
-;;;;; Window Divs
-   ;; divide windows more attractively
-   `(window-divider                               ((,class :foreground ,lambda-background)))
-   `(window-divider-first-pixel                   ((,class :foreground ,lambda-background)))
-   `(window-divider-last-pixel                    ((,class :foreground ,lambda-background)))
-   ;; divide windows better in terminal
-   ;; see https://www.reddit.com/r/emacs/comments/3u0d0u/how_do_i_make_the_vertical_window_divider_more/
-   (when (not (display-graphic-p))
-     (set-face-background 'vertical-border lambda-background)
-     (set-face-foreground 'vertical-border (face-background 'vertical-border)))
+;;;;; isearch
+     (isearch                                   (:foreground lambda-black :background lambda-orange))
+     (lazy-highlight                            (:foreground lambda-black :background lambda-yellow))
+     (isearch-fail                              (:foreground lambda-ultralight :background lambda-red))
 
-;;;;; End Custom faces
-   ))
+;;;;; anzu-mode
+     (anzu-mode-line                            (:foreground lambda-yellow :weight 'bold))
+     (anzu-match-1                              (:background lambda-green))
+     (anzu-match-2                              (:background lambda-yellow))
+     (anzu-match-3                              (:background lambda-aqua))
+     (anzu-replace-to                           (:foreground lambda-yellow))
+     (anzu-replace-highlight                    (:inherit 'isearch))
 
-;;;; Define evil cursor colors
-(defun lambda--evil-load-cursors ()
-  "Load theme specific cursor colors"
-  (setq evil-emacs-state-cursor    `(,lambda-salient box))
-  (setq evil-normal-state-cursor   `(,lambda-yellow box))
-  (setq evil-visual-state-cursor   `(,lambda-faded box))
-  (setq evil-insert-state-cursor   `(,lambda-critical (bar . 2)))
-  (setq evil-replace-state-cursor  `(,lambda-critical hbar))
-  (setq evil-motion-state-cursor   `(,lambda-green box))
-  (setq evil-operator-state-cursor `(,lambda-brown hollow)))
+;;;;; mu4e
+     (mu4e-header-key-face                      (:foreground lambda-green :weight 'bold ))
+     (mu4e-unread-face                          (:foreground lambda-blue :weight 'bold ))
+     (mu4e-highlight-face                       (:foreground lambda-green))
 
-(when lambda-set-evil-cursors
-  (add-hook 'lambda-after-load-theme-hook #'lambda--evil-load-cursors))
+;;;;; shell script
+     (sh-quoted-exec                            (:foreground lambda-purple))
+     (sh-heredoc                                (:foreground lambda-orange))
 
-;;;; Set Hl-Todo
-;; inherit faces
-(setq hl-todo-keyword-faces
-      '(("HOLD" .       query-replace)
-        ("TODO" .       warning)
-        ("NEXT" .       highlight)
-        ("OKAY" .       success)
-        ("DONT" .       error)
-        ("FAIL" .       error)
-        ("DONE" .       shadow)
-        ("NOTE" .       warning)
-        ("KLUDGE" .     warning)
-        ("HACK" .       warning)
-        ("TEMP" .       warning)
-        ("FIXME" .      error)
-        ("XXX+" .       error)
-        ("BUG" .        error)
-        ("REVIEW" .     shadow)
-        ("DEPRECATED" . shadow)))
+;;;;; neotree
+     (neo-banner-face                           (:foreground lambda-purple :bold t))
+     (neo-dir-link-face                         (:foreground lambda-yellow))
+     (neo-expand-btn-face                       (:foreground lambda-orange))
+     (neo-file-link-face                        (:foreground lambda-ultralight))
+     (neo-header-face                           (:foreground lambda-purple))
+     (neo-root-dir-face                         (:foreground lambda-purple :bold t))
+
+;;;;; eshell
+     (eshell-prompt                              (:foreground lambda-aqua))
+     (eshell-ls-archive                          (:foreground lambda-highlight))
+     (eshell-ls-backup                           (:foreground lambda-lowlight))
+     (eshell-ls-clutter                          (:foreground lambda-orange :weight 'bold))
+     (eshell-ls-directory                        (:foreground lambda-yellow))
+     (eshell-ls-executable                       (:weight 'bold))
+     (eshell-ls-missing                          (:foreground lambda-red :bold t))
+     (eshell-ls-product                          (:foreground lambda-red))
+     (eshell-ls-readonly                         (:foreground lambda-highlight))
+     (eshell-ls-special                          (:foreground lambda-yellow :bold t))
+     (eshell-ls-symlink                          (:foreground lambda-red))
+     (eshell-ls-unreadable                       (:foreground lambda-red :bold t))
+
+;;;;; wgrep
+     (wgrep-delete-face                          (:strike-through lambda-red))
+     (wgrep-done-face                            (:foreground lambda-aqua))
+     (wgrep-face                                 (:underline (:color lambda-yellow :style 'line)))
+     (wgrep-file-face                            (:inherit 'highlight))
+     (wgrep-reject-face                          (:foreground lambda-red :bold t))
+
+;;;;; circe
+     (circe-prompt-face               (:foreground lambda-aqua))
+     (circe-fool                      (:foreground lambda-faint))
+     (circe-highlight-nick-face       (:foreground lambda-yellow))
+     (circe-server-face               (:foreground lambda-faint))
+     (circe-my-message-face           (:foreground lambda-aqua))
+     (lui-time-stamp-face             (:foreground lambda-blue))
+
+;;;;; erc
+     (erc-action-face            (:inherit 'erc-default-face))
+     (erc-bold-face              (:weight 'bold))
+     (erc-current-nick-face      (:foreground lambda-aqua))
+     (erc-dangerous-host-face    (:inherit 'font-lock-warning-face))
+     (erc-default-face           (:inherit 'default))
+     (erc-direct-msg-face        (:inherit 'erc-default-face))
+     (erc-error-face             (:inherit 'font-lock-warning-face))
+     (erc-fool-face              (:inherit 'erc-default-face))
+     (erc-input-face             (:foreground lambda-aqua))
+     (erc-my-nick-face           (:foreground lambda-aqua))
+     (erc-nick-msg-face          (:inherit 'erc-default-face))
+     (erc-notice-face            (:foreground lambda-faint))
+     (erc-timestamp-face         (:foreground lambda-green))
+     (erc-underline-face         (:underline t))
+     (erc-prompt-face            (:foreground lambda-aqua))
+     (erc-pal-face               (:foreground lambda-yellow :weight 'bold))
+     (erc-keyword-face           (:foreground lambda-orange :weight 'bold))
+     (erc-nick-default-face      (:weight 'regular))
+     (erc-button                 (:weight 'bold  :underline t))
+
+;;;;; gnus
+     (gnus-group-mail-1           (:weight 'bold :foreground lambda-ultralight))
+     (gnus-group-mail-2           (:inherit 'gnus-group-mail-1))
+     (gnus-group-mail-3           (:inherit 'gnus-group-mail-1))
+     (gnus-group-mail-1-empty     (:foreground lambda-faint))
+     (gnus-group-mail-2-empty     (:inherit 'gnus-group-mail-1-empty))
+     (gnus-group-mail-3-empty     (:inherit 'gnus-group-mail-1-empty))
+     (gnus-group-news-1           (:inherit 'gnus-group-mail-1))
+     (gnus-group-news-2           (:inherit 'gnus-group-news-1))
+     (gnus-group-news-3           (:inherit 'gnus-group-news-1))
+     (gnus-group-news-4           (:inherit 'gnus-group-news-1))
+     (gnus-group-news-5           (:inherit 'gnus-group-news-1))
+     (gnus-group-news-6           (:inherit 'gnus-group-news-1))
+     (gnus-group-news-1-empty     (:inherit 'gnus-group-mail-1-empty))
+     (gnus-group-news-2-empty     (:inherit 'gnus-group-news-1-empty))
+     (gnus-group-news-3-empty     (:inherit 'gnus-group-news-1-empty))
+     (gnus-group-news-4-empty     (:inherit 'gnus-group-news-1-empty))
+     (gnus-group-news-5-empty     (:inherit 'gnus-group-news-1-empty))
+     (gnus-group-news-6-empty     (:inherit 'gnus-group-news-1-empty))
+     (gnus-group-mail-low         (:inherit 'gnus-group-mail-1 :weight 'normal))
+     (gnus-group-mail-low-empty   (:inherit 'gnus-group-mail-1-empty))
+     (gnus-group-news-low         (:inherit 'gnus-group-mail-1 :foreground lambda-faint))
+     (gnus-group-news-low-empty   (:inherit 'gnus-group-news-low :weight 'normal))
+     (gnus-header-content         (:inherit 'message-header-other))
+     (gnus-header-from            (:inherit 'message-header-other))
+     (gnus-header-name            (:inherit 'message-header-name))
+     (gnus-header-newsgroups      (:inherit 'message-header-other))
+     (gnus-header-subject         (:inherit 'message-header-subject))
+     (gnus-summary-cancelled      (:foreground lambda-red :strike-through t))
+     (gnus-summary-normal-ancient (:foreground lambda-faint :inherit 'italic))
+     (gnus-summary-normal-read    (:foreground lambda-ultralight))
+     (gnus-summary-normal-ticked  (:foreground lambda-purple))
+     (gnus-summary-normal-unread  (:foreground lambda-green :inherit 'bold))
+     (gnus-summary-selected       (:foreground lambda-blue :weight 'bold))
+     (gnus-cite-1                 (:foreground lambda-purple))
+     (gnus-cite-2                 (:foreground lambda-purple))
+     (gnus-cite-3                 (:foreground lambda-purple))
+     (gnus-cite-4                 (:foreground lambda-green))
+     (gnus-cite-5                 (:foreground lambda-green))
+     (gnus-cite-6                 (:foreground lambda-green))
+     (gnus-cite-7                 (:foreground lambda-purple))
+     (gnus-cite-8                 (:foreground lambda-purple))
+     (gnus-cite-9                 (:foreground lambda-purple))
+     (gnus-cite-10                (:foreground lambda-orange))
+     (gnus-cite-11                (:foreground lambda-orange))
+     (gnus-signature              (:foreground lambda-orange))
+     (gnus-x-face                 (:background lambda-faint :foreground lambda-ultralight))
+
+;;;;; Coq
+     (coq-solve-tactics-face      (:inherit 'font-lock-constant-face))
+     (coq-cheat-face              (:box (:line-width -1 :color lambda-red :style nil)
+                                   :foreground lambda-red))
+     (coq-button-face             (:background lambda-bg))
+     (coq-button-face-active      (:background lambda-mild))
+     (coq-button-face-pressed     (:background lambda-bg))
+
+;;;;; Proof General
+     (proof-active-area-face      (:underline t))
+     (proof-tacticals-name-face   (:inherit 'font-lock-constant-face))
+     (proof-tactics-name-face     (:inherit 'font-lock-constant-face))
+     (proof-locked-face           (:background lambda-mild))
+     (proof-queue-face            (:background lambda-faint))
+     (proof-warning-face          (:background lambda-red))
+     (proof-error-face            (:background lambda-bg :foreground lambda-red))
+
+;;;;; ledger-mode
+     (ledger-font-xact-highlight-face  (:background lambda-mild))
+
+;;;;; Modeline/Headerline
+;;;;;; Basic Modeline/Headerline
+     (header-line (:foreground lambda-fg :background lambda-faint))
+     (mode-line   (:background lambda-faint :height .1))
+     (mode-line-inactive (:background lambda-ultralight))
+
+;;;;;; Smart-mode-line
+     (sml/global                                (:foreground lambda-strong :inverse-video nil))
+     (sml/modes                                 (:foreground lambda-green))
+     (sml/filename                              (:foreground lambda-red :weight 'bold))
+     (sml/prefix                                (:foreground lambda-ultralight))
+     (sml/read-only                             (:foreground lambda-blue))
+     (persp-selected-face                       (:foreground lambda-orange))
+
+;;;;;; Powerline
+     (powerline-active0                         (:background lambda-faint :foreground lambda-ultralight))
+     (powerline-active1                         (:background lambda-strong :foreground lambda-ultralight))
+     (powerline-active2                         (:background lambda-faint :foreground lambda-ultralight))
+     (powerline-inactive0                       (:background lambda-faint :foreground lambda-ultralight))
+     (powerline-inactive1                       (:background lambda-mild  :foreground lambda-ultralight))
+     (powerline-inactive2                       (:background lambda-faint :foreground lambda-ultralight))
+
+;;;;;; Bespoke Modeline
+
+     (bespoke-modeline-active               (:foreground lambda-fg :background lambda-faint
+                                             :box (:line-width 1 :color lambda-faint :style nil) :overline nil :underline nil))
+     (bespoke-modeline-active-name          (:background lambda-faint :foreground lambda-fg))
+     (bespoke-modeline-active-primary       (:foreground lambda-faint :weight 'light))
+     (bespoke-modeline-active-secondary     (:foreground lambda-fg))
+     (bespoke-modeline-active-status-RW     (:weight 'bold :foreground lambda-fg :background lambda-green :box (:line-width 1 :color lambda-green :style nil)))
+     (bespoke-modeline-active-status-**     (:weight 'bold :foreground lambda-fg :background lambda-red :box (:line-width 1 :color lambda-red :style nil)))
+     (bespoke-modeline-active-status-RO     (:weight 'bold :foreground lambda-fg :background lambda-yellow :box (:line-width 1 :color lambda-yellow :style nil)))
+
+     ;; Inactive
+     (bespoke-modeline-inactive             (:foreground lambda-mild :background lambda-ultralight :box (:line-width 1 :color lambda-faint) :overline nil :underline nil))
+     (bespoke-modeline-inactive-name        (:foreground lambda-mild :background lambda-ultralight :weight 'light :box nil :overline nil :underline nil))
+     (bespoke-modeline-inactive-primary     (:foreground lambda-mild :background lambda-ultralight :weight 'light :box nil :overline nil :underline nil))
+     (bespoke-modeline-inactive-secondary   (:foreground lambda-mild :background lambda-ultralight :weight 'light :box nil :overline nil :underline nil))
+     (bespoke-modeline-inactive-status-RO   (:foreground lambda-mild :background lambda-faint
+                                             :box (:line-width 1 :color lambda-faint :style nil) :overline nil :underline nil))
+     (bespoke-modeline-inactive-status-RW (:foreground lambda-mild :background lambda-faint
+                                           :box (:line-width 1 :color lambda-faint :style nil) :overline nil :underline nil))
+     (bespoke-modeline-inactive-status-**  (:foreground lambda-mild :background lambda-faint
+                                            :box (:line-width 1 :color lambda-faint :style nil) :overline nil :underline nil))
+
+     ) ,@body))
+
 
 ;;;; Set Minibuffer & Echo Area
-(defun lambda-theme--minibuffer ()
+(defun lambda-themes--minibuffer ()
   "Derive minibuffer / echo area faces from lambda faces."
   ;; Minibuffer / echo area
   (dolist (buffer (list " *Minibuf-0*" " *Echo Area 0*"
@@ -1214,20 +1134,20 @@ subtlety stand out from the mode line and other adjacent faces."
     (when (get-buffer buffer)
       (with-current-buffer buffer
         (face-remap-add-relative 'default 'fringe)))))
-(lambda-theme--minibuffer)
+(lambda-themes--minibuffer)
 
-;;; Provide theme
 
+;;; Provide file
 ;;;###autoload
-(when (and (boundp 'custom-theme-load-path) load-file-name)
-  (add-to-list 'custom-theme-load-path
-               (file-name-as-directory (file-name-directory load-file-name))))
+(and load-file-name
+     (boundp 'custom-theme-load-path)
+     (add-to-list 'custom-theme-load-path
+                  (file-name-as-directory
+                   (file-name-directory load-file-name))))
 
-(provide-theme 'lambda)
-(provide 'lambda-faces-colors)
-
+(provide 'lambda-themes)
 
 ;; Local Variables:
-;; eval: (when (fboundp 'rainbow-mode) (rainbow-mode 1))
+;; eval: (when (fboundp 'rainbow-mode) (rainbow-mode +1))
 ;; End:
 ;;; lambda-themes.el ends here

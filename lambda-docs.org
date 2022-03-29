@@ -1,0 +1,61 @@
+
+* Aims of Theme
+
+The aim of lambda-theme is to provide a set of functionally distinct colors
+applied in as coherent a manner as possible. Since an excellent theme already
+exists (Modus themes) that aims at maximal contrast and readability I won't
+pursue that here. Instead I offer lambda-theme as a medium contrast theme
+aiming for a balance between the demands of aesthetics and readability.
+
+* Functional Colors
+
+What is a "functionally distinct" color? It is one determined by its overall
+role in the editing tasks carried out by Emacs. Here I largely agree with
+Nicolas Rougier that [[https://arxiv.org/pdf/2008.06030.pdf][attentional constraints]] matter when thinking about the
+color palette. Clearly there needs to be some limit on the number of colors used
+in a palette. But why think attentional constraints (or constraints of function,
+semantics, or syntax) should limit us to six colors? 
+
+- foreground  "#282b35" "#eceff1"
+- background  "#fffef9" "#282b35"
+
+- modeline    "#e3e7ef" "#3c4353"
+- highlight   "#dbe1eb" "#444B5c"
+- inactive    "#cbd3e1" "#525868"
+ 
+- critical    "#f53137" "#f46715"
+- popout      "#940b96" "#bc85cf"
+- salient     "#303db4" "#88c0d0"
+- strong      "#000000" "#ffffff"
+- faded       "#727d97" "#959eb1"
+- subtle      "#eceff1" "#333a47"
+ 
+- blue        "#30608c" "#81a1c1"
+- green       "#00796b" "#8eb89d"
+- red         "#960d36" "#bf616a"
+- brown       "#966e53" "#d08770"
+- yellow      "#e0a500" "#e9b85d"
+
+
+- important
+- interesting
+- 
+
+
+- comment
+- doc
+- string
+- constant
+- function
+- variable
+- type
+- keyword
+- reference
+- warning
+
+
+- important
+   + crucial/urgent
+   + focal/focus
+   + 
+- 
