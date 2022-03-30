@@ -7,6 +7,12 @@ exists (Modus themes) that aims at maximal contrast and readability I won't
 pursue that here. Instead I offer lambda-theme as a medium contrast theme
 aiming for a balance between the demands of aesthetics and readability.
 
+I'm also aiming for this to be a nice contrast with bespoke in that there are as
+few colors as possible without crossing over into full "monochrome" territory.
+So no colored headlines. And fairly low contrast between the various kinds of
+highlighting etc. Plus some syntax only gets differentiated by subtle background
+highlighting rather than by color.  
+
 * Functional Colors
 
 What is a "functionally distinct" color? It is one determined by its overall
