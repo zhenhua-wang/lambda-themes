@@ -20,7 +20,7 @@
  ((((class color) (min-colors #xFFFFFF))        ; col 1 GUI/24bit
    ((class color) (min-colors #xFF)))           ; col 2 Xterm/256
 
-  (lambda-fg          "#FFFCFA" nil)
+  (lambda-fg          "#EBE9E7" nil)
   (lambda-bg          "#141414" nil)
 
   (lambda-ultralight  "#1A1919" nil)
@@ -31,12 +31,12 @@
   (lambda-crucial     "#F2DA61" nil)
   (lambda-focus       "#4560E6" nil)
   (lambda-strong      "#F5F2F0" nil)
-  (lambda-mild        "#282829" nil)
+  (lambda-meek        "#AFADAF" nil)
+  (lambda-mild        "#2D2D2E" nil)
   (lambda-faint       "#1D1E26" nil)
 
   (lambda-black       "#000000" nil)
   (lambda-white       "#FFFFFF" nil)
-  (lambda-gray        "#646469" nil)
   (lambda-red         "#bf616a" nil)
   (lambda-green       "#8eb89d" nil)
   (lambda-blue        "#81a1c1" nil)
@@ -45,6 +45,7 @@
   (lambda-aqua        "#85CCC6" nil)
   (lambda-purple      "#9D67E6"  nil)
 
+  ;; (lambda-plain       "#CBCACB" nil)
 
   )
 

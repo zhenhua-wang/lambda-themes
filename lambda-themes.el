@@ -69,7 +69,7 @@
   :group 'lambda-themes
   :type 'boolean)
 
-;;;; Faces
+;;;; Define Lambda Faces
 (defface lambda-bg nil "")
 (defface lambda-fg nil "")
 (defface lambda-ultralight nil "")
@@ -88,7 +88,7 @@
 (defface lambda-orange nil "")
 (defface lambda-purple nil "")
 (defface lambda-aqua nil "")
-(defface lambda-gray nil "")
+(defface lambda-meek nil "")
 
 ;;;; After Load Theme Hook
 (defvar lambda-themes-after-load-theme-hook nil
@@ -167,12 +167,30 @@
      (lambda-yellow     (:foreground lambda-yellow))
      (lambda-aqua       (:foreground lambda-aqua))
      (lambda-purple     (:foreground lambda-purple))
-     (lambda-gray       (:foreground lambda-gray))
+     (lambda-meek       (:foreground lambda-meek))
 
-;;;;; Bookmarks
-     (bookmark-menu-heading                         (:foreground lambda-strong))
-     (bookmark-menu-bookmark                        (:foreground lambda-focus))
-     (bookmark-face                                 (:foreground lambda-focus))
+;;;;; Basic faces
+     (error                                             (:foreground lambda-urgent :bold t))
+     (success                                           (:foreground lambda-green :bold t))
+     (warning                                           (:foreground lambda-crucial :bold t))
+     (alert-low-face                                    (:foreground lambda-orange))
+     (trailing-whitespace                               (:background lambda-red))
+     (escape-glyph                                      (:foreground lambda-aqua))
+     (highlight                                         (:background lambda-highlight))
+     (homoglyph                                         (:foreground lambda-focus))
+     (match                                             (:foreground lambda-lowlight :background lambda-focus))
+
+;;;;; Built-in syntax
+
+     (font-lock-builtin-face                            (:foreground lambda-fg :weight 'light))
+     (font-lock-constant-face                           (:foreground lambda-fg :weight 'light))
+     (font-lock-comment-face                            (:foreground lambda-meek :slant 'italic :weight 'light))
+     (font-lock-function-name-face                      (:foreground lambda-strong :weight 'bold))
+     (font-lock-keyword-face                            (:foreground lambda-fg :weight 'light))
+     (font-lock-string-face                             (:foreground lambda-fg :background lambda-faint))
+     (font-lock-variable-name-face                      (:foreground lambda-strong :weight 'light))
+     (font-lock-type-face                               (:foreground lambda-fg :weight 'light))
+     (font-lock-warning-face                            (:foreground lambda-urgent :weight 'bold))
 
 ;;;;; Childframes
 ;;;;;; Mini-Frame
@@ -255,8 +273,8 @@
 ;;;;;; Vertico
      (vertico-current                             (:weight 'regular :background lambda-highlight))
      (vertico-group-separator                     (:foreground lambda-lowlight :strike-through t))
-     (vertico-multiline                           (:foreground lambda-gray))
-     (vertico-group-title                         (:foreground lambda-gray))
+     (vertico-multiline                           (:foreground lambda-meek))
+     (vertico-group-title                         (:foreground lambda-meek))
 
 ;;;;;; Orderless
 
@@ -302,11 +320,11 @@
      (ido-subdir                                  (:inherit 'dired-directory))
 
 ;;;;;; Consult
-     (consult-separator                           (:foreground lambda-gray))
+     (consult-separator                           (:foreground lambda-meek))
      (consult-file                                (:foreground lambda-focus))
      (consult-line-number                         (:foreground lambda-strong))
-     (consult-help                                (:foreground lambda-gray))
-     (consult-completing-read-multiple            (:foreground lambda-gray))
+     (consult-help                                (:foreground lambda-meek))
+     (consult-completing-read-multiple            (:foreground lambda-meek))
      (consult-grep-context                        (:foreground lambda-lowlight))
 
 ;;;;;; Selectrum
@@ -510,6 +528,15 @@
 
 
 ;;;;; Editing
+;;;;;; Meow
+     (meow-normal-cursor         (:background lambda-yellow))
+     (meow-insert-cursor         (:background lambda-urgent))
+     (meow-keypad-cursor         (:background lambda-orange))
+     (meow-motion-cursor         (:background lambda-green))
+     (meow-kmacro-cursor         (:background lambda-focus))
+     (meow-beacon-cursor         (:background lambda-yellow))
+     (meow-beacon-fake-selection (:background lambda-ultralight))
+     (meow-beacon-fake-cursor    (:background lambda-yellow))
 
 ;;;;;; Flycheck
      (flycheck-warning                          (:underline (:style 'wave :color lambda-yellow)))
@@ -709,11 +736,13 @@
      (popup-menu-selection-face                 (:underline nil :foreground lambda-white :background lambda-green))
      (popup-tip-face                            (:underline nil :foreground lambda-lowlight :background lambda-faint))
 
-;;;;;; Splash Faces
+;;;;;; Lambda-Splash Faces
 
+     (lem-splash-title-face    (:foreground lambda-strong :weight 'bold))
+     (lem-splash-header-face   (:foreground lambda-meek :weight 'light))
+     (lem-splash-footer-face   (:foreground lambda-meek :weight 'light))
+     (lem-splash-image-face    (:foreground lambda-meek :weight 'light))
      (lem-splash-menu-face     (:foreground lambda-purple :weight 'light))
-     (lem-splash-footer-face   (:foreground lambda-gray))
-     (lem-splash-image-face    (:foreground lambda-gray))
 
 ;;;;;; Tabbar
      (tabbar-default                             (:foreground lambda-ultralight :background lambda-mild :bold nil :height 1.0 :box (:line-width -5 :color lambda-mild)))
@@ -760,6 +789,11 @@
 
 ;;;;; Help, Info, & Menus
 
+;;;;;; Bookmarks
+     (bookmark-menu-heading                         (:foreground lambda-strong))
+     (bookmark-menu-bookmark                        (:foreground lambda-focus))
+     (bookmark-face                                 (:foreground lambda-focus))
+
 ;;;;;; Help(ful)
 
      (helpful-heading (:inherit'variable-pitch :foreground lambda-blue))
@@ -805,42 +839,42 @@
 ;;;;;; Which-function-mode
      (which-func                                 (:foreground lambda-blue))
 
-;;;;; Built-in syntax
+;;;;;; Neotree
+     (neo-banner-face                           (:foreground lambda-purple :bold t))
+     (neo-dir-link-face                         (:foreground lambda-yellow))
+     (neo-expand-btn-face                       (:foreground lambda-orange))
+     (neo-file-link-face                        (:foreground lambda-ultralight))
+     (neo-header-face                           (:foreground lambda-purple))
+     (neo-root-dir-face                         (:foreground lambda-purple :bold t))
 
-     (font-lock-builtin-face                            (:foreground lambda-strong :weight 'light))
-     (font-lock-constant-face                           (:foreground lambda-strong))
-     (font-lock-comment-face                            (:foreground lambda-gray :slant 'italic :weight 'light))
-     (font-lock-function-name-face                      (:foreground lambda-strong :weight 'bold))
-     (font-lock-keyword-face                            (:foreground lambda-strong :weight 'light))
-     (font-lock-string-face                             (:foreground lambda-strong :background lambda-faint))
-     (font-lock-variable-name-face                      (:foreground lambda-strong))
-     (font-lock-type-face                               (:foreground lambda-strong))
-     (font-lock-warning-face                            (:foreground lambda-urgent :weight 'bold))
 
-;;;;; Basic faces
-     (error                                             (:foreground lambda-urgent :bold t))
-     (success                                           (:foreground lambda-green :bold t))
-     (warning                                           (:foreground lambda-crucial :bold t))
-     (alert-low-face                                    (:foreground lambda-orange))
-     (trailing-whitespace                               (:background lambda-red))
-     (escape-glyph                                      (:foreground lambda-aqua))
-     (highlight                                         (:background lambda-highlight))
-     (homoglyph                                         (:foreground lambda-focus))
-     (match                                             (:foreground lambda-lowlight :background lambda-focus))
+;;;;;; Speed Bar
+
+     (speedbar-button-face                         (:foreground lambda-mild))
+     (speedbar-directory-face                      (:foreground lambda-fg :bold t))
+     (speedbar-file-face                           (:foreground lambda-fg :background lambda-bg))
+     (speedbar-highlight-face                      (:foreground lambda-highlight))
+     (speedbar-selected-face                       (:background lambda-faint :bold t))
+     (speedbar-separator-face                      (:foreground lambda-mild))
+     (speedbar-tag-face                            (:foreground lambda-mild))
 
 ;;;;; Writing
-;;;;; Outline
+;;;;;; Outline
      (outline-minor-0      (:background lambda-ultralight))
-     (outline-1            (:inherit 'variable-pitch :foreground lambda-green))
-     (outline-2            (:inherit 'variable-pitch :foreground lambda-blue))
-     (outline-3            (:inherit 'variable-pitch :foreground lambda-red))
-     (outline-4            (:inherit 'variable-pitch :foreground lambda-purple))
+     ;; (outline-1            (:inherit 'variable-pitch :foreground lambda-green))
+     ;; (outline-2            (:inherit 'variable-pitch :foreground lambda-blue))
+     ;; (outline-3            (:inherit 'variable-pitch :foreground lambda-red))
+     ;; (outline-4            (:inherit 'variable-pitch :foreground lambda-purple))
+     (outline-1            (:inherit 'variable-pitch :foreground lambda-fg))
+     (outline-2            (:inherit 'variable-pitch :foreground lambda-meek))
+     (outline-3            (:inherit 'variable-pitch :foreground lambda-fg))
+     (outline-4            (:inherit 'variable-pitch :foreground lambda-meek))
      (outline-5            (:inherit 'outline-1))
      (outline-6            (:inherit 'outline-2))
      (outline-7            (:inherit 'outline-3))
      (outline-8            (:inherit 'outline-4))
 
-;;;;; Markdown-mode
+;;;;;; Markdown-mode
      (markdown-header-face-1                    (:inherit 'outline-1))
      (markdown-header-face-2                    (:inherit 'outline-2))
      (markdown-header-face-3                    (:inherit 'outline-3))
@@ -848,7 +882,7 @@
      (markdown-header-face-5                    (:inherit 'outline-5))
      (markdown-header-face-6                    (:inherit 'outline-6))
 
-;;;;; Org-mode
+;;;;;; Org-mode
      (org-hide                                  (:foreground lambda-faint))
      (org-level-1                               (:inherit 'outline-1))
      (org-level-2                               (:inherit 'outline-2))
@@ -892,7 +926,7 @@
      (org-time-grid                             (:foreground lambda-orange))
      (org-latex-and-related                     (:foreground lambda-blue))
 
-;;;;; Org-habit
+;;;;;; Org-habit
      (org-habit-clear-face                      (:background lambda-blue))
      (org-habit-clear-future-face               (:background lambda-blue))
      (org-habit-ready-face                      (:background lambda-green))
@@ -903,7 +937,59 @@
      (org-habit-overdue-future-face             (:background lambda-red))
 
 
-;;;;; term
+
+;;;;;; Org-agenda
+     (org-agenda-calendar-event                    (:inherit 'default))
+     (org-agenda-calendar-sexp                     (:foreground lambda-mild))
+     (org-agenda-clocking                          (:foreground lambda-mild))
+     (org-agenda-column-dateline                   (:foreground lambda-mild))
+     (org-agenda-current-time                      (:foreground lambda-mild))
+     (org-agenda-date                              (:foreground lambda-focus))
+     (org-agenda-date-today                        (:inherit 'variable-pitch :foreground lambda-blue))
+     (org-super-agenda-header                      (:inherit 'variable-pitch :foreground lambda-blue))
+     (org-agenda-date-weekend                      (:foreground lambda-mild))
+     (org-agenda-diary                             (:foreground lambda-mild))
+     (org-agenda-dimmed-todo-face                  (:foreground lambda-mild))
+     (org-agenda-done                              (:foreground lambda-mild :strike-through t))
+     (org-agenda-filter-category                   (:foreground lambda-mild))
+     (org-agenda-filter-effort                     (:foreground lambda-mild))
+     (org-agenda-filter-regexp                     (:foreground lambda-mild))
+     (org-agenda-filter-tags                       (:foreground lambda-mild))
+     (org-agenda-restriction-lock                  (:foreground lambda-mild))
+     (org-agenda-structure                         (:foreground lambda-mild))
+
+
+;;;;; Search
+;;;;;; Ag (The Silver Searcher)
+     (ag-hit-face                               (:foreground lambda-blue))
+     (ag-match-face                             (:foreground lambda-red))
+
+;;;;;; Anzu-mode
+     (anzu-mode-line                            (:foreground lambda-yellow :weight 'bold))
+     (anzu-match-1                              (:background lambda-green))
+     (anzu-match-2                              (:background lambda-yellow))
+     (anzu-match-3                              (:background lambda-aqua))
+     (anzu-replace-to                           (:foreground lambda-yellow))
+     (anzu-replace-highlight                    (:inherit 'isearch))
+
+;;;;;; Isearch
+     (lazy-highlight                               (:foreground lambda-fg :background lambda-yellow))
+     (evil-ex-search                               (:background lambda-focus))
+     (isearch                                      (:background lambda-focus :foreground lambda-highlight :weight 'bold))
+     (isearch-fail                                 (:background lambda-urgent))
+     (isearch-group-1                              (:background lambda-blue))
+     (isearch-group-2                              (:background lambda-red))
+     (query-replace                                (:background lambda-yellow))
+
+;;;;;; Wgrep
+     (wgrep-delete-face                          (:strike-through lambda-red))
+     (wgrep-done-face                            (:foreground lambda-aqua))
+     (wgrep-face                                 (:underline (:color lambda-yellow :style 'line)))
+     (wgrep-file-face                            (:inherit 'highlight))
+     (wgrep-reject-face                          (:foreground lambda-red :bold t))
+
+;;;;; Shell
+;;;;;; term
      (term-color-black                          (:foreground lambda-faint :background lambda-mild))
      (term-color-blue                           (:foreground lambda-blue :background lambda-blue))
      (term-color-cyan                           (:foreground lambda-aqua :background lambda-aqua))
@@ -915,51 +1001,12 @@
      (term-default-fg-color                     (:foreground lambda-ultralight))
      (term-default-bg-color                     (:background lambda-bg))
 
-;;;;; ag (The Silver Searcher)
-     (ag-hit-face                               (:foreground lambda-blue))
-     (ag-match-face                             (:foreground lambda-red))
 
-;;;;; elfeed
-     (elfeed-search-title-face                  (:foreground lambda-lowlight  ))
-     (elfeed-search-unread-title-face           (:foreground lambda-ultralight))
-     (elfeed-search-date-face                   (:inherit 'font-lock-builtin-face :underline t))
-     (elfeed-search-feed-face                   (:inherit 'font-lock-variable-name-face))
-     (elfeed-search-tag-face                    (:inherit 'font-lock-keyword-face))
-     (elfeed-search-last-update-face            (:inherit 'font-lock-comment-face))
-     (elfeed-search-unread-count-face           (:inherit 'font-lock-comment-face))
-     (elfeed-search-filter-face                 (:inherit 'font-lock-string-face))
-
-;;;;; isearch
-     (isearch                                   (:foreground lambda-black :background lambda-orange))
-     (lazy-highlight                            (:foreground lambda-black :background lambda-yellow))
-     (isearch-fail                              (:foreground lambda-ultralight :background lambda-red))
-
-;;;;; anzu-mode
-     (anzu-mode-line                            (:foreground lambda-yellow :weight 'bold))
-     (anzu-match-1                              (:background lambda-green))
-     (anzu-match-2                              (:background lambda-yellow))
-     (anzu-match-3                              (:background lambda-aqua))
-     (anzu-replace-to                           (:foreground lambda-yellow))
-     (anzu-replace-highlight                    (:inherit 'isearch))
-
-;;;;; mu4e
-     (mu4e-header-key-face                      (:foreground lambda-green :weight 'bold ))
-     (mu4e-unread-face                          (:foreground lambda-blue :weight 'bold ))
-     (mu4e-highlight-face                       (:foreground lambda-green))
-
-;;;;; shell script
+;;;;;; shell script
      (sh-quoted-exec                            (:foreground lambda-purple))
      (sh-heredoc                                (:foreground lambda-orange))
 
-;;;;; neotree
-     (neo-banner-face                           (:foreground lambda-purple :bold t))
-     (neo-dir-link-face                         (:foreground lambda-yellow))
-     (neo-expand-btn-face                       (:foreground lambda-orange))
-     (neo-file-link-face                        (:foreground lambda-ultralight))
-     (neo-header-face                           (:foreground lambda-purple))
-     (neo-root-dir-face                         (:foreground lambda-purple :bold t))
-
-;;;;; eshell
+;;;;;; eshell
      (eshell-prompt                              (:foreground lambda-aqua))
      (eshell-ls-archive                          (:foreground lambda-highlight))
      (eshell-ls-backup                           (:foreground lambda-lowlight))
@@ -973,14 +1020,58 @@
      (eshell-ls-symlink                          (:foreground lambda-red))
      (eshell-ls-unreadable                       (:foreground lambda-red :bold t))
 
-;;;;; wgrep
-     (wgrep-delete-face                          (:strike-through lambda-red))
-     (wgrep-done-face                            (:foreground lambda-aqua))
-     (wgrep-face                                 (:underline (:color lambda-yellow :style 'line)))
-     (wgrep-file-face                            (:inherit 'highlight))
-     (wgrep-reject-face                          (:foreground lambda-red :bold t))
+;;;;; Elfeed
+     (elfeed-search-title-face                  (:foreground lambda-lowlight  ))
+     (elfeed-search-unread-title-face           (:foreground lambda-ultralight))
+     (elfeed-search-date-face                   (:inherit 'font-lock-builtin-face :underline t))
+     (elfeed-search-feed-face                   (:inherit 'font-lock-variable-name-face))
+     (elfeed-search-tag-face                    (:inherit 'font-lock-keyword-face))
+     (elfeed-search-last-update-face            (:inherit 'font-lock-comment-face))
+     (elfeed-search-unread-count-face           (:inherit 'font-lock-comment-face))
+     (elfeed-search-filter-face                 (:inherit 'font-lock-string-face))
 
-;;;;; circe
+;;;;; Mu4e
+     (mu4e-attach-number-face                      (:foreground lambda-strong))
+     (mu4e-cited-1-face                            (:foreground lambda-mild))
+     (mu4e-cited-2-face                            (:foreground lambda-mild))
+     (mu4e-cited-3-face                            (:foreground lambda-mild))
+     (mu4e-cited-4-face                            (:foreground lambda-mild))
+     (mu4e-cited-5-face                            (:foreground lambda-mild))
+     (mu4e-cited-6-face                            (:foreground lambda-mild))
+     (mu4e-cited-7-face                            (:foreground lambda-mild))
+     (mu4e-compose-header-face                     (:foreground lambda-mild))
+     (mu4e-compose-separator-face                  (:foreground lambda-mild))
+     (mu4e-contact-face                            (:foreground lambda-focus))
+     (mu4e-context-face                            (:foreground lambda-mild))
+     (mu4e-draft-face                              (:foreground lambda-mild :weight 'light :slant 'italic))
+     (mu4e-flagged-face                            (:foreground lambda-yellow))
+     (mu4e-footer-face                             (:foreground lambda-mild))
+     (mu4e-forwarded-face                          (:inherit    'default))
+     (mu4e-header-face                             (:inherit    'default))
+     (mu4e-header-highlight-face                   (:inherit 'highlight))
+     (mu4e-header-key-face                         (:foreground lambda-strong :weight 'bold))
+     (mu4e-header-marks-face                       (:foreground lambda-meek))
+     (mu4e-header-title-face                       (:foreground lambda-strong))
+     (mu4e-header-value-face                       (:inherit    'default))
+     (mu4e-highlight-face                          (:foreground lambda-focus))
+     (mu4e-link-face                               (:foreground lambda-focus))
+     (mu4e-modeline-face                           (:foreground lambda-faint))
+     (mu4e-moved-face                              (:foreground lambda-mild))
+     (mu4e-ok-face                                 (:foreground lambda-mild))
+     (mu4e-region-code                             (:foreground lambda-mild))
+     (mu4e-replied-face                            (:foreground lambda-crucial))
+     (mu4e-special-header-value-face               (:inherit   'default))
+     (mu4e-system-face                             (:foreground lambda-mild))
+     (mu4e-title-face                              (:weight 'bold :foreground lambda-crucial))
+     (mu4e-trashed-face                            (:foreground lambda-mild :weight 'light))
+     (mu4e-unread-face                             (:inherit    'bold))
+     (mu4e-url-number-face                         (:foreground lambda-mild))
+     (mu4e-view-body-face                          (:inherit    'default))
+     (mu4e-warning-face                            (:foreground lambda-urgent))
+
+
+
+;;;;; Circe
      (circe-prompt-face               (:foreground lambda-aqua))
      (circe-fool                      (:foreground lambda-faint))
      (circe-highlight-nick-face       (:foreground lambda-yellow))
@@ -988,7 +1079,7 @@
      (circe-my-message-face           (:foreground lambda-aqua))
      (lui-time-stamp-face             (:foreground lambda-blue))
 
-;;;;; erc
+;;;;; Erc
      (erc-action-face            (:inherit 'erc-default-face))
      (erc-bold-face              (:weight 'bold))
      (erc-current-nick-face      (:foreground lambda-aqua))
@@ -1009,7 +1100,7 @@
      (erc-nick-default-face      (:weight 'regular))
      (erc-button                 (:weight 'bold  :underline t))
 
-;;;;; gnus
+;;;;; Gnus
      (gnus-group-mail-1           (:weight 'bold :foreground lambda-ultralight))
      (gnus-group-mail-2           (:inherit 'gnus-group-mail-1))
      (gnus-group-mail-3           (:inherit 'gnus-group-mail-1))
@@ -1074,14 +1165,14 @@
      (proof-warning-face          (:background lambda-red))
      (proof-error-face            (:background lambda-bg :foreground lambda-red))
 
-;;;;; ledger-mode
+;;;;; Ledger-mode
      (ledger-font-xact-highlight-face  (:background lambda-mild))
 
 ;;;;; Modeline/Headerline
 ;;;;;; Basic Modeline/Headerline
      (header-line (:foreground lambda-fg :background lambda-faint))
      (mode-line   (:background lambda-faint :height .1))
-     (mode-line-inactive (:background lambda-ultralight))
+     (mode-line-inactive (:background lambda-ultralight :foreground lambda-mild))
 
 ;;;;;; Smart-mode-line
      (sml/global                                (:foreground lambda-strong :inverse-video nil))
@@ -1103,12 +1194,12 @@
 
      (bespoke-modeline-active               (:foreground lambda-fg :background lambda-faint
                                              :box (:line-width 1 :color lambda-faint :style nil) :overline nil :underline nil))
-     (bespoke-modeline-active-name          (:background lambda-faint :foreground lambda-fg))
-     (bespoke-modeline-active-primary       (:foreground lambda-faint :weight 'light))
+     (bespoke-modeline-active-name          (:foreground lambda-fg))
+     (bespoke-modeline-active-primary       (:foreground lambda-meek :weight 'light))
      (bespoke-modeline-active-secondary     (:foreground lambda-fg))
-     (bespoke-modeline-active-status-RW     (:weight 'bold :foreground lambda-fg :background lambda-green :box (:line-width 1 :color lambda-green :style nil)))
-     (bespoke-modeline-active-status-**     (:weight 'bold :foreground lambda-fg :background lambda-red :box (:line-width 1 :color lambda-red :style nil)))
-     (bespoke-modeline-active-status-RO     (:weight 'bold :foreground lambda-fg :background lambda-yellow :box (:line-width 1 :color lambda-yellow :style nil)))
+     (bespoke-modeline-active-status-RW     (:foreground lambda-strong :background lambda-green :box (:line-width 1 :color lambda-green :style nil)))
+     (bespoke-modeline-active-status-**     (:foreground lambda-strong :background lambda-red :box (:line-width 1 :color lambda-red :style nil)))
+     (bespoke-modeline-active-status-RO     (:foreground lambda-strong :background lambda-yellow :box (:line-width 1 :color lambda-yellow :style nil)))
 
      ;; Inactive
      (bespoke-modeline-inactive             (:foreground lambda-mild :background lambda-ultralight :box (:line-width 1 :color lambda-faint) :overline nil :underline nil))

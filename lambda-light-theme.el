@@ -31,6 +31,7 @@
   (lambda-crucial     "#5D00DA" nil)
   (lambda-focus       "#0044CC" nil)
   (lambda-strong      "#000000" nil)
+  (lambda-meek        "#706F6F" nil)
   (lambda-mild        "#D1CFCF" nil)
   (lambda-faint       "#F5F2F0" nil)
 
