@@ -132,8 +132,6 @@
 ;;;;; Default
     ((default                                           (:background lambda-bg :foreground lambda-fg))
      (cursor                                            (:background lambda-fg))
-     ;; (mode-line                                         (:background lambda-ultralight :box (:line-width 1 :color lambda-mild :style nil)))
-     ;; (mode-line-inactive                                (:background lambda-bg :foreground lambda-faint (:line-width 1 :color lambda-mild :style nil)))
      (fringe                                            (:background lambda-bg :weight 'light))
      (hl-line                                           (:background lambda-highlight))
      (region                                            (:background lambda-ultralight))
@@ -469,8 +467,8 @@
      (magit-signature-revoked                   (:foreground lambda-purple))
      (magit-signature-untrusted                 (:foreground lambda-blue))
      (magit-tag                                 (:foreground lambda-yellow))
-     (magit-header-line         (:foreground lambda-fg :background lambda-faint :box (:line-width 2 :color lambda-faint :style nil)))
-     (magit-header-line-log-select (:foreground lambda-fg :background lambda-faint :box (:line-width 2 :color lambda-faint :style nil)))
+     (magit-header-line         (:foreground lambda-fg :background lambda-faint))
+     (magit-header-line-log-select (:foreground lambda-fg :background lambda-faint))
 
 ;;;;; Directories
 ;;;;;; All The Icons Dired
@@ -778,9 +776,9 @@
 
 ;;;;;; Window Divs
      ;; divide windows more attractively
-     (window-divider                               (:foreground lambda-faint))
-     (window-divider-first-pixel                   (:foreground lambda-faint))
-     (window-divider-last-pixel                    (:foreground lambda-faint))
+     (window-divider                               (:foreground lambda-lowlight))
+     (window-divider-first-pixel                   (:foreground lambda-lowlight))
+     (window-divider-last-pixel                    (:foreground lambda-lowlight))
      ;; divide windows better in terminal
      ;; see https://www.reddit.com/r/emacs/comments/3u0d0u/how_do_i_make_the_vertical_window_divider_more/
      ;; (when (not (display-graphic-p))
@@ -1186,17 +1184,17 @@
 ;;;;; Modeline/Headerline
 ;;;;;; Basic Modeline/Headerline
 
-     (header-line (:foreground lambda-fg :background lambda-faint :box (:line-width 1 :color lambda-ultralight :style nil)))
-     (mode-line   (:underline lambda-ultralight :height 0.1))
-     (mode-line-inactive (:underline lambda-lowlight :height 0.1))
+     ;; (header-line (:foreground lambda-fg :background lambda-faint :box (:line-width 1 :color lambda-highlight :style nil)))
+     ;; (mode-line   (:underline lambda-ultralight :height 0.1))
+     ;; (mode-line-inactive (:underline lambda-lowlight :height 0.1))
 
      ;; (mode-line   (:foreground lambda-fg :background lambda-faint :box (:line-width 1 :color lambda-ultralight :style nil)))
      ;; (mode-line-inactive (:foreground lambda-meek :background lambda-lowlight :box (:line-width 1 :color lambda-ultralight :style nil)))
 
 ;;;;;; Lambda-line
 
-     (lambda-line-active               (:foreground lambda-fg   :box (:line-width 1 :color lambda-ultralight :style nil)))
-     (lambda-line-inactive             (:foreground lambda-meek :box (:line-width 1 :color lambda-ultralight :style nil)))
+     (lambda-line-active               (:foreground lambda-fg   :box (:line-width 1 :color lambda-highlight :style nil)))
+     (lambda-line-inactive             (:foreground lambda-meek :box (:line-width 1 :color lambda-highlight :style nil)))
      (lambda-line-active-name          (:foreground lambda-fg))
      (lambda-line-inactive-name        (:foreground lambda-meek))
      (lambda-line-active-primary       (:foreground lambda-meek :weight 'light))
@@ -1205,12 +1203,12 @@
      (lambda-line-inactive-secondary   (:foreground lambda-meek))
      (lambda-line-active-tertiary      (:foreground lambda-fg))
      (lambda-line-inactive-tertiary    (:foreground lambda-meek))
-     (lambda-line-active-status-RW     (:foreground lambda-green  :box (:line-width 1 :color lambda-ultralight :style nil)))
-     (lambda-line-inactive-status-RW   (:foreground lambda-meek   :box (:line-width 1 :color lambda-ultralight :style nil)))
-     (lambda-line-active-status-**     (:foreground lambda-red    :box (:line-width 1 :color lambda-ultralight :style nil)))
-     (lambda-line-inactive-status-**   (:foreground lambda-meek   :box (:line-width 1 :color lambda-ultralight :style nil)))
-     (lambda-line-active-status-RO     (:foreground lambda-yellow :box (:line-width 1 :color lambda-ultralight :style nil)))
-     (lambda-line-inactive-status-RO   (:foreground lambda-meek   :box (:line-width 1 :color lambda-ultralight :style nil)))
+     (lambda-line-active-status-RW     (:foreground lambda-green  :box (:line-width 1 :color lambda-highlight :style nil)))
+     (lambda-line-inactive-status-RW   (:foreground lambda-meek   :box (:line-width 1 :color lambda-highlight :style nil)))
+     (lambda-line-active-status-**     (:foreground lambda-red    :box (:line-width 1 :color lambda-highlight :style nil)))
+     (lambda-line-inactive-status-**   (:foreground lambda-meek   :box (:line-width 1 :color lambda-highlight :style nil)))
+     (lambda-line-active-status-RO     (:foreground lambda-yellow :box (:line-width 1 :color lambda-highlight :style nil)))
+     (lambda-line-inactive-status-RO   (:foreground lambda-meek   :box (:line-width 1 :color lambda-highlight :style nil)))
      (lambda-line-visual-bell          (:inherit 'error :inverse-video t))
 
 ;;;;;; Smart-mode-line
@@ -1269,9 +1267,10 @@
      (nano-modeline-inactive-secondary (:inherit 'mode-line-inactive :foreground lambda-meek))
      (nano-modeline-inactive-status-** (:inherit 'mode-line-inactive :foreground lambda-meek))
      (nano-modeline-inactive-status-RO (:inherit 'mode-line-inactive :foreground lambda-meek))
-     (nano-modeline-inactive-status-RW (:inherit 'mode-line-inactive :foreground lambda-meek))
+     (nano-modeline-inactive-status-RW (:inherit 'mode-line-inactive :foreground lambda-meek)))
 
-     ) ,@body))
+;;;; End Theme Definition
+    ,@body))
 
 ;;;; Set Minibuffer & Echo Area
 (defun lambda-themes--minibuffer ()
@@ -1284,6 +1283,47 @@
         (face-remap-add-relative 'default :foreground lambda-meek :weight 'light)))))
 
 (add-hook 'lambda-themes-after-load-theme-hook #'lambda-themes--minibuffer)
+
+;;;; Set Status-line
+(defun lambda-themes-status-line-header ()
+  "Set status-line as header for lambda-themes."
+  (interactive)
+  (setq-default mode-line-format (list "%_"))
+  (setq         mode-line-format (list "%_"))
+  (set-face-attribute 'header-line nil
+                      :foreground lambda-fg
+                      :background lambda-faint
+                      :box `(:line-width 1 :color ,lambda-highlight :style nil)
+                      :height 1.0)
+  (set-face-attribute 'mode-line nil
+                      :foreground lambda-fg
+                      :background lambda-bg
+                      :underline lambda-ultralight
+                      :box nil)
+  (set-face-attribute 'mode-line-inactive nil
+                      :foreground lambda-fg
+                      :background lambda-bg
+                      :underline lambda-highlight
+                      :box nil)
+  (force-mode-line-update t))
+
+
+(defun lambda-themes-status-line-footer ()
+  "Set status-line as footer for lambda-themes."
+  (interactive)
+  (set-face-attribute 'mode-line nil
+                      :foreground lambda-fg
+                      :background lambda-faint
+                      :height 1.0
+                      :box `(:line-width 1 :color ,lambda-highlight :style nil))
+  (set-face-attribute 'mode-line-inactive nil
+                      :foreground lambda-meek
+                      :background lambda-lowlight
+                      :height 1.0
+                      :box `(:line-width 1 :color ,lambda-highlight :style nil))
+  (force-mode-line-update t))
+
+;; (add-hook 'lambda-themes-after-load-theme-hook #'lambda-themes-status-line-footer)
 
 ;;; Provide file
 ;;;###autoload
