@@ -632,16 +632,16 @@
 
 ;;;;;; Rainbow Delimiters
 
-     `(rainbow-delimiters-depth-1-face           ((,class (:foreground ,lambda-purple))))
-     `(rainbow-delimiters-depth-2-face           ((,class (:foreground ,lambda-green))))
+     `(rainbow-delimiters-depth-1-face           ((,class (:foreground ,lambda-green))))
+     `(rainbow-delimiters-depth-2-face           ((,class (:foreground ,lambda-purple))))
      `(rainbow-delimiters-depth-3-face           ((,class (:foreground ,lambda-red))))
      `(rainbow-delimiters-depth-4-face           ((,class (:foreground ,lambda-blue))))
-     `(rainbow-delimiters-depth-5-face           ((,class (:foreground ,lambda-purple))))
-     `(rainbow-delimiters-depth-6-face           ((,class (:foreground ,lambda-green))))
+     `(rainbow-delimiters-depth-5-face           ((,class (:foreground ,lambda-green))))
+     `(rainbow-delimiters-depth-6-face           ((,class (:foreground ,lambda-purple))))
      `(rainbow-delimiters-depth-7-face           ((,class (:foreground ,lambda-red))))
      `(rainbow-delimiters-depth-8-face           ((,class (:foreground ,lambda-blue))))
-     `(rainbow-delimiters-depth-9-face           ((,class (:foreground ,lambda-purple))))
-     `(rainbow-delimiters-depth-10-face          ((,class (:foreground ,lambda-green))))
+     `(rainbow-delimiters-depth-9-face           ((,class (:foreground ,lambda-green))))
+     `(rainbow-delimiters-depth-10-face          ((,class (:foreground ,lambda-purple))))
      `(rainbow-delimiters-depth-11-face          ((,class (:foreground ,lambda-red))))
      `(rainbow-delimiters-depth-12-face          ((,class (:foreground ,lambda-blue))))
      `(rainbow-delimiters-unmatched-face         ((,class (:background ,lambda-bg :foreground ,lambda-red :weight bold))))
@@ -1374,6 +1374,55 @@
      `(nano-modeline-inactive-status-** ((,class (:inherit mode-line-inactive :foreground ,lambda-meek))))
      `(nano-modeline-inactive-status-RO ((,class (:inherit mode-line-inactive :foreground ,lambda-meek))))
      `(nano-modeline-inactive-status-RW ((,class (:inherit mode-line-inactive :foreground ,lambda-meek))))
+
+;;;; Custom set variables
+     (custom-theme-set-variables
+      theme-name
+
+          ;;; ansi-color-names
+      `(ansi-color-names-vector
+        [,lambda-faint
+         ,lambda-red
+         ,lambda-green
+         ,lambda-yellow
+         ,lambda-blue
+         ,lambda-purple
+         ,lambda-aqua
+         ,lambda-strong])
+
+          ;;; hl-todo
+      `(hl-todo-keyword-faces
+        `,(let ((new-list
+                 '(
+                   ("HOLD"       . (:inherit bold :foreground ,lambda-yellow))
+                   ("TODO"       . (:inherit bold :foreground ,lambda-crucial))
+                   ("NEXT"       . (:inherit bold :foreground ,lambda-purple))
+                   ("THEM"       . (:inherit bold :foreground ,lambda-aqua))
+                   ("PROG"       . (:inherit bold :foreground ,lambda-blue))
+                   ("OKAY"       . (:inherit bold :foreground ,lambda-green))
+                   ("DONT"       . (:inherit bold :foreground ,lambda-yellow))
+                   ("FAIL"       . (:inherit bold :foreground ,lambda-urgent))
+                   ("BUG"        . (:inherit bold :foreground ,lambda-red))
+                   ("DONE"       . (:inherit bold :foreground ,lambda-green))
+                   ("NOTE"       . (:inherit bold :foreground ,lambda-yellow))
+                   ("KLUDGE"     . (:inherit bold :foreground ,lambda-orange))
+                   ("HACK"       . (:inherit bold :foreground ,lambda-green))
+                   ("TEMP"       . (:inherit bold :foreground ,lambda-meek))
+                   ("FIXME"      . (:inherit bold :foreground ,lambda-red))
+                   ("XXX+"       . (:inherit bold :foreground ,lambda-purple))
+                   ("REVIEW"     . (:inherit bold :foreground ,lambda-orange))
+                   ("DEPRECATED" . (:inherit bold :foreground ,lambda-blue))
+                   ("\\?\\?\\?+" . (:inherit bold :foreground ,lambda-fg)))))
+            (mapcar (lambda (pair)
+                      (if-let* ((word (car pair))
+                                (hex (assoc-default word new-list)))
+                          (cons word hex)
+                        pair))
+                    hl-todo-keyword-faces)))
+
+          ;;; pdf-tools
+      `(pdf-view-midnight-colors '(,lambda-fg . ,lambda-ultralight)))
+
 
 ;;;; End Theme Definition
      )))
