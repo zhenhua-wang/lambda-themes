@@ -130,32 +130,32 @@
 ;;;; Theme Colors
 (defun lambda-themes-create (variant theme-name)
   "Define colors with VARIANT and THEME-NAME."
-  (let ((class '((class color) (min-colors 89))) ;; ~~ Dark ~~  ~~ Light ~~
+  (let ((class '((class color) (min-colors 89))) ;;  ~~Dark~~   ~~Light~~
 
-        (lambda-fg          (if (eq variant 'dark)  "#EBE9E7"   "#0C0D0D"))
-        (lambda-bg          (if (eq variant 'dark)  "#141414"   "#FFFCFA"))
+        (lambda-fg          (if (eq variant 'dark)  "#EBE9E7"  "#0C0D0D"))
+        (lambda-bg          (if (eq variant 'dark)  "#141414"  "#FFFCFA"))
 
-        (lambda-ultralight  (if (eq variant 'dark)  "#3A3A41"   "#E3E1E0"))
-        (lambda-highlight   (if (eq variant 'dark)  "#2C2C34"   "#EBE9E7"))
-        (lambda-lowlight    (if (eq variant 'dark)  "#1A1919"   "#F8F6F4"))
+        (lambda-ultralight  (if (eq variant 'dark)  "#3A3A41"  "#E3E1E0"))
+        (lambda-highlight   (if (eq variant 'dark)  "#2C2C34"  "#EBE9E7"))
+        (lambda-lowlight    (if (eq variant 'dark)  "#1A1919"  "#F8F6F4"))
 
-        (lambda-urgent      (if (eq variant 'dark)  "#CF6752"   "#B30000"))
-        (lambda-crucial     (if (eq variant 'dark)  "#F2DA61"   "#5D00DA"))
-        (lambda-focus       (if (eq variant 'dark)  "#4560E6"   "#0044CC"))
-        (lambda-strong      (if (eq variant 'dark)  "#F5F2F0"   "#000000"))
-        (lambda-meek        (if (eq variant 'dark)  "#AFADAF"   "#706F6F"))
-        (lambda-mild        (if (eq variant 'dark)  "#2D2D2E"   "#D1CFCF"))
-        (lambda-faint       (if (eq variant 'dark)  "#1F2027"   "#F5F2F0"))
+        (lambda-urgent      (if (eq variant 'dark)  "#CF6752"  "#B30000"))
+        (lambda-crucial     (if (eq variant 'dark)  "#F2DA61"  "#5D00DA"))
+        (lambda-focus       (if (eq variant 'dark)  "#4560E6"  "#0044CC"))
+        (lambda-strong      (if (eq variant 'dark)  "#F5F2F0"  "#000000"))
+        (lambda-meek        (if (eq variant 'dark)  "#AFADAF"  "#706F6F"))
+        (lambda-mild        (if (eq variant 'dark)  "#2D2D2E"  "#D1CFCF"))
+        (lambda-faint       (if (eq variant 'dark)  "#1F2027"  "#F5F2F0"))
 
-        (lambda-black       (if (eq variant 'dark)  "#000000"   "#000000"))
-        (lambda-white       (if (eq variant 'dark)  "#FFFFFF"   "#FFFFFF"))
-        (lambda-red         (if (eq variant 'dark)  "#EC6A5E"   "#EC6A5E"))
-        (lambda-green       (if (eq variant 'dark)  "#62C554"   "#61C554"))
-        (lambda-blue        (if (eq variant 'dark)  "#81a1c1"   "#4C4CFF"))
-        (lambda-yellow      (if (eq variant 'dark)  "#F4BF4F"   "#F4BF4F"))
-        (lambda-orange      (if (eq variant 'dark)  "#d08770"   "#ED8811"))
-        (lambda-aqua        (if (eq variant 'dark)  "#85CCC6"   "#278C87"))
-        (lambda-purple      (if (eq variant 'dark)  "#9D67E6"   "#833AE6")))
+        (lambda-black       (if (eq variant 'dark)  "#000000"  "#000000"))
+        (lambda-white       (if (eq variant 'dark)  "#FFFFFF"  "#FFFFFF"))
+        (lambda-red         (if (eq variant 'dark)  "#EC6A5E"  "#EC6A5E"))
+        (lambda-green       (if (eq variant 'dark)  "#62C554"  "#61C554"))
+        (lambda-blue        (if (eq variant 'dark)  "#81a1c1"  "#4C4CFF"))
+        (lambda-yellow      (if (eq variant 'dark)  "#F4BF4F"  "#F4BF4F"))
+        (lambda-orange      (if (eq variant 'dark)  "#d08770"  "#ED8811"))
+        (lambda-aqua        (if (eq variant 'dark)  "#85CCC6"  "#278C87"))
+        (lambda-purple      (if (eq variant 'dark)  "#9D67E6"  "#833AE6")))
 
     (cl-loop for (cvar . val) in lambda-themes-custom-colors
              do (set cvar val))
