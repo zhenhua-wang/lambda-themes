@@ -969,7 +969,7 @@
      `(org-mode-line-clock-overrun                  ((,class (:foreground ,lambda-meek))))
      `(org-priority                                 ((,class (:foreground ,lambda-meek))))
      `(org-property-value                           ((,class (:foreground ,lambda-meek :weight light))))
-     `(org-quote                                    ((,class (:background ,lambda-faint :foreground ,lambda-meek))))
+     `(org-quote                                    ((,class (:background ,lambda-faint :foreground ,lambda-fg))))
      `(org-scheduled                                ((,class (:foreground ,lambda-strong))))
      `(org-scheduled-previously                     ((,class (:foreground ,lambda-strong :weight light))))
      `(org-scheduled-today                          ((,class (:foreground ,lambda-focus))))
@@ -1369,59 +1369,63 @@
      `(nano-modeline-inactive-secondary ((,class (:inherit mode-line-inactive :foreground ,lambda-meek))))
      `(nano-modeline-inactive-status-** ((,class (:inherit mode-line-inactive :foreground ,lambda-meek))))
      `(nano-modeline-inactive-status-RO ((,class (:inherit mode-line-inactive :foreground ,lambda-meek))))
-     `(nano-modeline-inactive-status-RW ((,class (:inherit mode-line-inactive :foreground ,lambda-meek))))
+     `(nano-modeline-inactive-status-RW ((,class (:inherit mode-line-inactive :foreground ,lambda-meek)))))
 
 ;;;; Custom set variables
-     (custom-theme-set-variables
-      theme-name
+    (custom-theme-set-variables
+     theme-name
 
           ;;; ansi-color-names
-      `(ansi-color-names-vector
-        [,lambda-faint
-         ,lambda-red
-         ,lambda-green
-         ,lambda-yellow
-         ,lambda-blue
-         ,lambda-purple
-         ,lambda-aqua
-         ,lambda-strong])
+     `(ansi-color-names-vector
+       [,lambda-faint
+        ,lambda-red
+        ,lambda-green
+        ,lambda-yellow
+        ,lambda-blue
+        ,lambda-purple
+        ,lambda-aqua
+        ,lambda-strong])
 
-          ;;; hl-todo
-      `(hl-todo-keyword-faces
-        `,(let ((new-list
-                 '(
-                   ("HOLD"       . (:inherit bold :foreground ,lambda-yellow))
-                   ("TODO"       . (:inherit bold :foreground ,lambda-crucial))
-                   ("NEXT"       . (:inherit bold :foreground ,lambda-purple))
-                   ("THEM"       . (:inherit bold :foreground ,lambda-aqua))
-                   ("PROG"       . (:inherit bold :foreground ,lambda-blue))
-                   ("OKAY"       . (:inherit bold :foreground ,lambda-green))
-                   ("DONT"       . (:inherit bold :foreground ,lambda-yellow))
-                   ("FAIL"       . (:inherit bold :foreground ,lambda-urgent))
-                   ("BUG"        . (:inherit bold :foreground ,lambda-red))
-                   ("DONE"       . (:inherit bold :foreground ,lambda-green))
-                   ("NOTE"       . (:inherit bold :foreground ,lambda-yellow))
-                   ("KLUDGE"     . (:inherit bold :foreground ,lambda-orange))
-                   ("HACK"       . (:inherit bold :foreground ,lambda-green))
-                   ("TEMP"       . (:inherit bold :foreground ,lambda-meek))
-                   ("FIXME"      . (:inherit bold :foreground ,lambda-red))
-                   ("XXX+"       . (:inherit bold :foreground ,lambda-purple))
-                   ("REVIEW"     . (:inherit bold :foreground ,lambda-orange))
-                   ("DEPRECATED" . (:inherit bold :foreground ,lambda-blue))
-                   ("\\?\\?\\?+" . (:inherit bold :foreground ,lambda-fg)))))
-            (mapcar (lambda (pair)
-                      (if-let* ((word (car pair))
-                                (hex (assoc-default word new-list)))
-                          (cons word hex)
-                        pair))
-                    hl-todo-keyword-faces)))
 
           ;;; pdf-tools
-      `(pdf-view-midnight-colors '(,lambda-fg . ,lambda-ultralight)))
-
+     `(pdf-view-midnight-colors '(,lambda-fg . ,lambda-ultralight))
 
 ;;;; End Theme Definition
      )))
+
+;;;; Define evil cursor colors
+(defun lambda-themes--evil-load-cursors ()
+  "Load theme specific cursor colors"
+  (setq evil-emacs-state-cursor    `('lambda-focus box))
+  (setq evil-normal-state-cursor   `('lambda-yellow box))
+  (setq evil-visual-state-cursor   `('lambda-meek box))
+  (setq evil-insert-state-cursor   `('lambda-urgent (bar . 2)))
+  (setq evil-replace-state-cursor  `('lambda-urgent hbar))
+  (setq evil-motion-state-cursor   `('lambda-green box))
+  (setq evil-operator-state-cursor `('lambda-orange hollow)))
+
+(when lambda-themes-set-evil-cursors
+  (add-hook 'lambda-themes-after-load-theme-hook #'lambda-themes--evil-load-cursors))
+
+;;;; Set Hl-Todo
+;; inherit faces
+(setq hl-todo-keyword-faces
+      '(("HOLD" .       query-replace)
+        ("TODO" .       warning)
+        ("NEXT" .       highlight)
+        ("OKAY" .       success)
+        ("DONT" .       error)
+        ("FAIL" .       error)
+        ("DONE" .       shadow)
+        ("NOTE" .       warning)
+        ("KLUDGE" .     warning)
+        ("HACK" .       warning)
+        ("TEMP" .       warning)
+        ("FIXME" .      error)
+        ("XXX+" .       error)
+        ("BUG" .        error)
+        ("REVIEW" .     warning)
+        ("DEPRECATED" . shadow)))
 
 ;;;; Set Minibuffer & Echo Area
 (defun lambda-themes--minibuffer ()
