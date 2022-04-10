@@ -6,14 +6,35 @@ themes. The color palette is limited, and organized according to function and
 salience. Here I largely agree with Nicolas Rougier that [[https://arxiv.org/pdf/2008.06030.pdf][attentional constraints]]
 matter when thinking about the color palette. Lambda-themes tries to use color
 in a way to provide for a reasonable compromise between aesthetics and
-readability.
+readability. Much of the color design has been aided by [[https://coolors.co][coolers.co]] and the
+classic [[https://www.c82.net/werner/][Werner's Nomenclature]].
 
 In general the theme aims to use as few highly distinct colors as possible
 without crossing over into full "monochrome" territory. It also means that the
 themes use various devices other than foreground face color to capture
 meaningful differences in text. Different text weights are used throughout, as
 are subtle differences in background coloring. Colored headlines are largely
-avoided. 
+avoided.
+
+* Screenshots
+#+BEGIN_HTML
+<div>
+<p>Splash</p>
+<img src="./screenshots/light-splash.png" width=47.5%/>
+<img src="./screenshots/dark-splash.png" width=47.5%/>
+<img src="./screenshots/light-faded-splash.png" width=47.5%/>
+<img src="./screenshots/dark-faded-splash.png" width=47.5%/>
+</div>
+
+<div>
+<p>Colors</p>
+<img src="./screenshots/light-colors.png" width=47.5%/>
+<img src="./screenshots/dark-colors.png"  width=47.5%/>
+<img src="./screenshots/light-faded-colors.png" width=47.5%/>
+<img src="./screenshots/dark-faded-colors.png"  width=47.5%/>
+</div>
+#+END_HTML
+
 
 * Installation
 
