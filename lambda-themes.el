@@ -35,7 +35,6 @@
 ;;;; Requirements
 (eval-when-compile
   (require 'cl-lib))
-(require 'autothemer)
 
 (unless (>= emacs-major-version 25)
   (error "Requires Emacs 25 or later"))
