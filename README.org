@@ -1,0 +1,40 @@
+
+* Aims of Theme
+
+Lambda-themes is a collection of four higher and lower contrast light and dark
+themes. The color palette is limited, and organized according to function and
+salience. Here I largely agree with Nicolas Rougier that [[https://arxiv.org/pdf/2008.06030.pdf][attentional constraints]]
+matter when thinking about the color palette. Lambda-themes tries to use color
+in a way to provide for a reasonable compromise between aesthetics and
+readability.
+
+In general the theme aims to use as few highly distinct colors as possible
+without crossing over into full "monochrome" territory. It also means that the
+themes use various devices other than foreground face color to capture
+meaningful differences in text. Different text weights are used throughout, as
+are subtle differences in background coloring. Colored headlines are largely
+avoided. 
+
+* Installation
+
+Lambda-themes is not yet on MELPA. In the meantime to use this package you'll
+have to clone or otherwise download the repo and put it into your load path.
+Here's a basic way of setting it up using [[https://github.com/jwiegley/use-package][use-package]] and [[https://github.com/raxod502/straight.el][straight]].
+
+#+begin_src emacs-lisp
+  (use-package lambda-themes
+    :straight (:type git :host github :repo "lambda-emacs/lambda-themes") 
+    :custom
+   
+    :config
+    (load-theme 'lambda-light-med))
+#+end_src
+
+* Options
+
+See =M-x customize-group lambda-themes= for the full list of options.
+
+- Set evil-cursor colors
+- Set italic comments or keywords
+- Set use of variable pitch in headlines, etc. 
+- Set a custom color palette. 
