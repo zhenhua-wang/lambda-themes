@@ -35,6 +35,8 @@ avoided.
 </div>
 #+END_HTML
 
+Note that I use SF Mono for my font here, and [[https://github.com/Fanael/rainbow-delimiters][rainbow-delimiters]] to colorize
+parens. The mode-line/status-line is from [[https://github.com/Lambda-Emacs/lambda-line][lambda-line]]. 
 
 * Installation
 
