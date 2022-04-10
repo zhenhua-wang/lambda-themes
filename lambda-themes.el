@@ -42,8 +42,8 @@
 
 ;;;; Theme Options
 
-(defcustom lambda-themes-set-theme 'light
-  "Choose which theme variant, light or dark, to use."
+(defcustom lambda-themes-set-theme 'light-reg
+  "Choose which theme variant, light or dark, high or low contrast, to use."
   :group 'lambda-themes
   :type 'symbol)
 
@@ -130,32 +130,32 @@
 ;;;; Theme Colors
 (defun lambda-themes-create (variant theme-name)
   "Define colors with VARIANT and THEME-NAME."
-  (let ((class '((class color) (min-colors 89))) ;;  ~~Dark~~   ~~Light~~
-
-        (lambda-fg          (if (eq variant 'dark)  "#EBE9E7"  "#0C0D0D"))
-        (lambda-bg          (if (eq variant 'dark)  "#141414"  "#FFFCFA"))
-
-        (lambda-ultralight  (if (eq variant 'dark)  "#3A3A41"  "#E3E1E0"))
-        (lambda-highlight   (if (eq variant 'dark)  "#2C2C34"  "#EBE9E7"))
-        (lambda-lowlight    (if (eq variant 'dark)  "#1A1919"  "#F8F6F4"))
-
-        (lambda-urgent      (if (eq variant 'dark)  "#CF6752"  "#B30000"))
-        (lambda-crucial     (if (eq variant 'dark)  "#F2DA61"  "#5D00DA"))
-        (lambda-focus       (if (eq variant 'dark)  "#4560E6"  "#0044CC"))
-        (lambda-strong      (if (eq variant 'dark)  "#F5F2F0"  "#000000"))
-        (lambda-meek        (if (eq variant 'dark)  "#AFADAF"  "#706F6F"))
-        (lambda-mild        (if (eq variant 'dark)  "#2D2D2E"  "#D1CFCF"))
-        (lambda-faint       (if (eq variant 'dark)  "#1F2027"  "#F5F2F0"))
-
-        (lambda-black       (if (eq variant 'dark)  "#000000"  "#000000"))
-        (lambda-white       (if (eq variant 'dark)  "#FFFFFF"  "#FFFFFF"))
-        (lambda-red         (if (eq variant 'dark)  "#EC6A5E"  "#EC6A5E"))
-        (lambda-green       (if (eq variant 'dark)  "#62C554"  "#61C554"))
-        (lambda-blue        (if (eq variant 'dark)  "#81a1c1"  "#4C4CFF"))
-        (lambda-yellow      (if (eq variant 'dark)  "#F4BF4F"  "#F4BF4F"))
-        (lambda-orange      (if (eq variant 'dark)  "#d08770"  "#ED8811"))
-        (lambda-aqua        (if (eq variant 'dark)  "#85CCC6"  "#278C87"))
-        (lambda-purple      (if (eq variant 'dark)  "#9D67E6"  "#833AE6")))
+  (let ((class '((class color) (min-colors 89))) ;;          ~~Dark~~                                                               ~~Light~~
+        ;; basic
+        (lambda-fg          (cond ((eq variant 'dark-reg)  "#EBE9E7") ((eq variant 'dark-faded) "#eceff1") ((eq variant 'light-reg) "#0C0D0D") ((eq variant 'light-faded) "#282b35")))
+        (lambda-bg          (cond ((eq variant 'dark-reg)  "#141414") ((eq variant 'dark-faded) "#282b35") ((eq variant 'light-reg) "#FFFCFA") ((eq variant 'light-faded) "#fffef9")))
+        ;; highlighting
+        (lambda-ultralight  (cond ((eq variant 'dark-reg)  "#3A3A41") ((eq variant 'dark-faded) "#525868") ((eq variant 'light-reg) "#E3E1E0") ((eq variant 'light-faded) "#cbd3e1")))
+        (lambda-highlight   (cond ((eq variant 'dark-reg)  "#2C2C34") ((eq variant 'dark-faded) "#444B5c") ((eq variant 'light-reg) "#EBE9E7") ((eq variant 'light-faded) "#dbe1eb")))
+        (lambda-lowlight    (cond ((eq variant 'dark-reg)  "#1A1919") ((eq variant 'dark-faded) "#3c4353") ((eq variant 'light-reg) "#F8F6F4") ((eq variant 'light-faded) "#e3e7ef")))
+        ;; attention
+        (lambda-urgent      (cond ((eq variant 'dark-reg)  "#CF6752") ((eq variant 'dark-faded) "#f46715") ((eq variant 'light-reg) "#B30000") ((eq variant 'light-faded) "#f53137")))
+        (lambda-crucial     (cond ((eq variant 'dark-reg)  "#F2DA61") ((eq variant 'dark-faded) "#88c0d0") ((eq variant 'light-reg) "#5D00DA") ((eq variant 'light-faded) "#303db4")))
+        (lambda-focus       (cond ((eq variant 'dark-reg)  "#4560E6") ((eq variant 'dark-faded) "#ffffff") ((eq variant 'light-reg) "#0044CC") ((eq variant 'light-faded) "#000000")))
+        (lambda-strong      (cond ((eq variant 'dark-reg)  "#F5F2F0") ((eq variant 'dark-faded) "#bc85cf") ((eq variant 'light-reg) "#000000") ((eq variant 'light-faded) "#940b96")))
+        (lambda-meek        (cond ((eq variant 'dark-reg)  "#AFADAF") ((eq variant 'dark-faded) "#333a47") ((eq variant 'light-reg) "#706F6F") ((eq variant 'light-faded) "#eceff1")))
+        (lambda-mild        (cond ((eq variant 'dark-reg)  "#2D2D2E") ((eq variant 'dark-faded) "#959eb1") ((eq variant 'light-reg) "#D1CFCF") ((eq variant 'light-faded) "#727d97")))
+        (lambda-faint       (cond ((eq variant 'dark-reg)  "#1F2027") ((eq variant 'dark-faded) "#8791A7") ((eq variant 'light-reg) "#F5F2F0") ((eq variant 'light-faded) "#828CA3")))
+        ;; accent
+        (lambda-black       (cond ((eq variant 'dark-reg)  "#000000") ((eq variant 'dark-faded) "#000000") ((eq variant 'light-reg) "#000000") ((eq variant 'light-faded) "#000000")))
+        (lambda-white       (cond ((eq variant 'dark-reg)  "#FFFFFF") ((eq variant 'dark-faded) "#FFFFFF") ((eq variant 'light-reg) "#FFFFFF") ((eq variant 'light-faded) "#FFFFFF")))
+        (lambda-red         (cond ((eq variant 'dark-reg)  "#EC6A5E") ((eq variant 'dark-faded) "#bf616a") ((eq variant 'light-reg) "#EC6A5E") ((eq variant 'light-faded) "#960d36")))
+        (lambda-green       (cond ((eq variant 'dark-reg)  "#62C554") ((eq variant 'dark-faded) "#8eb89d") ((eq variant 'light-reg) "#61C554") ((eq variant 'light-faded) "#00796b")))
+        (lambda-blue        (cond ((eq variant 'dark-reg)  "#81a1c1") ((eq variant 'dark-faded) "#81a1c1") ((eq variant 'light-reg) "#4C4CFF") ((eq variant 'light-faded) "#30608c")))
+        (lambda-yellow      (cond ((eq variant 'dark-reg)  "#F4BF4F") ((eq variant 'dark-faded) "#e9b85d") ((eq variant 'light-reg) "#F4BF4F") ((eq variant 'light-faded) "#e0a500")))
+        (lambda-orange      (cond ((eq variant 'dark-reg)  "#d08770") ((eq variant 'dark-faded) "#d08770") ((eq variant 'light-reg) "#ED8811") ((eq variant 'light-faded) "#966e53")))
+        (lambda-aqua        (cond ((eq variant 'dark-reg)  "#85CCC6") ((eq variant 'dark-faded) "#85CCC6") ((eq variant 'light-reg) "#278C87") ((eq variant 'light-faded) "#278C87")))
+        (lambda-purple      (cond ((eq variant 'dark-reg)  "#9D67E6") ((eq variant 'dark-faded) "#9D67E6") ((eq variant 'light-reg) "#833AE6") ((eq variant 'light-faded) "#833AE6"))))
 
     (cl-loop for (cvar . val) in lambda-themes-custom-colors
              do (set cvar val))
@@ -212,13 +212,13 @@
      `(homoglyph            ((,class (:foreground ,lambda-focus))))
      `(match                ((,class (:foreground ,lambda-lowlight :background ,lambda-focus))))
 
-;;;;; Built-in syntax
+;;;;; Built-in syntax (Font-Lock)
 
      `(font-lock-builtin-face        ((,class (:foreground ,lambda-fg :weight light))))
      `(font-lock-constant-face       ((,class (:foreground ,lambda-fg :weight light))))
-     `(font-lock-comment-face        ((,class (:foreground ,lambda-meek :slant italic :weight light))))
+     `(font-lock-comment-face        ((,class (:foreground ,lambda-meek :slant ,(if lambda-themes-set-italic-comments 'italic 'normal) :weight light))))
      `(font-lock-function-name-face  ((,class (:foreground ,lambda-strong :weight bold))))
-     `(font-lock-keyword-face        ((,class (:foreground ,lambda-fg :weight light))))
+     `(font-lock-keyword-face        ((,class (:foreground ,lambda-fg :weight light :slant ,(if lambda-themes-set-italic-comments 'italic 'normal)))))
      `(font-lock-string-face         ((,class (:foreground ,lambda-fg :background ,lambda-faint))))
      `(font-lock-variable-name-face  ((,class (:foreground ,lambda-strong :weight light))))
      `(font-lock-type-face           ((,class (:foreground ,lambda-fg :weight light))))
@@ -240,66 +240,23 @@
      `(transient-posframe                           ((,class (:foreground ,lambda-strong :background ,lambda-faint))))
 
 ;;;;; Completion/Narrowing
-;;;;;; Helm
-     `(helm-M-x-key                              ((,class (:foreground ,lambda-orange))))
-     `(helm-action                               ((,class (:foreground ,lambda-strong :underline t))))
-     `(helm-bookmark-addressbook                 ((,class (:foreground ,lambda-red))))
-     `(helm-bookmark-directory                   ((,class (:foreground ,lambda-purple))))
-     `(helm-bookmark-file                        ((,class (:foreground ,lambda-blue))))
-     `(helm-bookmark-gnus                        ((,class (:foreground ,lambda-purple))))
-     `(helm-bookmark-info                        ((,class (:foreground ,lambda-aqua))))
-     `(helm-bookmark-man                         ((,class (:foreground ,lambda-orange))))
-     `(helm-bookmark-w3m                         ((,class (:foreground ,lambda-yellow))))
-     `(helm-buffer-directory                     ((,class (:foreground ,lambda-white :background lambda-blue))))
-     `(helm-buffer-not-saved                     ((,class (:foreground ,lambda-red))))
-     `(helm-buffer-process                       ((,class (:foreground ,lambda-yellow))))
-     `(helm-buffer-saved-out                     ((,class (:foreground ,lambda-red))))
-     `(helm-buffer-size                          ((,class (:foreground ,lambda-purple))))
-     `(helm-candidate-number                     ((,class (:foreground ,lambda-green))))
-     `(helm-eshell-prompts-buffer-name           ((,class (:foreground ,lambda-green))))
-     `(helm-eshell-prompts-promptidx             ((,class (:foreground ,lambda-aqua))))
-     `(helm-ff-directory                         ((,class (:foreground ,lambda-purple))))
-     `(helm-ff-executable                        ((,class (:foreground ,lambda-aqua))))
-     `(helm-ff-file                              ((,class (:foreground ,lambda-orange))))
-     `(helm-ff-invalid-symlink                   ((,class (:foreground ,lambda-white :background lambda-red))))
-     `(helm-ff-prefix                            ((,class (:foreground ,lambda-black :background lambda-yellow))))
-     `(helm-ff-symlink                           ((,class (:foreground ,lambda-orange))))
-     `(helm-grep-cmd-line                        ((,class (:foreground ,lambda-green))))
-     `(helm-grep-file                            ((,class (:foreground ,lambda-purple))))
-     `(helm-grep-finish                          ((,class (:foreground ,lambda-aqua))))
-     `(helm-grep-lineno                          ((,class (:foreground ,lambda-orange))))
-     `(helm-grep-match                           ((,class (:foreground ,lambda-yellow))))
-     `(helm-grep-running                         ((,class (:foreground ,lambda-red))))
-     `(helm-header                               ((,class (:foreground ,lambda-aqua))))
-     `(helm-helper                               ((,class (:foreground ,lambda-aqua))))
-     `(helm-history-deleted                      ((,class (:foreground ,lambda-black :background lambda-red))))
-     `(helm-history-remote                       ((,class (:foreground ,lambda-red))))
-     `(helm-lisp-completion-info                 ((,class (:foreground ,lambda-orange))))
-     `(helm-lisp-show-completion                 ((,class (:foreground ,lambda-red))))
-     `(helm-locate-finish                        ((,class (:foreground ,lambda-white :background lambda-aqua))))
-     `(helm-match                                ((,class (:foreground ,lambda-orange))))
-     `(helm-moccur-buffer                        ((,class (:foreground ,lambda-aqua :underline t))))
-     `(helm-prefarg                              ((,class (:foreground ,lambda-aqua))))
-     `(helm-selection                            ((,class (:foreground ,lambda-white :background lambda-faint))))
-     `(helm-selection-line                       ((,class (:foreground ,lambda-white :background lambda-faint))))
-     `(helm-separator                            ((,class (:foreground ,lambda-red))))
-     `(helm-source-header                        ((,class (:foreground ,lambda-ultralight))))
-     `(helm-visible-mark                         ((,class (:foreground ,lambda-black :background lambda-ultralight))))
 
-;;;;;; Helm-rg
-     `(helm-rg-preview-line-highlight              ((,class (:foreground ,lambda-black :background lambda-green))))
-     `(helm-rg-base-rg-cmd-face                    ((,class (:foreground ,lambda-highlight))))
-     `(helm-rg-extra-arg-face                      ((,class (:foreground ,lambda-yellow))))
-     `(helm-rg-inactive-arg-face                   ((,class (:foreground ,lambda-aqua))))
-     `(helm-rg-active-arg-face                     ((,class (:foreground ,lambda-green))))
-     `(helm-rg-directory-cmd-face                  ((,class (:foreground ,lambda-orange :background lambda-black))))
-     `(helm-rg-error-message                       ((,class (:foreground ,lambda-red))))
-     `(helm-rg-title-face                          ((,class (:foreground ,lambda-purple))))
-     `(helm-rg-directory-header-face               ((,class (:foreground ,lambda-white :background lambda-mild))))
-     `(helm-rg-file-match-face                     ((,class (:foreground ,lambda-aqua))))
-     `(helm-rg-colon-separator-ripgrep-output-face ((,class (:foreground ,lambda-faint :background lambda-bg))))
-     `(helm-rg-line-number-match-face              ((,class (:foreground ,lambda-orange))))
-     `(helm-rg-match-text-face                     ((,class (:foreground ,lambda-white :background lambda-purple))))
+;;;;;; Helm
+     `(helm-selection                                ((,class :foreground ,lambda-meek :weight bold)))
+     `(helm-match                                    ((,class :foreground ,lambda-strong)))
+     `(helm-source-header                            ((,class :foreground ,lambda-focus)))
+     `(helm-visible-mark                             ((,class :foreground ,lambda-strong)))
+     `(helm-swoop-target-line-face                   ((,class :foreground ,lambda-meek :weight bold)))
+     `(helm-moccur-buffer                            ((,class :foreground ,lambda-strong)))
+     `(helm-ff-file                                  ((,class :foreground ,lambda-meek)))
+     `(helm-ff-prefix                                ((,class :foreground ,lambda-strong)))
+     `(helm-ff-dotted-directory                      ((,class :foreground ,lambda-meek)))
+     `(helm-ff-directory                             ((,class :foreground ,lambda-strong)))
+     `(helm-ff-executable                            ((,class :foreground ,lambda-crucial)))
+     `(helm-grep-match                               ((,class :foreground ,lambda-strong)))
+     `(helm-grep-file                                ((,class :foreground ,lambda-meek)))
+     `(helm-grep-lineno                              ((,class :foreground ,lambda-meek)))
+     `(helm-grep-finish                              ((,class :foreground ,lambda-fg)))
 
 ;;;;;; Vertico
      `(vertico-current                             ((,class (:weight regular :background ,lambda-highlight))))
