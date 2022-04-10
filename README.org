@@ -60,4 +60,15 @@ See =M-x customize-group lambda-themes= for the full list of options.
 - Set evil-cursor colors
 - Set italic comments or keywords
 - Set use of variable pitch in headlines, etc. 
-- Set a custom color palette. 
+- Set a custom color palette.
+
+
+* Acknowledgments
+
+- The colors for this theme have been inspired by [[https://github.com/rougier][Nicolas Rougier's]] work on
+  [[https://github.com/rougier/elegant-emacs][elegant-emacs]] and [[https://github.com/rougier/nano-emacs][nano-emacs]], but has evolved with some ideas and colors
+  borrowed from [[https://material.io/design/color/the-color-system.html#color-theme-creation][material colors]], [[https://github.com/bbatsov/solarized-emacs][solarized]] and [[https://github.com/arcticicestudio/nord-emacs][nord]], as well as color design
+  aided by [[https://coolors.co][coolers.co]] and the classic [[https://www.c82.net/werner/][Werner's Nomenclature]]. The faded themes
+  are variations on my [[https://github.com/mclear-tools/bespoke-themes][bespoke-themes]] design.
+- The function for loading the specific color theme is taken from
+  [[https://github.com/humanoid-colors/emacs-humanoid-themes][humanoid-themes]].
