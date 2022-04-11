@@ -861,6 +861,8 @@
      `(markdown-header-face-6          ((,class (:inherit outline-6))))
      `(markdown-code-face              ((,class (:inherit default))))
      `(markdown-footnote-marker-face   ((,class (:foreground ,lambda-meek))))
+     `(markdown-list-face              ((,class (:foreground ,lambda-meek))))
+     `(markdown-markup-face            ((,class (:foreground ,lambda-mild))))
 
 ;;;;; Org-agenda
      `(org-agenda-calendar-event                    ((,class (:inherit default))))
