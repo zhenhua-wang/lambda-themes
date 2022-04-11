@@ -26,7 +26,6 @@
 ;; -------------------------------------------------------------------
 ;;; Commentary:
 ;; Lamda-themes provides a set of light and dark medium contrast themes that
-;; offer a balance between readability and aesthetics. The main focus is on
 ;; keeping colors easily distinguishable and with enough contrast, while still
 ;; being aesthetically pleasing.
 ;; -------------------------------------------------------------------
@@ -129,7 +128,7 @@
 ;;;; Theme Colors
 (defun lambda-themes-create (variant theme-name)
   "Define colors with VARIANT and THEME-NAME."
-  (let ((class '((class color) (min-colors 89))) ;;          ~~Dark~~                                                               ~~Light~~
+  (let ((class '((class color) (min-colors 89))) ;;     ~~Dark~~                                                            ~~Light~~
         ;; basic
         (lambda-fg          (cond ((eq variant 'dark)  "#EBE9E7") ((eq variant 'dark-faded) "#eceff1") ((eq variant 'light) "#0C0D0D") ((eq variant 'light-faded) "#282b35")))
         (lambda-bg          (cond ((eq variant 'dark)  "#141414") ((eq variant 'dark-faded) "#282b35") ((eq variant 'light) "#FFFEFD") ((eq variant 'light-faded) "#FDFDFA")))
@@ -854,12 +853,14 @@
      `(outline-8            ((,class (:inherit outline-4))))
 
 ;;;;;; Markdown-mode
-     `(markdown-header-face-1                    ((,class (:inherit outline-1))))
-     `(markdown-header-face-2                    ((,class (:inherit outline-2))))
-     `(markdown-header-face-3                    ((,class (:inherit outline-3))))
-     `(markdown-header-face-4                    ((,class (:inherit outline-4))))
-     `(markdown-header-face-5                    ((,class (:inherit outline-5))))
-     `(markdown-header-face-6                    ((,class (:inherit outline-6))))
+     `(markdown-header-face-1          ((,class (:inherit outline-1))))
+     `(markdown-header-face-2          ((,class (:inherit outline-2))))
+     `(markdown-header-face-3          ((,class (:inherit outline-3))))
+     `(markdown-header-face-4          ((,class (:inherit outline-4))))
+     `(markdown-header-face-5          ((,class (:inherit outline-5))))
+     `(markdown-header-face-6          ((,class (:inherit outline-6))))
+     `(markdown-code-face              ((,class (:inherit default))))
+     `(markdown-footnote-marker-face   ((,class (:foreground ,lambda-meek))))
 
 ;;;;; Org-agenda
      `(org-agenda-calendar-event                    ((,class (:inherit default))))
