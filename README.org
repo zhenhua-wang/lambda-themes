@@ -6,8 +6,7 @@ themes. The color palette is limited, and organized according to function and
 salience. Here I largely agree with Nicolas Rougier that [[https://arxiv.org/pdf/2008.06030.pdf][attentional constraints]]
 matter when thinking about the color palette. Lambda-themes tries to use color
 in a way to provide for a reasonable compromise between aesthetics and
-readability. Much of the color design has been aided by [[https://coolors.co][coolers.co]] and the
-classic [[https://www.c82.net/werner/][Werner's Nomenclature]].
+readability.
 
 In general the theme aims to use as few highly distinct colors as possible
 without crossing over into full "monochrome" territory. It also means that the

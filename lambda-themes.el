@@ -739,9 +739,12 @@
      `(tabbar-selected-modified                   ((,class (:inherit tabbar-selected))))
 
 ;;;;;; Tab-bar
-     `(tab-bar-tab-inactive ((,class (:background ,lambda-bg :foreground ,lambda-ultralight))))
-     `(tab-bar-tab ((,class (:background ,lambda-faint :foreground ,lambda-ultralight))))
-     `(tab-bar ((,class (:background ,lambda-bg :foreground ,lambda-ultralight))))
+     `(tab-bar                    ((,class (:background ,lambda-bg :foreground ,lambda-meek :height 1.0 :box (:line-width -1 :color ,lambda-bg)))))
+     `(tab-bar-tab                ((,class (:background ,lambda-highlight :foreground ,lambda-meek))))
+     `(tab-bar-tab-inactive       ((,class (:background ,lambda-bg :foreground ,lambda-ultralight))))
+     `(tab-bar-tab-ungrouped      ((,class (:background ,lambda-bg :foreground ,lambda-faint))))
+     `(tab-bar-tab-group-current  ((,class (:background ,lambda-bg :foreground ,lambda-fg :underline t))))
+     `(tab-bar-tab-group-inactive ((,class (:background ,lambda-bg :foreground ,lambda-faint))))
 
 ;;;;;; Tab-bar Echo
      `(tab-bar-echo-area-tab                      ((,class (:foreground ,lambda-strong :underline t :weight bold))))
