@@ -131,9 +131,9 @@
   (let ((class '((class color) (min-colors 89))) ;;     ~~Dark~~                                                            ~~Light~~
         ;; basic
         (lambda-fg          (cond ((eq variant 'dark)  "#EBE9E7") ((eq variant 'dark-faded) "#eceff1") ((eq variant 'light) "#0C0D0D") ((eq variant 'light-faded) "#282b35")))
-        (lambda-bg          (cond ((eq variant 'dark)  "#141414") ((eq variant 'dark-faded) "#282b35") ((eq variant 'light) "#FFFEFD") ((eq variant 'light-faded) "#FDFDFA")))
+        (lambda-bg          (cond ((eq variant 'dark)  "#141414") ((eq variant 'dark-faded) "#282b35") ((eq variant 'light) "#FFFEFD") ((eq variant 'light-faded) "#fcfaf6")))
         ;; highlighting
-        (lambda-ultralight  (cond ((eq variant 'dark)  "#3A3A41") ((eq variant 'dark-faded) "#525868") ((eq variant 'light) "#E3E1E0") ((eq variant 'light-faded) "#cbd3e1")))
+        (lambda-ultralight  (cond ((eq variant 'dark)  "#3A3A41") ((eq variant 'dark-faded) "#525868") ((eq variant 'light) "#E3E1E0") ((eq variant 'light-faded) "#cfd6e2")))
         (lambda-highlight   (cond ((eq variant 'dark)  "#2C2C34") ((eq variant 'dark-faded) "#444B5c") ((eq variant 'light) "#EBE9E7") ((eq variant 'light-faded) "#dbe1eb")))
         (lambda-lowlight    (cond ((eq variant 'dark)  "#1A1919") ((eq variant 'dark-faded) "#3c4353") ((eq variant 'light) "#F8F6F4") ((eq variant 'light-faded) "#e3e7ef")))
         ;; attention
@@ -142,7 +142,7 @@
         (lambda-focus       (cond ((eq variant 'dark)  "#4560E6") ((eq variant 'dark-faded) "#bc85cf") ((eq variant 'light) "#0044CC") ((eq variant 'light-faded) "#940b96")))
         (lambda-strong      (cond ((eq variant 'dark)  "#F5F2F0") ((eq variant 'dark-faded) "#ffffff") ((eq variant 'light) "#000000") ((eq variant 'light-faded) "#000000")))
         (lambda-meek        (cond ((eq variant 'dark)  "#AFADAF") ((eq variant 'dark-faded) "#959eb1") ((eq variant 'light) "#706F6F") ((eq variant 'light-faded) "#727d97")))
-        (lambda-mild        (cond ((eq variant 'dark)  "#2D2D2E") ((eq variant 'dark-faded) "#8791A7") ((eq variant 'light) "#D1CFCF") ((eq variant 'light-faded) "#828CA3")))
+        (lambda-mild        (cond ((eq variant 'dark)  "#2D2D2E") ((eq variant 'dark-faded) "#8791A7") ((eq variant 'light) "#D1CFCF") ((eq variant 'light-faded) "#C8CDD8")))
         (lambda-faint       (cond ((eq variant 'dark)  "#1F2027") ((eq variant 'dark-faded) "#333a47") ((eq variant 'light) "#F5F2F0") ((eq variant 'light-faded) "#eceff1")))
         ;; accent
         (lambda-black       (cond ((eq variant 'dark)  "#000000") ((eq variant 'dark-faded) "#000000") ((eq variant 'light) "#000000") ((eq variant 'light-faded) "#000000")))
@@ -741,7 +741,7 @@
 ;;;;;; Tab-bar
      `(tab-bar                    ((,class (:background ,lambda-bg :foreground ,lambda-meek :height 1.0 :box (:line-width -1 :color ,lambda-bg)))))
      `(tab-bar-tab                ((,class (:background ,lambda-highlight :foreground ,lambda-meek))))
-     `(tab-bar-tab-inactive       ((,class (:background ,lambda-bg :foreground ,lambda-ultralight))))
+     `(tab-bar-tab-inactive       ((,class (:background ,lambda-bg :foreground ,lambda-mild))))
      `(tab-bar-tab-ungrouped      ((,class (:background ,lambda-bg :foreground ,lambda-faint))))
      `(tab-bar-tab-group-current  ((,class (:background ,lambda-bg :foreground ,lambda-fg :underline t))))
      `(tab-bar-tab-group-inactive ((,class (:background ,lambda-bg :foreground ,lambda-faint))))
