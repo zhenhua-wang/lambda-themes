@@ -400,9 +400,11 @@
      `(git-gutter-fr(,class (:deleted                     (:inherit git-gutter:deleted))))
 
 ;;;;;; Magit
-     `(magit-header-line           ((,class (:foreground ,lambda-fg :background ,lambda-faint))))
+     `(magit-header-line            ((,class (:foreground ,lambda-fg :background ,lambda-faint))))
      `(magit-header-line-log-select ((,class (:foreground ,lambda-fg :background ,lambda-faint))))
-     `(magit-section-heading       ((,class (:foreground ,lambda-meek :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default)))))
+     `(magit-section-heading        ((,class (:foreground ,lambda-meek :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default)))))
+     `(magit-dimmed                 ((,class (:foreground ,lambda-meek))))
+     `(magit-blame-dimmed           ((,class (:foreground ,lambda-meek))))
 
      ;; (magit-bisect-bad                          (:foreground ,lambda-red))
      ;; (magit-bisect-good                         (:foreground ,lambda-green))
@@ -750,6 +752,13 @@
      `(tab-bar-echo-area-tab                      ((,class (:foreground ,lambda-strong :underline t :weight bold))))
      `(tab-bar-echo-area-tab-group-current        ((,class (:foreground ,lambda-strong))))
      `(tab-bar-echo-area-tab-ungrouped            ((,class (:foreground ,lambda-strong :weight light))))
+
+;;;;;; Transient
+     `(transient-unreachable       ((,class (:foreground ,lambda-meek))))
+     `(transient-inapt-suffix      ((,class (:foreground ,lambda-meek))))
+     `(transient-inactive-value    ((,class (:foreground ,lambda-meek))))
+     `(transient-inactive-argument ((,class (:foreground ,lambda-meek))))
+     `(transient-separator         ((,class (:background ,lambda-lowlight))))
 
 ;;;;;; Tool tips
      `(tooltip                                   ((,class (:foreground ,lambda-highlight :background ,lambda-mild))))
