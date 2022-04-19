@@ -240,44 +240,6 @@
 
 ;;;;; Completion/Narrowing
 
-;;;;;; Helm
-     `(helm-selection                                ((,class :foreground ,lambda-meek :weight bold)))
-     `(helm-match                                    ((,class :foreground ,lambda-strong)))
-     `(helm-source-header                            ((,class :foreground ,lambda-focus)))
-     `(helm-visible-mark                             ((,class :foreground ,lambda-strong)))
-     `(helm-swoop-target-line-face                   ((,class :foreground ,lambda-meek :weight bold)))
-     `(helm-moccur-buffer                            ((,class :foreground ,lambda-strong)))
-     `(helm-ff-file                                  ((,class :foreground ,lambda-meek)))
-     `(helm-ff-prefix                                ((,class :foreground ,lambda-strong)))
-     `(helm-ff-dotted-directory                      ((,class :foreground ,lambda-meek)))
-     `(helm-ff-directory                             ((,class :foreground ,lambda-strong)))
-     `(helm-ff-executable                            ((,class :foreground ,lambda-crucial)))
-     `(helm-grep-match                               ((,class :foreground ,lambda-strong)))
-     `(helm-grep-file                                ((,class :foreground ,lambda-meek)))
-     `(helm-grep-lineno                              ((,class :foreground ,lambda-meek)))
-     `(helm-grep-finish                              ((,class :foreground ,lambda-fg)))
-
-;;;;;; Vertico
-     `(vertico-current                             ((,class (:weight regular :background ,lambda-highlight))))
-     `(vertico-group-separator                     ((,class (:foreground ,lambda-ultralight :strike-through t))))
-     `(vertico-multiline                           ((,class (:foreground ,lambda-meek))))
-     `(vertico-group-title                         ((,class (:foreground ,lambda-meek))))
-
-;;;;;; Orderless
-     `(orderless-match-face-0                      ((,class (:background ,lambda-crucial :foreground ,lambda-bg :weight medium))))
-     `(orderless-match-face-1                      ((,class (:background ,lambda-crucial :foreground ,lambda-bg :weight medium))))
-     `(orderless-match-face-2                      ((,class (:background ,lambda-crucial :foreground ,lambda-bg :weight medium))))
-     `(orderless-match-face-3                      ((,class (:background ,lambda-crucial :foreground ,lambda-bg :weight medium))))
-
-;;;;;; Corfu
-     `(corfu-annotations                           ((,class (:foreground ,lambda-meek))))
-     `(corfu-bar                                   ((,class (:foreground ,lambda-ultralight))))
-     `(corfu-border                                ((,class (:foreground ,lambda-faint))))
-     `(corfu-current                               ((,class (:foreground ,lambda-crucial :background ,lambda-highlight))))
-     `(corfu-default                               ((,class (:inherit default :background ,lambda-faint))))
-     `(corfu-deprecated                            ((,class (:foreground ,lambda-mild))))
-     `(corfu-echo                                  ((,class (:inherit default))))
-
 ;;;;;; Company-mode
      `(company-scrollbar-bg                        ((,class (:background ,lambda-faint))))
      `(company-scrollbar-fg                        ((,class (:background ,lambda-mild))))
@@ -293,18 +255,6 @@
      `(company-template-field                      ((,class (:foreground ,lambda-black :background ,lambda-yellow))))
      `(company-echo-common                         ((,class (:foreground ,lambda-red))))
 
-;;;;;; Ivy
-     `(ivy-current-match                           ((,class (:foreground ,lambda-ultralight :weight bold :underline t))))
-     `(ivy-minibuffer-match-face-1                 ((,class (:foreground ,lambda-orange))))
-     `(ivy-minibuffer-match-face-2                 ((,class (:foreground ,lambda-yellow))))
-     `(ivy-minibuffer-match-face-3                 ((,class (:foreground ,lambda-orange))))
-     `(ivy-minibuffer-match-face-4                 ((,class (:foreground ,lambda-yellow))))
-
-;;;;;; Ido
-     `(ido-only-match                              ((,class (:inherit success))))
-     `(ido-first-match                             ((,class (:foreground ,lambda-ultralight :weight bold :underline t))))
-     `(ido-subdir                                  ((,class (:inherit dired-directory))))
-
 ;;;;;; Consult
      `(consult-separator                           ((,class (:foreground ,lambda-meek))))
      `(consult-file                                ((,class (:foreground ,lambda-fg))))
@@ -314,6 +264,57 @@
      `(consult-help                                ((,class (:foreground ,lambda-meek))))
      `(consult-completing-read-multiple            ((,class (:foreground ,lambda-meek))))
      `(consult-grep-context                        ((,class (:foreground ,lambda-mild))))
+
+;;;;;; Corfu
+     `(corfu-annotations                           ((,class (:foreground ,lambda-meek))))
+     `(corfu-bar                                   ((,class (:foreground ,lambda-ultralight))))
+     `(corfu-border                                ((,class (:foreground ,lambda-faint))))
+     `(corfu-current                               ((,class (:foreground ,lambda-crucial :background ,lambda-highlight))))
+     `(corfu-default                               ((,class (:inherit default :background ,lambda-faint))))
+     `(corfu-deprecated                            ((,class (:foreground ,lambda-mild))))
+     `(corfu-echo                                  ((,class (:inherit default))))
+
+;;;;;; Helm
+     `(helm-selection                                ((,class (:foreground ,lambda-meek :weight bold))))
+     `(helm-match                                    ((,class (:foreground ,lambda-strong))))
+     `(helm-source-header                            ((,class (:foreground ,lambda-focus))))
+     `(helm-visible-mark                             ((,class (:foreground ,lambda-strong))))
+     `(helm-swoop-target-line-face                   ((,class (:foreground ,lambda-meek :weight bold))))
+     `(helm-moccur-buffer                            ((,class (:foreground ,lambda-strong))))
+     `(helm-ff-file                                  ((,class (:foreground ,lambda-meek))))
+     `(helm-ff-prefix                                ((,class (:foreground ,lambda-strong))))
+     `(helm-ff-dotted-directory                      ((,class (:foreground ,lambda-meek))))
+     `(helm-ff-directory                             ((,class (:foreground ,lambda-strong))))
+     `(helm-ff-executable                            ((,class (:foreground ,lambda-crucial))))
+     `(helm-grep-match                               ((,class (:foreground ,lambda-strong))))
+     `(helm-grep-file                                ((,class (:foreground ,lambda-meek))))
+     `(helm-grep-lineno                              ((,class (:foreground ,lambda-meek))))
+     `(helm-grep-finish                              ((,class (:foreground ,lambda-fg))))
+
+;;;;;; Icomplete
+     `(icomplete-first-match    ((,class (:inherit success))))
+     `(icomplete-selected-match ((,class (:background ,lambda-highlight))))
+
+;;;;;; Icomplete-vertical
+     `(icomplete-vertical-separator ((,class (:inherit shadow))))
+
+;;;;;; Ido
+     `(ido-only-match                              ((,class (:inherit success))))
+     `(ido-first-match                             ((,class (:foreground ,lambda-ultralight :weight bold :underline t))))
+     `(ido-subdir                                  ((,class (:inherit dired-directory))))
+
+;;;;;; Ivy
+     `(ivy-current-match                           ((,class (:foreground ,lambda-ultralight :weight bold :underline t))))
+     `(ivy-minibuffer-match-face-1                 ((,class (:foreground ,lambda-orange))))
+     `(ivy-minibuffer-match-face-2                 ((,class (:foreground ,lambda-yellow))))
+     `(ivy-minibuffer-match-face-3                 ((,class (:foreground ,lambda-orange))))
+     `(ivy-minibuffer-match-face-4                 ((,class (:foreground ,lambda-yellow))))
+
+;;;;;; Orderless
+     `(orderless-match-face-0                      ((,class (:background ,lambda-crucial :foreground ,lambda-bg :weight medium))))
+     `(orderless-match-face-1                      ((,class (:background ,lambda-crucial :foreground ,lambda-bg :weight medium))))
+     `(orderless-match-face-2                      ((,class (:background ,lambda-crucial :foreground ,lambda-bg :weight medium))))
+     `(orderless-match-face-3                      ((,class (:background ,lambda-crucial :foreground ,lambda-bg :weight medium))))
 
 ;;;;;; Selectrum
      `(selectrum-current-candidate                   ((,class (:weight bold :background ,lambda-highlight))))
@@ -325,6 +326,12 @@
      `(selectrum-group-title                         ((,class (:slant italic :inherit shadow))))
      `(selectrum-quick-keys-match                    ((,class (:inherit isearch))))
      `(selectrum-quick-keys-highlight                ((,class (:foreground ,lambda-crucial))))
+
+;;;;;; Vertico
+     `(vertico-current                             ((,class (:weight regular :background ,lambda-highlight))))
+     `(vertico-group-separator                     ((,class (:foreground ,lambda-ultralight :strike-through t))))
+     `(vertico-multiline                           ((,class (:foreground ,lambda-meek))))
+     `(vertico-group-title                         ((,class (:foreground ,lambda-meek))))
 
 ;;;;; Diffs & VC
 
