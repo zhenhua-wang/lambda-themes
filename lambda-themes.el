@@ -1208,7 +1208,7 @@
        `(mode-line ((,class (:underline ,lambda-highlight :height 0.1)))))
      (when (and (fboundp 'lambda-line)
                 (eq lambda-line-position 'top))
-       `(mode-line-inactive ((,class (:underline ,lambda-lowlight :height 0.1)))))
+       `(mode-line-inactive ((,class (:underline ,lambda-highlight :height 0.1)))))
 
      ;; Footer line
      (when (and (fboundp 'lambda-line)
