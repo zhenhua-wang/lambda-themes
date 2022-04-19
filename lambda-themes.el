@@ -392,19 +392,19 @@
      `(js2-jsdoc-html-tag-delimiter              ((,class (:background nil :foreground ,lambda-lowlight))))
 
 ;;;;;; Git-gutter
-     `(git-gutter(,class (:modified                       (:foreground ,lambda-blue))))
-     `(git-gutter(,class (:added                          (:foreground ,lambda-green))))
-     `(git-gutter(,class (:deleted                        (:foreground ,lambda-red))))
+     `(git-gutter  (,class (:modified (:foreground ,lambda-blue))))
+     `(git-gutter  (,class (:added    (:foreground ,lambda-green))))
+     `(git-gutter  (,class (:deleted  (:foreground ,lambda-red))))
 
 ;;;;;; Git-gutter+
-     `(git-gutter+-modified                      ((,class (:foreground ,lambda-blue))))
-     `(git-gutter+-added                         ((,class (:foreground ,lambda-green))))
-     `(git-gutter+-deleted                       ((,class (:foreground ,lambda-red))))
+     `(git-gutter+-modified  ((,class (:foreground ,lambda-blue))))
+     `(git-gutter+-added     ((,class (:foreground ,lambda-green))))
+     `(git-gutter+-deleted   ((,class (:foreground ,lambda-red))))
 
 ;;;;;; Git-gutter-fringe
-     `(git-gutter-fr(,class (:modified                    (:inherit git-gutter:modified))))
-     `(git-gutter-fr(,class (:added                       (:inherit git-gutter:added))))
-     `(git-gutter-fr(,class (:deleted                     (:inherit git-gutter:deleted))))
+     `(git-gutter-fr  (,class (:modified  (:inherit git-gutter:modified))))
+     `(git-gutter-fr  (,class (:added     (:inherit git-gutter:added))))
+     `(git-gutter-fr  (,class (:deleted   (:inherit git-gutter:deleted))))
 
 ;;;;;; Magit
      `(magit-header-line            ((,class (:foreground ,lambda-fg :background ,lambda-faint))))
