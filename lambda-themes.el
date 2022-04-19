@@ -779,9 +779,9 @@
 
 ;;;;;; Window Divs
      ;; divide windows more attractively
-     `(window-divider                               ((,class (:foreground ,lambda-lowlight))))
-     `(window-divider-first-pixel                   ((,class (:foreground ,lambda-lowlight))))
-     `(window-divider-last-pixel                    ((,class (:foreground ,lambda-lowlight))))
+     `(window-divider                               ((,class (:foreground ,lambda-highlight))))
+     `(window-divider-first-pixel                   ((,class (:foreground ,lambda-highlight))))
+     `(window-divider-last-pixel                    ((,class (:foreground ,lambda-highlight))))
      ;; divide windows better in terminal
      ;; see https://www.reddit.com/r/emacs/comments/3u0d0u/how_do_i_make_the_vertical_window_divider_more/
      ;; (when (not (display-graphic-p))
