@@ -473,7 +473,13 @@
 
 ;;;;; Directories
 ;;;;;; All The Icons Dired
-     `(all-the-icons-dired-dir-face              ((,class (:foreground ,lambda-focus))))
+     `(all-the-icons-dired-dir-face   ((,class (:foreground ,lambda-focus))))
+
+;;;;;;  Dired
+     `(dired-directory                ((,class (:foreground ,lambda-fg))))
+     `(dired-symlink                  ((,class (:slant italic))))
+     `(dired-mark                     ((,class (:foreground ,lambda-strong))))
+     `(dired-marked                   ((,class (:foreground ,lambda-urgent))))
 
 ;;;;;; dired+
      `(diredp-file-name                          ((,class (:foreground ,lambda-strong))))
