@@ -175,7 +175,7 @@
      `(internal-border      ((,class (:background ,lambda-bg :foreground ,lambda-bg))))
      `(show-paren-match     ((,class (:background ,lambda-ultralight :foreground ,lambda-crucial :weight bold))))
      `(show-paren-mismatch  ((,class (:background ,lambda-ultralight :foreground ,lambda-urgent :weight bold :box t))))
-     `(link                 ((,class (:foreground ,lambda-blue :underline t))))
+     `(link                 ((,class (:background ,lambda-lowlight :foreground ,lambda-strong :underline t))))
      `(shadow               ((,class (:foreground ,lambda-ultralight))))
 
      ;; NOTE: We want the lambda-themes- colors to be available as faces. It seems like there
@@ -866,6 +866,11 @@
      `(speedbar-tag-face                            ((,class (:foreground ,lambda-mild))))
 
 ;;;;; Writing
+
+;;;;;; Citar
+     `(citar                   ((,class (:inherit shadow))))
+     `(citar-highlight         (( )))
+     `(citar-org-style-preview ((,class (:foreground ,lambda-fg))))
 ;;;;;; Outline
      `(outline-minor-0      ((,class (:background ,lambda-lowlight :height 1.1))))
      `(outline-1            ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :foreground ,lambda-fg))))
