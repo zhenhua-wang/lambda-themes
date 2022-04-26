@@ -732,6 +732,10 @@
      `(popup-menu-selection-face                 ((,class (:underline nil :foreground ,lambda-white :background ,lambda-green))))
      `(popup-tip-face                            ((,class (:underline nil :foreground ,lambda-ultralight :background ,lambda-faint))))
 
+;;;;;; Pulse
+     `(pulse-highlight-face       ((,class (:background ,lambda-crucial))))
+     `(pulse-highlight-start-face ((,class (:background ,lambda-crucial))))
+
 ;;;;;; Lambda-Splash Faces
 
      `(lem-splash-title-face    ((,class (:foreground ,lambda-strong :weight bold))))
@@ -766,6 +770,9 @@
      `(tab-bar-echo-area-tab-ungrouped            ((,class (:foreground ,lambda-strong :weight light))))
 
 ;;;;;; Transient
+     `(transient-key               ((,class (:foreground ,lambda-focus :weight bold))))
+     `(transient-heading           ((,class (:foreground ,lambda-strong :background ,lambda-highlight))))
+     `(transient-argument          ((,class (:foreground ,lambda-urgent))))
      `(transient-unreachable       ((,class (:foreground ,lambda-meek))))
      `(transient-inapt-suffix      ((,class (:foreground ,lambda-meek))))
      `(transient-inactive-value    ((,class (:foreground ,lambda-meek))))
@@ -777,6 +784,7 @@
 
 ;;;;;; Widget faces
      `(widget-button-pressed-face                ((,class (:foreground ,lambda-red))))
+     `(widget-inactive                           ((,class (:foreground ,lambda-meek))))
      `(widget-documentation-face                 ((,class (:foreground ,lambda-green))))
      `(widget-field                              ((,class (:background ,lambda-faint))))
      `(widget-button                             ((,class (:foreground ,lambda-fg :bold t))))
