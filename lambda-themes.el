@@ -172,7 +172,7 @@ It should stick out from any other faces currently displayed."
         (lambda-crucial     (cond ((eq variant 'dark)  "#F2DA61") ((eq variant 'dark-faded) "#88c0d0") ((eq variant 'light) "#5D00DA") ((eq variant 'light-faded) "#303db4")))
         (lambda-focus       (cond ((eq variant 'dark)  "#4560E6") ((eq variant 'dark-faded) "#bc85cf") ((eq variant 'light) "#0044CC") ((eq variant 'light-faded) "#940b96")))
         (lambda-strong      (cond ((eq variant 'dark)  "#F5F2F0") ((eq variant 'dark-faded) "#ffffff") ((eq variant 'light) "#000000") ((eq variant 'light-faded) "#000000")))
-        (lambda-meek        (cond ((eq variant 'dark)  "#8F8F8F") ((eq variant 'dark-faded) "#959eb1") ((eq variant 'light) "#706F6F") ((eq variant 'light-faded) "#727d97")))
+        (lambda-meek        (cond ((eq variant 'dark)  "#A3A3A3") ((eq variant 'dark-faded) "#959eb1") ((eq variant 'light) "#706F6F") ((eq variant 'light-faded) "#727d97")))
         (lambda-mild        (cond ((eq variant 'dark)  "#474648") ((eq variant 'dark-faded) "#8791A7") ((eq variant 'light) "#D1CFCF") ((eq variant 'light-faded) "#C8CDD8")))
         (lambda-faint       (cond ((eq variant 'dark)  "#37373E") ((eq variant 'dark-faded) "#333a47") ((eq variant 'light) "#F5F2F0") ((eq variant 'light-faded) "#eceff1")))
         ;; accent
@@ -341,10 +341,10 @@ It should stick out from any other faces currently displayed."
      `(ivy-minibuffer-match-face-4                 ((,class (:foreground ,lambda-yellow))))
 
 ;;;;;; Orderless
-     `(orderless-match-face-0                      ((,class (:background ,lambda-crucial :foreground ,lambda-bg :weight medium))))
-     `(orderless-match-face-1                      ((,class (:background ,lambda-crucial :foreground ,lambda-bg :weight medium))))
-     `(orderless-match-face-2                      ((,class (:background ,lambda-crucial :foreground ,lambda-bg :weight medium))))
-     `(orderless-match-face-3                      ((,class (:background ,lambda-crucial :foreground ,lambda-bg :weight medium))))
+     `(orderless-match-face-0                      ((,class (:background ,lambda-crucial :foreground ,lambda-bg :weight bold))))
+     `(orderless-match-face-1                      ((,class (:background ,lambda-aqua :foreground ,lambda-bg :weight medium))))
+     `(orderless-match-face-2                      ((,class (:background ,lambda-orange :foreground ,lambda-fg :weight bold))))
+     `(orderless-match-face-3                      ((,class (:background ,lambda-green :foreground ,lambda-fg :weight medium))))
 
 ;;;;;; Selectrum
      `(selectrum-current-candidate                   ((,class (:weight bold :background ,lambda-highlight))))
@@ -358,7 +358,7 @@ It should stick out from any other faces currently displayed."
      `(selectrum-quick-keys-highlight                ((,class (:foreground ,lambda-crucial))))
 
 ;;;;;; Vertico
-     `(vertico-current                             ((,class (:weight regular :background ,lambda-highlight))))
+     `(vertico-current                             ((,class (:weight bold :background ,lambda-highlight))))
      `(vertico-group-separator                     ((,class (:foreground ,lambda-ultralight :strike-through t))))
      `(vertico-multiline                           ((,class (:foreground ,lambda-meek))))
      `(vertico-group-title                         ((,class (:foreground ,lambda-meek))))
