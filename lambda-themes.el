@@ -29,7 +29,8 @@
 ;; keeping colors easily distinguishable and with enough contrast, while still
 ;; being aesthetically pleasing.
 ;; -------------------------------------------------------------------
-;;; Code
+
+;;; Code:
 
 ;;;; Requirements
 (eval-when-compile
@@ -37,6 +38,23 @@
 
 (unless (>= emacs-major-version 25)
   (error "Requires Emacs 25 or later"))
+
+;; Define evil cursor vars
+(defvar evil-emacs-state-cursor)
+(defvar evil-normal-state-cursor)
+(defvar evil-visual-state-cursor)
+(defvar evil-insert-state-cursor)
+(defvar evil-replace-state-cursor)
+(defvar evil-motion-state-cursor)
+(defvar evil-operator-state-cursor)
+(defvar hl-todo-keyword-faces)
+
+;; Define mode/status-line vars
+(defvar lambda-line-position)
+(defvar lambda-line-status-invert)
+(defvar bespoke-modeline-position)
+(defvar bespoke-modeline-size)
+(defvar nano-modeline-position)
 
 ;;;; Theme Options
 
@@ -73,25 +91,38 @@
   :group 'lambda-themes)
 
 ;;;; Define Lambda Faces
-(defface lambda-bg nil "")
-(defface lambda-fg nil "")
-(defface lambda-ultralight nil "")
-(defface lambda-highlight nil "")
-(defface lambda-lowlight nil "")
-(defface lambda-urgent nil "")
-(defface lambda-crucial nil "")
-(defface lambda-focus nil "")
-(defface lambda-strong nil "")
-(defface lambda-meek nil "")
-(defface lambda-mild nil "")
-(defface lambda-faint nil "")
-(defface lambda-blue nil "")
-(defface lambda-green nil "")
-(defface lambda-red nil "")
-(defface lambda-yellow nil "")
-(defface lambda-orange nil "")
-(defface lambda-purple nil "")
-(defface lambda-aqua nil "")
+(defgroup lambda-themes nil
+  "Faces and colors for bespoke themes."
+  :group 'faces)
+
+(defface lambda-bg nil "Background face for lambda-themes." :group 'faces)
+(defface lambda-fg nil "Foreground face for lambda-themes." :group 'faces)
+(defface lambda-ultralight nil "Bright highlight face." :group 'faces)
+(defface lambda-highlight nil  "Highlight face." :group 'faces)
+(defface lambda-lowlight nil   "Dim highlight face." :group 'faces)
+(defface lambda-urgent nil
+  "Urgent face requires your attention.
+It should stick out from any other faces currently displayed."
+  :group 'faces)
+(defface lambda-crucial nil    "Crucial face displays important information." :group 'faces)
+(defface lambda-focus nil      "Focus face display information that is useful or pertinent." :group 'faces)
+(defface lambda-strong nil     "Strong face is for a structural accent in contrast with the normal foreground face." :group 'faces)
+(defface lambda-meek nil
+  "Meek face is for information that is useful but less important."
+  :group 'faces)
+(defface lambda-mild nil
+  "Mild face is for shading that is differentiable from the background but doesn't stand out."
+  :group 'faces)
+(defface lambda-faint nil
+  "Faint face is for very slightly accenting or shading information."
+  :group 'faces)
+(defface lambda-blue nil       "A blue accent face." :group 'faces)
+(defface lambda-green nil      "A green accent face." :group 'faces)
+(defface lambda-red nil        "A red accent face." :group 'faces)
+(defface lambda-yellow nil     "A yellow accent face." :group 'faces)
+(defface lambda-orange nil     "An orange accent face." :group 'faces)
+(defface lambda-purple nil     "A purple accent face." :group 'faces)
+(defface lambda-aqua nil       "An aqua accent face." :group 'faces)
 
 ;;;; After Load Theme Hook
 (defvar lambda-themes-after-load-theme-hook nil
@@ -1404,7 +1435,7 @@
 
 ;;;; Define evil cursor colors
 (defun lambda-themes--evil-load-cursors ()
-  "Load theme specific cursor colors"
+  "Load theme specific cursor colors."
   (setq evil-emacs-state-cursor    `('lambda-focus box))
   (setq evil-normal-state-cursor   `('lambda-yellow box))
   (setq evil-visual-state-cursor   `('lambda-meek box))
