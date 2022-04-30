@@ -81,7 +81,7 @@
   :type 'boolean)
 
 (defcustom lambda-themes-set-variable-pitch t
-  "If t then use variable-pitch for headings."
+  "If t then use variable-pitch for headings and status-line."
   :group 'lambda-themes
   :type 'boolean)
 
@@ -775,25 +775,22 @@ It should stick out from any other faces currently displayed."
      `(lem-splash-image-face    ((,class (:foreground ,lambda-meek :weight light))))
      `(lem-splash-menu-face     ((,class (:foreground ,lambda-purple))))
 
-;;;;;; Tabbar
-     `(tabbar-default                             ((,class (:foreground ,lambda-ultralight :background ,lambda-mild :bold nil :height 1.0 :box (:line-width -5 :color ,lambda-mild)))))
-     `(tabbar-separator                           ((,class (:foreground ,lambda-ultralight :background ,lambda-mild))))
-     `(tabbar-highlight                           ((,class (:inherit highlight))))
-     `(tabbar-button                              ((,class (:foreground ,lambda-mild :background ,lambda-mild :box nil :line-width 0))))
-     `(tabbar-button-highlight                    ((,class (:inherit tabbar-button :inverse-video t))))
-     `(tabbar-modified                            ((,class (:foreground ,lambda-green :background ,lambda-mild :box (:line-width -5 :color ,lambda-mild)))))
-     `(tabbar-unselected                          ((,class (:inherit tabbar-default))))
-     `(tabbar-unselected-modified                 ((,class (:inherit tabbar-modified))))
-     `(tabbar-selected                            ((,class (:inherit tabbar-default :foreground ,lambda-yellow))))
-     `(tabbar-selected-modified                   ((,class (:inherit tabbar-selected))))
-
 ;;;;;; Tab-bar
-     `(tab-bar                    ((,class (:background ,lambda-bg :foreground ,lambda-meek :height 1.0 :box (:line-width -1 :color ,lambda-bg)))))
-     `(tab-bar-tab                ((,class (:background ,lambda-ultralight :foreground ,lambda-fg :height 1.05))))
+     `(tab-bar                       ((,class (:foreground ,lambda-meek
+                                               :weight light
+                                               :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default)
+                                               :box (:line-width (8 . 2) :color nil :style flat-button)))))
+     `(tab-bar-tab                   ((,class (:background ,lambda-ultralight
+                                               :foreground ,lambda-fg
+                                               :underline (:color ,lambda-mild :position 0)))))
      `(tab-bar-tab-inactive       ((,class (:background ,lambda-lowlight :foreground ,lambda-meek :height .95))))
+     `(tab-line                      ((,class (:inherit default))))
      `(tab-bar-tab-ungrouped      ((,class (:background ,lambda-bg :foreground ,lambda-faint))))
      `(tab-bar-tab-group-current  ((,class (:background ,lambda-bg :foreground ,lambda-fg :underline t))))
      `(tab-bar-tab-group-inactive ((,class (:background ,lambda-bg :foreground ,lambda-faint))))
+
+     ;; `(tab-bar                    ((,class (:background ,lambda-bg :foreground ,lambda-meek :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default)))))
+     ;; `(tab-bar-tab                ((,class (:background ,lambda-ultralight :foreground ,lambda-fg :underline (:color ,lambda-mild) :height 1.1))))
 
 ;;;;;; Tab-bar Echo
      `(tab-bar-echo-area-tab                      ((,class (:foreground ,lambda-strong :underline t :weight bold))))
@@ -911,10 +908,10 @@ It should stick out from any other faces currently displayed."
      `(citar-org-style-preview ((,class (:foreground ,lambda-fg))))
 ;;;;;; Outline
      `(outline-minor-0      ((,class (:background ,lambda-lowlight :height 1.1))))
-     `(outline-1            ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :foreground ,lambda-fg))))
-     `(outline-2            ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :foreground ,lambda-meek))))
-     `(outline-3            ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :foreground ,lambda-fg))))
-     `(outline-4            ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :foreground ,lambda-meek))))
+     `(outline-1            ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :height 1.4 :foreground ,lambda-fg))))
+     `(outline-2            ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :height 1.4 :foreground ,lambda-meek))))
+     `(outline-3            ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :height 1.4 :foreground ,lambda-fg))))
+     `(outline-4            ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :height 1.4 :foreground ,lambda-meek))))
      `(outline-5            ((,class (:inherit outline-1))))
      `(outline-6            ((,class (:inherit outline-2))))
      `(outline-7            ((,class (:inherit outline-3))))
@@ -1273,14 +1270,14 @@ It should stick out from any other faces currently displayed."
 
      `(lambda-line-active               ((,class (:foreground ,lambda-fg   :box (:line-width 1 :color ,lambda-ultralight :style nil)))))
      `(lambda-line-inactive             ((,class (:foreground ,lambda-meek :box (:line-width 1 :color ,lambda-ultralight :style nil)))))
-     `(lambda-line-active-name          ((,class (:foreground ,lambda-fg))))
-     `(lambda-line-inactive-name        ((,class (:foreground ,lambda-meek))))
-     `(lambda-line-active-primary       ((,class (:foreground ,lambda-meek :weight light))))
-     `(lambda-line-inactive-primary     ((,class (:foreground ,lambda-meek :weight light))))
-     `(lambda-line-active-secondary     ((,class (:foreground ,lambda-fg))))
-     `(lambda-line-inactive-secondary   ((,class (:foreground ,lambda-meek))))
-     `(lambda-line-active-tertiary      ((,class (:foreground ,lambda-fg))))
-     `(lambda-line-inactive-tertiary    ((,class (:foreground ,lambda-meek))))
+     `(lambda-line-active-name          ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :foreground ,lambda-fg))))
+     `(lambda-line-inactive-name        ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :foreground ,lambda-meek))))
+     `(lambda-line-active-primary       ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :foreground ,lambda-meek :weight light))))
+     `(lambda-line-inactive-primary     ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :foreground ,lambda-meek :weight light))))
+     `(lambda-line-active-secondary     ((,class (:inherit fixed-width :foreground ,lambda-fg))))
+     `(lambda-line-inactive-secondary   ((,class (:inherit fixed-width :foreground ,lambda-meek))))
+     `(lambda-line-active-tertiary      ((,class (:inherit fixed-width :foreground ,lambda-fg))))
+     `(lambda-line-inactive-tertiary    ((,class (:inherit fixed-width))))
      `(lambda-line-active-status-RW     ((,class (:foreground ,lambda-green  :inverse-video ,(if lambda-line-status-invert t nil)
                                                   :box ,(if lambda-line-status-invert `(:line-width 1 :color ,lambda-green :style nil)
                                                           `(:line-width 1 :color ,lambda-ultralight :style nil))))))
