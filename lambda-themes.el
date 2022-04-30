@@ -776,15 +776,16 @@ It should stick out from any other faces currently displayed."
      `(lem-splash-menu-face     ((,class (:foreground ,lambda-purple))))
 
 ;;;;;; Tab-bar
-     `(tab-bar                       ((,class (:foreground ,lambda-meek
-                                               :weight light
-                                               :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default)
-                                               :box (:line-width (8 . 2) :color nil :style flat-button)))))
-     `(tab-bar-tab                   ((,class (:background ,lambda-ultralight
-                                               :foreground ,lambda-fg
-                                               :underline (:color ,lambda-mild :position 0)))))
-     `(tab-bar-tab-inactive       ((,class (:background ,lambda-lowlight :foreground ,lambda-meek :height .95))))
-     `(tab-line                      ((,class (:inherit default))))
+     `(tab-bar                    ((,class (:foreground ,lambda-meek
+                                            :weight light
+                                            :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default)
+                                            :box (:line-width (8 . 2) :color nil :style flat-button)))))
+     `(tab-bar-tab                ((,class (:background ,lambda-ultralight
+                                            :foreground ,lambda-fg
+                                            :height 1.1
+                                            :underline (:color ,lambda-mild :position 0)))))
+     `(tab-bar-tab-inactive       ((,class (:background ,lambda-lowlight :foreground ,lambda-meek))))
+     `(tab-line                   ((,class (:inherit default))))
      `(tab-bar-tab-ungrouped      ((,class (:background ,lambda-bg :foreground ,lambda-faint))))
      `(tab-bar-tab-group-current  ((,class (:background ,lambda-bg :foreground ,lambda-fg :underline t))))
      `(tab-bar-tab-group-inactive ((,class (:background ,lambda-bg :foreground ,lambda-faint))))
