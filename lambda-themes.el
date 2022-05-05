@@ -439,7 +439,7 @@ It should stick out from any other faces currently displayed."
 ;;;;;; Magit
      `(magit-header-line            ((,class (:foreground ,lambda-fg :background ,lambda-highlight))))
      `(magit-header-line-log-select ((,class (:foreground ,lambda-fg :background ,lambda-highlight))))
-     `(magit-section-heading        ((,class (:foreground ,lambda-meek :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default)))))
+     `(magit-section-heading        ((,class (:foreground ,lambda-meek :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :height 1.4))))
      `(magit-dimmed                 ((,class (:foreground ,lambda-meek))))
      `(magit-blame-dimmed           ((,class (:foreground ,lambda-meek))))
 
@@ -553,7 +553,7 @@ It should stick out from any other faces currently displayed."
      `(diredfl-exec-priv                             ((,class (:foreground ,lambda-urgent))))
      `(diredfl-dir-priv                              ((,class (:foreground ,lambda-mild))))
      `(diredfl-dir-name                              ((,class (:foreground ,lambda-fg))))
-     `(diredfl-dir-heading                           ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :height 1.2 :foreground ,lambda-blue :background ,lambda-lowlight))))
+     `(diredfl-dir-heading                           ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :height 1.3 :foreground ,lambda-blue :background ,lambda-lowlight))))
      `(diredfl-deletion-file-name                    ((,class (:foreground ,lambda-urgent))))
      `(diredfl-deletion                              ((,class (:foreground ,lambda-urgent :background ,lambda-urgent))))
      `(diredfl-date-time                             ((,class (:foreground ,lambda-meek))))
@@ -838,7 +838,7 @@ It should stick out from any other faces currently displayed."
      `(bookmark-face                                 ((,class (:foreground ,lambda-focus))))
 
 ;;;;;; Help(ful)
-     `(helpful-heading ((,class (     :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :foreground ,lambda-blue))))
+     `(helpful-heading ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :height 1.4 :foreground ,lambda-blue))))
 
 ;;;;;; Hydra
      `(hydra-face-red ((,class (:foreground ,lambda-red :weight bold))))
