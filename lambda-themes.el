@@ -334,7 +334,7 @@ It should stick out from any other faces currently displayed."
      `(ido-subdir                                  ((,class (:inherit dired-directory))))
 
 ;;;;;; Ivy
-     `(ivy-current-match                           ((,class (:foreground ,lambda-ultralight :weight bold :underline t))))
+     `(ivy-current-match                           ((,class (:background ,lambda-highlight :foreground ,lambda-fg :weight bold :underline t))))
      `(ivy-minibuffer-match-face-1                 ((,class (:foreground ,lambda-orange))))
      `(ivy-minibuffer-match-face-2                 ((,class (:foreground ,lambda-yellow))))
      `(ivy-minibuffer-match-face-3                 ((,class (:foreground ,lambda-orange))))
