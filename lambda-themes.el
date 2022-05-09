@@ -51,7 +51,7 @@
 
 ;; Define mode/status-line vars
 (defvar lambda-line-position)
-(defvar lambda-line-status-invert)
+(defvar lambda-line-status-invert nil)
 (defvar bespoke-modeline-position)
 (defvar bespoke-modeline-size)
 (defvar nano-modeline-position)
@@ -1234,16 +1234,32 @@ It should stick out from any other faces currently displayed."
 ;;;;;; Basic Modeline/Headerline
      (unless (or (fboundp 'lambda-line)
                  (fboundp 'bespoke-modeline)
-                 (fboundp 'nano-modeline))
+                 (fboundp 'nano-modeline)
+                 (fboundp 'doom-modeline))
        `(mode-line          ((,class (:foreground ,lambda-fg   :background ,lambda-faint    :box (:line-width 1 :color ,lambda-highlight :style nil))))))
 
      (unless (or (fboundp 'lambda-line)
                  (fboundp 'bespoke-modeline)
-                 (fboundp 'nano-modeline))
+                 (fboundp 'nano-modeline)
+                 (fboundp 'doom-modeline))
        `(mode-line-inactive ((,class (:foreground ,lambda-meek :background ,lambda-lowlight :box (:line-width 1 :color ,lambda-highlight :style nil))))))
 
-;;;;;; Lambda-line
+;;;;;; Doom Modeline
+     (when (fboundp 'doom-modeline)
+       `(mode-line          ((,class (:foreground ,lambda-fg   :background ,lambda-faint)))))
+     (when (fboundp 'doom-modeline)
+       `(mode-line-inactive ((,class (:foreground ,lambda-meek :background ,lambda-lowlight)))))
+     `(doom-modeline-bar ((,class (:background ,lambda-focus :foreground ,lambda-focus))))
+     `(doom-modeline-bar-inactive ((,class (:background ,lambda-lowlight :box (:line-width 1 :color ,lambda-lowlight :style nil)))))
+     `(doom-modeline-evil-emacs-state    ((,class (:inherit bold :foreground ,lambda-aqua))))
+     `(doom-modeline-evil-insert-state   ((,class (:inherit bold :foreground ,lambda-green))))
+     `(doom-modeline-evil-motion-state   ((,class (:inherit bold :foreground ,lambda-meek))))
+     `(doom-modeline-evil-normal-state   ((,class (:inherit bold :foreground ,lambda-yellow))))
+     `(doom-modeline-evil-operator-state ((,class (:inherit bold :foreground ,lambda-blue))))
+     `(doom-modeline-evil-replace-state  ((,class (:inherit bold :foreground ,lambda-red))))
+     `(doom-modeline-evil-visual-state   ((,class (:inherit bold :foreground ,lambda-purple))))
 
+;;;;;; Lambda-line
      ;; Conditional load of header vs. footer status-line
      ;; Header line
      (when (and (fboundp 'lambda-line)
