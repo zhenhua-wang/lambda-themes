@@ -1492,6 +1492,25 @@ It should stick out from any other faces currently displayed."
         (face-remap-add-relative 'default 'lambda-meek)))))
 (add-hook 'lambda-themes-after-load-theme-hook #'lambda-themes--minibuffer)
 
+;;;; Take Screenshots
+
+(defvar lambda-themes-screenshot-command "screencapture -w %s%s.png"
+  "Command used to take automated screenshots for lambda-themes.
+Should contain 2 %s constructs to allow for theme name and directory/prefix")
+
+(defun lambda-themes-screenshot (prefix)
+  "Take a screenshot of all versions of the lambda-themes theme"
+  (interactive "sScreenshot Prefix: ")
+  (dolist (theme '(lambda-light
+                   lambda-light-faded
+                   lambda-dark
+                   lambda-dark-faded))
+    (load-theme theme t)
+    (redisplay t)
+    (shell-command (format lambda-themes-screenshot-command
+                           prefix theme))))
+
+
 ;;; Provide file
 ;;;###autoload
 (and load-file-name
