@@ -1085,13 +1085,13 @@ It should stick out from any other faces currently displayed."
      `(eshell-ls-unreadable                       ((,class (:foreground ,lambda-red :bold t))))
 
 ;;;;; Elfeed
-     `(elfeed-search-title-face                  ((,class (:foreground ,lambda-ultralight  ))))
-     `(elfeed-search-unread-title-face           ((,class (:foreground ,lambda-ultralight))))
-     `(elfeed-search-date-face                   ((,class (:inherit font-lock-builtin-face :underline t))))
-     `(elfeed-search-feed-face                   ((,class (:inherit font-lock-variable-name-face))))
-     `(elfeed-search-tag-face                    ((,class (:inherit font-lock-keyword-face))))
-     `(elfeed-search-last-update-face            ((,class (:inherit font-lock-comment-face))))
-     `(elfeed-search-unread-count-face           ((,class (:inherit font-lock-comment-face))))
+     `(elfeed-search-title-face                  ((,class (:foreground ,lambda-meek))))
+     `(elfeed-search-unread-title-face           ((,class (:foreground ,lambda-strong :weight bold))))
+     `(elfeed-search-date-face                   ((,class (:foreground ,lambda-meek))))
+     `(elfeed-search-feed-face                   ((,class (:foreground ,lambda-meek))))
+     `(elfeed-search-tag-face                    ((,class (:foreground ,lambda-fg :background ,lambda-lowlight :weight light))))
+     `(elfeed-search-last-update-face            ((,class (:foreground ,lambda-meek))))
+     `(elfeed-search-unread-count-face           ((,class (:foreground ,lambda-strong))))
      `(elfeed-search-filter-face                 ((,class (:inherit font-lock-string-face))))
 
 ;;;;; Mu4e
