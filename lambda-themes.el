@@ -798,6 +798,9 @@ It should stick out from any other faces currently displayed."
      `(tab-bar-echo-area-tab-group-current        ((,class (:foreground ,lambda-strong))))
      `(tab-bar-echo-area-tab-ungrouped            ((,class (:foreground ,lambda-strong :weight light))))
 
+;;;;;; Tables
+     `(table-cell ((,class (:background ,lambda-bg :foreground ,lambda-strong))))
+
 ;;;;;; Transient
      `(transient-key               ((,class (:foreground ,lambda-focus :weight bold))))
      `(transient-heading           ((,class (:foreground ,lambda-strong :background ,lambda-highlight))))
@@ -1331,7 +1334,7 @@ It should stick out from any other faces currently displayed."
      `(powerline-inactive1                       ((,class (:background ,lambda-mild  :foreground ,lambda-ultralight))))
      `(powerline-inactive2                       ((,class (:background ,lambda-faint :foreground ,lambda-ultralight))))
 
-;;;; Mood-line
+;;;;;; Mood-line
      `(mood-line-modified       ((,class (:foreground ,lambda-red))))
      `(mood-line-status-error   ((,class (:inherit bold :foreground ,lambda-urgent))))
      `(mood-line-status-info    ((,class (:foreground ,lambda-focus))))
@@ -1386,7 +1389,7 @@ It should stick out from any other faces currently displayed."
        `(bespoke-modeline-inactive-status-RO   ((,class (:foreground ,lambda-meek :background ,lambda-ultralight
                                                          :box (:line-width ,bespoke-modeline-size :color ,lambda-ultralight :style nil))))))
 
-;;;; Nano-Modeline
+;;;;;; Nano-Modeline
      ;; Header line
      (when (and (fboundp 'nano-modeline)
                 (eq nano-modeline-position 'top))
@@ -1499,7 +1502,8 @@ It should stick out from any other faces currently displayed."
 Should contain 2 %s constructs to allow for theme name and directory/prefix")
 
 (defun lambda-themes-screenshot (prefix)
-  "Take a screenshot of all versions of the lambda-themes theme"
+  "Take a screenshot of all versions of the lambda-themes theme.
+The name of the screenshots will be PREFIX followed by the theme name."
   (interactive "sScreenshot Prefix: ")
   (dolist (theme '(lambda-light
                    lambda-light-faded
