@@ -342,9 +342,9 @@ It should stick out from any other faces currently displayed."
 
 ;;;;;; Orderless
      `(orderless-match-face-0                      ((,class (:background ,lambda-crucial :foreground ,lambda-bg :weight bold))))
-     `(orderless-match-face-1                      ((,class (:background ,lambda-aqua :foreground ,lambda-bg :weight medium))))
-     `(orderless-match-face-2                      ((,class (:background ,lambda-orange :foreground ,lambda-fg :weight bold))))
-     `(orderless-match-face-3                      ((,class (:background ,lambda-green :foreground ,lambda-fg :weight medium))))
+     `(orderless-match-face-1                      ((,class (:background ,lambda-aqua :foreground ,lambda-bg :weight bold))))
+     `(orderless-match-face-2                      ((,class (:background ,lambda-orange :foreground ,lambda-bg :weight bold))))
+     `(orderless-match-face-3                      ((,class (:background ,lambda-green :foreground ,lambda-bg :weight bold))))
 
 ;;;;;; Selectrum
      `(selectrum-current-candidate                   ((,class (:weight bold :background ,lambda-highlight))))
