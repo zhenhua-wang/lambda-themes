@@ -969,7 +969,7 @@ It should stick out from any other faces currently displayed."
      `(org-default                                  ((,class (:foreground ,lambda-meek))))
      `(org-document-info                            ((,class (:foreground ,lambda-meek :weight light))))
      `(org-document-info-keyword                    ((,class (:foreground ,lambda-meek :weight light))))
-     `(org-document-title                           ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :height 1.5 :foreground ,lambda-focus))))
+     `(org-document-title                           ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :height 1.5 :foreground ,lambda-fg :weight medium))))
      `(org-done                                     ((,class (:foreground ,lambda-meek :strike-through t))))
      `(org-drawer                                   ((,class (:foreground ,lambda-meek :weight light))))
      `(org-ellipsis                                 ((,class (:foreground ,lambda-meek))))
