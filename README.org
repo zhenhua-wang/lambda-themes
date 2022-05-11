@@ -27,10 +27,10 @@ avoided.
 
 <div>
 <p>Colors</p>
-<img src="./screenshots/colors-lambda-dark.png" width=47.5%/>
-<img src="./screenshots/colors-lambda-dark-faded.png"  width=47.5%/>
-<img src="./screenshots/colors-lambda-light-faded.png" width=47.5%/>
 <img src="./screenshots/colors-lambda-light.png"  width=47.5%/>
+<img src="./screenshots/colors-lambda-dark.png" width=47.5%/>
+<img src="./screenshots/colors-lambda-light-faded.png" width=47.5%/>
+<img src="./screenshots/colors-lambda-dark-faded.png"  width=47.5%/>
 </div>
 #+END_HTML
 

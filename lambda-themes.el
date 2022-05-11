@@ -1506,8 +1506,8 @@ Should contain 2 %s constructs to allow for theme name and directory/prefix")
 The name of the screenshots will be PREFIX followed by the theme name."
   (interactive "sScreenshot Prefix: ")
   (dolist (theme '(lambda-light
-                   lambda-light-faded
                    lambda-dark
+                   lambda-light-faded
                    lambda-dark-faded))
     (load-theme theme t)
     (redisplay t)
