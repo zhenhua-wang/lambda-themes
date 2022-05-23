@@ -779,7 +779,9 @@ It should stick out from any other faces currently displayed."
      `(tab-bar                    ((,class (:foreground ,lambda-meek
                                             :weight light
                                             :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default)
-                                            :box (:line-width (8 . 2) :color nil :style flat-button)))))
+                                            :box (:line-width (2 . 2)
+                                                  :color ,(if (>= emacs-major-version 28) nil ,lambda-bg)
+                                                  :style ,(if (>= emacs-major-version 28) 'flat-button nil))))))
      `(tab-bar-tab                ((,class (:background ,lambda-ultralight
                                             :foreground ,lambda-fg
                                             :height 1.1
