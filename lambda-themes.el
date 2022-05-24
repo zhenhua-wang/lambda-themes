@@ -776,12 +776,23 @@ It should stick out from any other faces currently displayed."
      `(lem-splash-menu-face     ((,class (:foreground ,lambda-purple))))
 
 ;;;;;; Tab-bar
-     `(tab-bar                    ((,class (:foreground ,lambda-meek
-                                            :weight light
-                                            :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default)
-                                            :box (:line-width (2 . 2)
-                                                  :color ,(if (>= emacs-major-version 28) nil 'lambda-bg)
-                                                  :style ,(if (>= emacs-major-version 28) 'flat-button nil))))))
+     ;; `flat-button' is only available on emacs 28 and higher so accommodate other versions.
+     (when (>= emacs-major-version 28)
+       `(tab-bar                    ((,class (:foreground ,lambda-meek
+                                              :weight light
+                                              :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default)
+                                              :box (:line-width (2 . 2)
+                                                    :color nil
+                                                    :style flat-button))))))
+
+     (when (<= emacs-major-version 28)
+       `(tab-bar                    ((,class (:foreground ,lambda-meek
+                                              :weight light
+                                              :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default)
+                                              :box (:line-width (2 . 2)
+                                                    :color ,lambda-bg
+                                                    :style nil))))))
+
      `(tab-bar-tab                ((,class (:background ,lambda-ultralight
                                             :foreground ,lambda-fg
                                             :height 1.1
