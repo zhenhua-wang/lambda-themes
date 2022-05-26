@@ -789,7 +789,7 @@ It should stick out from any other faces currently displayed."
        `(tab-bar                    ((,class (:foreground ,lambda-meek
                                               :weight light
                                               :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default)
-                                              :box (:line-width (2 . 2)
+                                              :box (:line-width 2
                                                     :color ,lambda-bg
                                                     :style nil))))))
 
