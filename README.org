@@ -51,7 +51,8 @@ Here's a basic way of setting it up using [[https://github.com/jwiegley/use-pack
     (lambda-themes-set-italic-keywords t)
     (lambda-themes-set-variable-pitch t) 
     :config
-    (load-theme 'lambda-light-med))
+    ;; load preferred theme 
+    (load-theme 'lambda-light))
 #+end_src
 
 * Options
