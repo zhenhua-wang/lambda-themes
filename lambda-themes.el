@@ -1006,7 +1006,7 @@ It should stick out from any other faces currently displayed."
      `(org-link                                     ((,class (:foreground ,lambda-focus))))
      `(org-list-dt                                  ((,class (:foreground ,lambda-strong :weight semi-bold))))
      `(org-macro                                    ((,class (:foreground ,lambda-meek))))
-     `(org-meta-line                                ((,class (:foreground ,lambda-mild :weight light))))
+     `(org-meta-line                                ((,class (:foreground ,lambda-meek :weight light))))
      `(org-mode-line-clock                          ((,class (:foreground ,lambda-meek))))
      `(org-mode-line-clock-overrun                  ((,class (:foreground ,lambda-meek))))
      `(org-priority                                 ((,class (:foreground ,lambda-meek))))
