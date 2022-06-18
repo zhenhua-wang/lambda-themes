@@ -92,7 +92,7 @@
 
 ;;;; Define Lambda Faces
 (defgroup lambda-themes nil
-  "Faces and colors for bespoke themes."
+  "Faces and colors for lambda-themes."
   :group 'faces)
 
 (defface lambda-bg nil "Background face for lambda-themes." :group 'faces)
@@ -126,7 +126,7 @@ It should stick out from any other faces currently displayed."
 
 ;;;; After Load Theme Hook
 (defvar lambda-themes-after-load-theme-hook nil
-  "Hook run after bespoke-theme is loaded using `load-theme'.")
+  "Hook run after lambda-theme is loaded using `load-theme'.")
 
 ;;;; Disable Theme Function
 (defun lambda-themes--disable-all-themes ()
