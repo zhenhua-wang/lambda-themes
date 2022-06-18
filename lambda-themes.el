@@ -961,8 +961,8 @@ It should stick out from any other faces currently displayed."
      `(org-agenda-column-dateline                   ((,class (:foreground ,lambda-meek))))
      `(org-agenda-current-time                      ((,class (:foreground ,lambda-meek))))
      `(org-agenda-date                              ((,class (:foreground ,lambda-focus))))
-     `(org-agenda-date-today                        ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :height 1.4 :foreground ,lambda-blue))))
-     `(org-super-agenda-header                      ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :height 1.4 :foreground ,lambda-blue))))
+     `(org-agenda-date-today                        ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :height 1.5 :foreground ,lambda-blue))))
+     `(org-super-agenda-header                      ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :height 1.5 :foreground ,lambda-blue))))
      `(org-agenda-date-weekend                      ((,class (:foreground ,lambda-meek))))
      `(org-agenda-diary                             ((,class (:foreground ,lambda-meek))))
      `(org-agenda-dimmed-todo-face                  ((,class (:foreground ,lambda-meek))))
@@ -972,7 +972,7 @@ It should stick out from any other faces currently displayed."
      `(org-agenda-filter-regexp                     ((,class (:foreground ,lambda-meek))))
      `(org-agenda-filter-tags                       ((,class (:foreground ,lambda-meek))))
      `(org-agenda-restriction-lock                  ((,class (:foreground ,lambda-meek))))
-     `(org-agenda-structure                         ((,class (:foreground ,lambda-meek))))
+     `(org-agenda-structure                         ((,class (:foreground ,lambda-strong :weight medium :height 1.1 :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default)))))
 
 ;;;;; Org mode
      `(org-archived                                 ((,class (:foreground ,lambda-meek))))
@@ -1030,7 +1030,7 @@ It should stick out from any other faces currently displayed."
      `(org-tag-group                                ((,class (:foreground ,lambda-meek))))
      `(org-target                                   ((,class (:foreground ,lambda-meek))))
      `(org-time-grid                                ((,class (:foreground ,lambda-meek))))
-     `(org-todo                                     ((,class (:weight normal :foreground ,lambda-yellow))))
+     `(org-todo                                     ((,class (:foreground ,lambda-yellow))))
      `(org-upcoming-deadline                        ((,class (:foreground ,lambda-strong))))
      `(org-upcoming-distant-deadline                ((,class (:foreground ,lambda-fg))))
      `(org-verbatim                                 ((,class (:foreground ,lambda-meek))))
