@@ -295,6 +295,14 @@ It should stick out from any other faces currently displayed."
      `(consult-completing-read-multiple            ((,class (:foreground ,lambda-meek))))
      `(consult-grep-context                        ((,class (:foreground ,lambda-mild))))
 
+;;;;;; Consult Notes
+     `(consult-notes-sep       ((,class (:foreground ,lambda-strong :weight bold))))
+     `(consult-notes-name      ((,class (:foreground ,lambda-meek :weight light :slant italic))))
+     `(consult-notes-backlinks ((,class (:foreground ,lambda-meek :weight light :slant italic))))
+     `(consult-notes-time      ((,class (:foreground ,lambda-meek :weight light :slant italic))))
+     `(consult-notes-size      ((,class (:foreground ,lambda-meek :weight light :slant italic))))
+     `(consult-notes-dir       ((,class (:foreground ,lambda-meek :weight light :slant italic))))
+
 ;;;;;; Corfu
      `(corfu-annotations                           ((,class (:foreground ,lambda-meek))))
      `(corfu-bar                                   ((,class (:foreground ,lambda-ultralight))))
