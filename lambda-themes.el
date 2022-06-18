@@ -1494,7 +1494,7 @@ It should stick out from any other faces currently displayed."
         ("OKAY" .       success)
         ("DONT" .       error)
         ("FAIL" .       error)
-        ("DONE" .       shadow)
+        ("DONE" .       success)
         ("NOTE" .       warning)
         ("KLUDGE" .     warning)
         ("HACK" .       warning)
@@ -1503,7 +1503,7 @@ It should stick out from any other faces currently displayed."
         ("XXX+" .       error)
         ("BUG" .        error)
         ("REVIEW" .     warning)
-        ("DEPRECATED" . shadow)))
+        ("DEPRECATED" . warning)))
 
 ;;;; Set Minibuffer & Echo Area
 (defun lambda-themes--minibuffer ()
