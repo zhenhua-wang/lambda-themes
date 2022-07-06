@@ -58,8 +58,8 @@
 
 ;;;; Theme Options
 
-(defcustom lambda-themes-set-theme 'light-reg
-  "Choose which theme variant, light or dark, high or low contrast, to use."
+(defcustom lambda-themes-set-theme 'light
+  "Choose which theme variant, light or dark, regular or 'faded', to use."
   :group 'lambda-themes
   :type 'symbol)
 
