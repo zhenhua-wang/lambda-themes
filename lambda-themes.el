@@ -391,9 +391,9 @@ It should stick out from any other faces currently displayed."
      `(diff-indicator-removed                    ((,class (:inherit diff-removed))))
 
 ;;;;;; Diff-hl
-     `(diff-hl-change ((,class (:slant normal :weight normal  :foreground ,lambda-blue))))
-     `(diff-hl-delete ((,class (:slant normal :weight normal  :foreground ,lambda-red))))
-     `(diff-hl-insert ((,class (:slant normal :weight normal  :foreground ,lambda-green))))
+     `(diff-hl-change ((,class (:slant normal :weight normal  :foreground ,lambda-blue  :background ,lambda-bg))))
+     `(diff-hl-delete ((,class (:slant normal :weight normal  :foreground ,lambda-red   :background ,lambda-bg))))
+     `(diff-hl-insert ((,class (:slant normal :weight normal  :foreground ,lambda-green :background ,lambda-bg))))
 
 ;;;;;; Ediff
      `(ediff-even-diff-A                         ((,class (:background ,lambda-mild))))
