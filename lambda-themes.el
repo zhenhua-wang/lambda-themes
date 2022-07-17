@@ -872,10 +872,11 @@ It should stick out from any other faces currently displayed."
      `(hydra-face-teal ((,class (:foreground ,lambda-aqua :weight bold))))
 
 ;;;;;; Imenu List
-     `(imenu-list-entry-face-0                       ((,class (:inherit imenu-list-entry-face :foreground ,lambda-mild))))
-     `(imenu-list-entry-face-1                       ((,class (:inherit imenu-list-entry-face :foreground ,lambda-mild))))
-     `(imenu-list-entry-face-2                       ((,class (:inherit imenu-list-entry-face :foreground ,lambda-mild))))
-     `(imenu-list-entry-face-3                       ((,class (:inherit imenu-list-entry-face :foreground ,lambda-mild))))
+     `(imenu-list-entry-face                         ((,class (:foreground ,lambda-fg))))
+     `(imenu-list-entry-face-0                       ((,class (:inherit imenu-list-entry-face))))
+     `(imenu-list-entry-face-1                       ((,class (:inherit imenu-list-entry-face))))
+     `(imenu-list-entry-face-2                       ((,class (:inherit imenu-list-entry-face))))
+     `(imenu-list-entry-face-3                       ((,class (:inherit imenu-list-entry-face))))
 
 ;;;;;; Info (Documentation)
      `(info-menu-header                              ((,class (:foreground ,lambda-strong))))
