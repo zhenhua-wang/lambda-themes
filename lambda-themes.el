@@ -571,7 +571,7 @@ It should stick out from any other faces currently displayed."
 
 ;;;;;; Denote dired mode
 		 `(denote-faces-time                             ((,class (:foreground ,lambda-blue))))
-		 `(denote-faces-date)                            ((,class (:foreground ,lambda-blue)))
+		 `(denote-faces-date                             ((,class (:foreground ,lambda-blue))))
 		 `(denote-faces-keywords                         ((,class (:foreground ,lambda-purple))))
 
 ;;;;; Editing
