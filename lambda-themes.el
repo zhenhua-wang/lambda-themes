@@ -569,6 +569,10 @@ It should stick out from any other faces currently displayed."
      `(diredfl-compressed-file-name                  ((,class (:foreground ,lambda-bg))))
      `(diredfl-autofile-name                         ((,class (:background ,lambda-faint))))
 
+;;;;;; Denote dired mode
+		 `(denote-faces-time                             ((,class (:foreground ,lambda-blue))))
+		 `(denote-faces-keywords                         ((,class (:foreground ,lambda-purple))))
+
 ;;;;; Editing
 ;;;;;; Meow
      `(meow-normal-cursor         ((,class (:background ,lambda-yellow))))
