@@ -514,7 +514,7 @@ It should stick out from any other faces currently displayed."
      `(all-the-icons-dired-dir-face   ((,class (:foreground ,lambda-focus))))
 
 ;;;;;;  Dired
-     `(dired-directory                ((,class (:foreground ,lambda-fg))))
+     `(dired-directory                ((,class (:foreground ,lambda-purple))))
      `(dired-symlink                  ((,class (:slant italic))))
      `(dired-mark                     ((,class (:foreground ,lambda-strong))))
      `(dired-marked                   ((,class (:foreground ,lambda-urgent))))
@@ -568,6 +568,14 @@ It should stick out from any other faces currently displayed."
      `(diredfl-compressed-file-suffix                ((,class (:foreground ,lambda-mild))))
      `(diredfl-compressed-file-name                  ((,class (:foreground ,lambda-bg))))
      `(diredfl-autofile-name                         ((,class (:background ,lambda-faint))))
+
+;;;;;; Denote dired mode
+		 `(denote-faces-time                             ((,class (:foreground ,lambda-blue))))
+		 `(denote-faces-date                             ((,class (:foreground ,lambda-blue))))
+		 `(denote-faces-keywords                         ((,class (:foreground ,lambda-purple))))
+
+;;;;;; Dirvish
+		 `(dirvish-hl-line                               ((,class (:background ,lambda-lowlight))))
 
 ;;;;; Editing
 ;;;;;; Meow
