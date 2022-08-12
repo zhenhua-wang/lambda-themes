@@ -570,12 +570,12 @@ It should stick out from any other faces currently displayed."
      `(diredfl-autofile-name                         ((,class (:background ,lambda-faint))))
 
 ;;;;;; Denote dired mode
-		 `(denote-faces-time                             ((,class (:foreground ,lambda-blue))))
-		 `(denote-faces-date                             ((,class (:foreground ,lambda-blue))))
-		 `(denote-faces-keywords                         ((,class (:foreground ,lambda-purple))))
+	 `(denote-faces-time                             ((,class (:foreground ,lambda-blue))))
+	 `(denote-faces-date                             ((,class (:foreground ,lambda-blue))))
+	 `(denote-faces-keywords                         ((,class (:foreground ,lambda-purple))))
 
 ;;;;;; Dirvish
-		 `(dirvish-hl-line                               ((,class (:background ,lambda-lowlight))))
+	 `(dirvish-hl-line                               ((,class (:background ,lambda-lowlight))))
 
 ;;;;; Editing
 ;;;;;; Meow
@@ -1055,7 +1055,6 @@ It should stick out from any other faces currently displayed."
      `(org-habit-alert-future-face               ((,class (:background ,lambda-yellow))))
      `(org-habit-overdue-face                    ((,class (:background ,lambda-red))))
      `(org-habit-overdue-future-face             ((,class (:background ,lambda-red))))
-
 
 ;;;;; Search
 ;;;;;; Ag (The Silver Searcher)
