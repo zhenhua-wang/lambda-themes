@@ -1000,7 +1000,7 @@ It should stick out from any other faces currently displayed."
      `(org-date                                     ((,class (:foreground ,lambda-meek))))
      `(org-date-selected                            ((,class (:foreground ,lambda-meek))))
      `(org-default                                  ((,class (:foreground ,lambda-meek))))
-     `(org-document-info                            ((,class (:foreground ,lambda-meek :weight light :height 1.0))))
+     `(org-document-info                            ((,class (:foreground ,lambda-meek :weight light :height 1.0 :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default)))))
      `(org-document-info-keyword                    ((,class (:foreground ,lambda-meek :weight light :height 1.0 :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default)))))
      `(org-document-title                           ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :height 1.25 :foreground ,lambda-fg :weight medium))))
      `(org-done                                     ((,class (:foreground ,lambda-meek :strike-through t))))
