@@ -752,6 +752,12 @@ It should stick out from any other faces currently displayed."
      `(custom-button-mouse                           ((,class (:foreground ,lambda-mild :background ,lambda-faint :box (:line-width 1 :color ,lambda-mild :style nil)))))
      `(custom-button-pressed                         ((,class (:foreground ,lambda-fg :background ,lambda-focus :inverse-video nil :box (:line-width 1 :color ,lambda-focus :style nil)))))
 
+;;;;;; Dashboard
+     `(dashboard-banner-logo-title-face             ((,class (:foreground ,lambda-fg :bold t))))
+     `(dashboard-text-banner-face                   ((,class (:foreground ,lambda-meek))))
+     `(dashboard-heading-face                       ((,class (:foreground ,lambda-fg :bold t :height 1.1))))
+     `(dashboard-items-face                         ((,class (:foreground ,lambda-fg))))
+
 ;;;;;; Elscreen
      `(elscreen-tab-background-face              ((,class (:background ,lambda-bg :box nil)))) ;; Tab bar, not the tabs))
      `(elscreen-tab-control-face                 ((,class (:background ,lambda-faint :foreground ,lambda-red :underline nil :box nil)))) ;; The controls))
@@ -1103,9 +1109,9 @@ It should stick out from any other faces currently displayed."
      `(sh-heredoc                                ((,class (:foreground ,lambda-orange))))
 
 ;;;;;; Eshell
-     `(eshell-prompt                              ((,class (:foreground ,lambda-aqua))))
-     `(eshell-ls-archive                          ((,class (:foreground ,lambda-highlight))))
-     `(eshell-ls-backup                           ((,class (:foreground ,lambda-ultralight))))
+     `(eshell-prompt                              ((,class (:foreground ,lambda-yellow))))
+     `(eshell-ls-archive                          ((,class (:foreground ,lambda-meek))))
+     `(eshell-ls-backup                           ((,class (:foreground ,lambda-mild))))
      `(eshell-ls-clutter                          ((,class (:foreground ,lambda-orange :weight bold))))
      `(eshell-ls-directory                        ((,class (:foreground ,lambda-yellow))))
      `(eshell-ls-executable                       ((,class (:weight bold))))
@@ -1491,7 +1497,7 @@ It should stick out from any other faces currently displayed."
   (setq evil-operator-state-cursor `('lambda-orange hollow)))
 
 (when lambda-themes-set-evil-cursors
-  (add-hook 'lambda-themes-after-load-theme-hook #'lambda-themes--evil-load-cursors))
+(add-hook 'lambda-themes-after-load-theme-hook #'lambda-themes--evil-load-cursors))
 
 ;;;; Set Hl-Todo
 ;; inherit faces
