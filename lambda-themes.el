@@ -270,6 +270,9 @@ It should stick out from any other faces currently displayed."
 
 ;;;;; Completion/Narrowing
 
+;;;;;; General Completion
+     `(completions-annotations                     ((,class (:foreground ,lambda-meek))))
+
 ;;;;;; Company-mode
      `(company-scrollbar-bg                        ((,class (:background ,lambda-faint))))
      `(company-scrollbar-fg                        ((,class (:background ,lambda-mild))))
