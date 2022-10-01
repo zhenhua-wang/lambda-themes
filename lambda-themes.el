@@ -972,27 +972,8 @@ It should stick out from any other faces currently displayed."
      `(markdown-list-face              ((,class (:foreground ,lambda-meek))))
      `(markdown-markup-face            ((,class (:foreground ,lambda-mild))))
 
-;;;;; Org-agenda
-     `(org-agenda-calendar-event                    ((,class (:inherit default))))
-     `(org-agenda-calendar-sexp                     ((,class (:foreground ,lambda-meek))))
-     `(org-agenda-clocking                          ((,class (:foreground ,lambda-meek))))
-     `(org-agenda-column-dateline                   ((,class (:foreground ,lambda-meek))))
-     `(org-agenda-current-time                      ((,class (:foreground ,lambda-meek))))
-     `(org-agenda-date                              ((,class (:foreground ,lambda-focus))))
-     `(org-agenda-date-today                        ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :height 1.5 :foreground ,lambda-blue))))
-     `(org-super-agenda-header                      ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :height 1.5 :foreground ,lambda-blue))))
-     `(org-agenda-date-weekend                      ((,class (:foreground ,lambda-meek))))
-     `(org-agenda-diary                             ((,class (:foreground ,lambda-meek))))
-     `(org-agenda-dimmed-todo-face                  ((,class (:foreground ,lambda-meek))))
-     `(org-agenda-done                              ((,class (:foreground ,lambda-meek :strike-through t))))
-     `(org-agenda-filter-category                   ((,class (:foreground ,lambda-meek))))
-     `(org-agenda-filter-effort                     ((,class (:foreground ,lambda-meek))))
-     `(org-agenda-filter-regexp                     ((,class (:foreground ,lambda-meek))))
-     `(org-agenda-filter-tags                       ((,class (:foreground ,lambda-meek))))
-     `(org-agenda-restriction-lock                  ((,class (:foreground ,lambda-meek))))
-     `(org-agenda-structure                         ((,class (:foreground ,lambda-strong :weight medium :height 1.1 :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default)))))
-
 ;;;;; Org mode
+;;;;;; Org Base Theme
      `(org-archived                                 ((,class (:foreground ,lambda-meek))))
      `(org-block                                    ((,class (:foreground ,lambda-meek))))
      `(org-block-begin-line                         ((,class (:foreground ,lambda-meek))))
@@ -1053,8 +1034,26 @@ It should stick out from any other faces currently displayed."
      `(org-upcoming-distant-deadline                ((,class (:foreground ,lambda-fg))))
      `(org-verbatim                                 ((,class (:foreground ,lambda-meek))))
      `(org-verse                                    ((,class (:foreground ,lambda-meek))))
-     `(org-warning                                  ((,class (:foreground ,lambda-crucial))))
-
+     `(org-warning                                  ((,class (:foreground ,lambda-crucial))self-knowledge))
+;;;;;; Org-agenda
+     `(org-agenda-calendar-event                    ((,class (:inherit default))))
+     `(org-agenda-calendar-sexp                     ((,class (:foreground ,lambda-meek))))
+     `(org-agenda-clocking                          ((,class (:foreground ,lambda-meek))))
+     `(org-agenda-column-dateline                   ((,class (:foreground ,lambda-meek))))
+     `(org-agenda-current-time                      ((,class (:foreground ,lambda-meek))))
+     `(org-agenda-date                              ((,class (:foreground ,lambda-focus))))
+     `(org-agenda-date-today                        ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :height 1.5 :foreground ,lambda-blue))))
+     `(org-super-agenda-header                      ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :height 1.5 :foreground ,lambda-blue))))
+     `(org-agenda-date-weekend                      ((,class (:foreground ,lambda-meek))))
+     `(org-agenda-diary                             ((,class (:foreground ,lambda-meek))))
+     `(org-agenda-dimmed-todo-face                  ((,class (:foreground ,lambda-meek))))
+     `(org-agenda-done                              ((,class (:foreground ,lambda-meek :strike-through t))))
+     `(org-agenda-filter-category                   ((,class (:foreground ,lambda-meek))))
+     `(org-agenda-filter-effort                     ((,class (:foreground ,lambda-meek))))
+     `(org-agenda-filter-regexp                     ((,class (:foreground ,lambda-meek))))
+     `(org-agenda-filter-tags                       ((,class (:foreground ,lambda-meek))))
+     `(org-agenda-restriction-lock                  ((,class (:foreground ,lambda-meek))))
+     `(org-agenda-structure                         ((,class (:foreground ,lambda-strong :weight medium :height 1.1 :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default)))))
 ;;;;;; Org-habit
      `(org-habit-clear-face                      ((,class (:background ,lambda-blue))))
      `(org-habit-clear-future-face               ((,class (:background ,lambda-blue))))
@@ -1065,6 +1064,8 @@ It should stick out from any other faces currently displayed."
      `(org-habit-overdue-face                    ((,class (:background ,lambda-red))))
      `(org-habit-overdue-future-face             ((,class (:background ,lambda-red))))
 
+;;;;;; Org-Modern
+     `(org-modern-label                          ((,class (:height 1.0 :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default)))))
 ;;;;; Search
 ;;;;;; Ag (The Silver Searcher)
      `(ag-hit-face                               ((,class (:foreground ,lambda-blue))))
