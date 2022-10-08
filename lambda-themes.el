@@ -1034,7 +1034,7 @@ It should stick out from any other faces currently displayed."
      `(org-upcoming-distant-deadline                ((,class (:foreground ,lambda-fg))))
      `(org-verbatim                                 ((,class (:foreground ,lambda-meek))))
      `(org-verse                                    ((,class (:foreground ,lambda-meek))))
-     `(org-warning                                  ((,class (:foreground ,lambda-crucial))self-knowledge))
+     `(org-warning                                  ((,class (:foreground ,lambda-crucial))))
 ;;;;;; Org-agenda
      `(org-agenda-calendar-event                    ((,class (:inherit default))))
      `(org-agenda-calendar-sexp                     ((,class (:foreground ,lambda-meek))))
