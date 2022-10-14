@@ -34,7 +34,7 @@
 
 ;;;; Requirements
 (eval-when-compile
-  (require 'cl-lib))
+  (require 'cl-macs))
 
 (unless (>= emacs-major-version 25)
   (error "Requires Emacs 25 or later"))
@@ -252,6 +252,7 @@ It should stick out from any other faces currently displayed."
      `(font-lock-variable-name-face  ((,class (:foreground ,lambda-strong :weight light))))
      `(font-lock-type-face           ((,class (:foreground ,lambda-fg :weight light))))
      `(font-lock-warning-face        ((,class (:foreground ,lambda-urgent :weight bold))))
+     `(font-lock-preprocessor-face   ((,class (:foreground ,lambda-fg :weight medium))))
 
 ;;;;; Childframes
 ;;;;;; Mini-Frame
@@ -820,8 +821,7 @@ It should stick out from any other faces currently displayed."
 
      `(tab-bar-tab                ((,class (:background ,lambda-ultralight
                                             :foreground ,lambda-fg
-                                            :height 1.1
-                                            :underline (:color ,lambda-mild :position 0)))))
+                                            :height 1.1))))
      `(tab-bar-tab-inactive       ((,class (:background ,lambda-lowlight :foreground ,lambda-meek))))
      `(tab-line                   ((,class (:inherit default))))
      `(tab-bar-tab-ungrouped      ((,class (:background ,lambda-bg :foreground ,lambda-faint))))
