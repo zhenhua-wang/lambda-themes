@@ -646,7 +646,7 @@ It should stick out from any other faces currently displayed."
      `(whitespace-line                           ((,class (:background ,lambda-mild :foreground ,lambda-mild))))
      `(whitespace-space-before-tab               ((,class (:background ,lambda-bg :foreground ,lambda-faint))))
      `(whitespace-indentation                    ((,class (:background ,lambda-bg :foreground ,lambda-faint))))
-     `(whitespace-empty                          ((,class (:background nil :foreground nil))))
+     `(whitespace-empty                          ((,class (:background unspecified :foreground unspecified))))
      `(whitespace-space-after-tab                ((,class (:background ,lambda-bg :foreground ,lambda-faint))))
 
 ;;;;; Programming
@@ -1327,8 +1327,8 @@ It should stick out from any other faces currently displayed."
                 (eq lambda-line-position 'bottom))
        `(mode-line-inactive ((,class (:foreground ,lambda-meek :background ,lambda-lowlight :box (:line-width 1 :color ,lambda-ultralight :style nil))))))
 
-     `(lambda-line-active               ((,class (:foreground ,lambda-fg   :box (:line-width 1 :color ,lambda-ultralight :style nil)))))
-     `(lambda-line-inactive             ((,class (:foreground ,lambda-meek :box (:line-width 1 :color ,lambda-ultralight :style nil)))))
+     `(lambda-line-active               ((,class (:foreground ,lambda-fg :background ,lambda-highlight :box (:line-width 1 :color ,lambda-ultralight :style nil)))))
+     `(lambda-line-inactive             ((,class (:foreground ,lambda-meek :background ,lambda-highlight :box (:line-width 1 :color ,lambda-ultralight :style nil)))))
      `(lambda-line-active-name          ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :foreground ,lambda-fg))))
      `(lambda-line-inactive-name        ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :foreground ,lambda-meek))))
      `(lambda-line-active-primary       ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :foreground ,lambda-meek :weight light))))
