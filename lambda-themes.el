@@ -1313,6 +1313,9 @@ It should stick out from any other faces currently displayed."
        `(mode-line ((,class (:underline ,lambda-highlight :height 0.1)))))
      (when (and (fboundp 'lambda-line)
                 (eq lambda-line-position 'top))
+       `(mode-line-active ((,class (:underline ,lambda-highlight :height 0.1)))))
+     (when (and (fboundp 'lambda-line)
+                (eq lambda-line-position 'top))
        `(mode-line-inactive ((,class (:underline ,lambda-highlight :height 0.1)))))
 
      ;; Footer line
@@ -1327,8 +1330,8 @@ It should stick out from any other faces currently displayed."
                 (eq lambda-line-position 'bottom))
        `(mode-line-inactive ((,class (:foreground ,lambda-meek :background ,lambda-lowlight :box (:line-width 1 :color ,lambda-ultralight :style nil))))))
 
-     `(lambda-line-active               ((,class (:foreground ,lambda-fg :background ,lambda-highlight :box (:line-width 1 :color ,lambda-ultralight :style nil)))))
-     `(lambda-line-inactive             ((,class (:foreground ,lambda-meek :background ,lambda-highlight :box (:line-width 1 :color ,lambda-ultralight :style nil)))))
+     `(lambda-line-active               ((,class (:foreground ,lambda-fg :background unspecified :box (:line-width 1 :color ,lambda-ultralight :style nil)))))
+     `(lambda-line-inactive             ((,class (:foreground ,lambda-meek :background unspecified :box (:line-width 1 :color ,lambda-ultralight :style nil)))))
      `(lambda-line-active-name          ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :foreground ,lambda-fg))))
      `(lambda-line-inactive-name        ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :foreground ,lambda-meek))))
      `(lambda-line-active-primary       ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :foreground ,lambda-meek :weight light))))
