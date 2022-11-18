@@ -300,7 +300,7 @@ It should stick out from any other faces currently displayed."
      `(consult-grep-context                        ((,class (:foreground ,lambda-mild))))
 
 ;;;;;; Consult Notes
-     `(consult-notes-sep       ((,class (:foreground ,lambda-strong :weight bold))))
+     `(consult-notes-sep       ((,class (:foreground ,lambda-meek))))
      `(consult-notes-name      ((,class (:foreground ,lambda-meek :weight light :slant italic))))
      `(consult-notes-backlinks ((,class (:foreground ,lambda-meek :weight light :slant italic))))
      `(consult-notes-time      ((,class (:foreground ,lambda-meek :weight light :slant italic))))
