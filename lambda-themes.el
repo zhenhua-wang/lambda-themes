@@ -938,6 +938,21 @@ It should stick out from any other faces currently displayed."
      `(message-cited-text                        ((,class (:inherit font-lock-comment-face))))
      `(message-mml                               ((,class (:foreground ,lambda-green :weight bold))))
 
+;;;;;; Package (M-x list-packages)
+     `(package-description ((,class :inherit font-lock-string-face)))
+     `(package-help-section-name ((,class :inherit lambda-strong)))
+     `(package-name ((,class :inherit button)))
+     `(package-status-available ((,class :foreground ,lambda-fg)))
+     `(package-status-avail-obso ((,class :inherit error)))
+     `(package-status-built-in ((,class :foreground ,lambda-purple)))
+     `(package-status-dependency ((,class :foreground ,lambda-orange)))
+     `(package-status-disabled ((,class :inherit warning)))
+     `(package-status-external ((,class :foreground ,lambda-fg)))
+     `(package-status-held ((,class :foreground ,lambda-yellow)))
+     `(package-status-incompat ((,class :inherit warning)))
+     `(package-status-installed ((,class :foreground ,lambda-meek)))
+     `(package-status-new ((,class :inherit success)))
+     `(package-status-unsigned ((,class :inherit error)))
 ;;;;;; Which-function-mode
      `(which-func                                 ((,class (:foreground ,lambda-blue))))
 
