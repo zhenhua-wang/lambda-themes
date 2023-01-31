@@ -448,6 +448,23 @@ It should stick out from any other faces currently displayed."
      `(git-gutter-fr  (,class (:added     (:inherit git-gutter:added))))
      `(git-gutter-fr  (,class (:deleted   (:inherit git-gutter:deleted))))
 
+;;;;;; Change-Log and Log-View (`vc-print-log' and `vc-print-root-log')
+     `(change-log-acknowledgment ((,class :inherit shadow)))
+     `(change-log-conditionals ((,class :foreground ,lambda-yellow)))
+     `(change-log-date ((,class :foreground ,lambda-fg :background ,lambda-ultralight)))
+     `(change-log-email ((,class :foreground ,lambda-mild)))
+     `(change-log-file ((,class :inherit bold :foreground ,lambda-blue)))
+     `(change-log-function ((,class :inherit font-lock-function)))
+     `(change-log-list ((,class :foreground ,lambda-orange)))
+     `(change-log-name ((,class :foreground ,lambda-purple)))
+     `(log-edit-header            ((,class :foreground ,lambda-strong)))
+     `(log-edit-headers-separator ((,class :height 1 :background ,lambda-lowlight :extend t)))
+     `(log-edit-summary           ((,class :inherit bold :foreground ,lambda-blue)))
+     `(log-edit-unknown-header    ((,class :inherit shadow)))
+     `(log-view-commit-body       ((,class :foreground ,lambda-blue)))
+     `(log-view-file              ((,class :inherit bold :foreground ,lambda-aqua)))
+     `(log-view-message           ((,class :foreground ,lambda-meek :background ,lambda-highlight)))
+
 ;;;;;; Magit
      `(magit-header-line            ((,class (:foreground ,lambda-fg :background ,lambda-highlight))))
      `(magit-header-line-log-select ((,class (:foreground ,lambda-fg :background ,lambda-highlight))))
