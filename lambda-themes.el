@@ -861,14 +861,14 @@ It should stick out from any other faces currently displayed."
      `(table-cell ((,class (:background ,lambda-bg :foreground ,lambda-strong))))
 
 ;;;;;; Transient
-     `(transient-key               ((,class (:foreground ,lambda-focus :weight bold))))
-     `(transient-heading           ((,class (:foreground ,lambda-strong :background ,lambda-highlight))))
-     `(transient-argument          ((,class (:foreground ,lambda-urgent))))
-     `(transient-unreachable       ((,class (:foreground ,lambda-meek))))
-     `(transient-inapt-suffix      ((,class (:foreground ,lambda-meek))))
-     `(transient-inactive-value    ((,class (:foreground ,lambda-meek))))
-     `(transient-inactive-argument ((,class (:foreground ,lambda-meek))))
-     `(transient-separator         ((,class (:background ,lambda-lowlight))))
+     `(transient-key                             ((,class (:foreground ,lambda-focus :weight bold))))
+     `(transient-heading                         ((,class (:foreground ,lambda-strong :background ,lambda-highlight))))
+     `(transient-argument                        ((,class (:foreground ,lambda-urgent))))
+     `(transient-unreachable                     ((,class (:foreground ,lambda-meek))))
+     `(transient-inapt-suffix                    ((,class (:foreground ,lambda-meek))))
+     `(transient-inactive-value                  ((,class (:foreground ,lambda-meek))))
+     `(transient-inactive-argument               ((,class (:foreground ,lambda-meek))))
+     `(transient-separator                       ((,class (:background ,lambda-lowlight))))
 
 ;;;;;; Tool tips
      `(tooltip                                   ((,class (:foreground ,lambda-highlight :background ,lambda-mild))))
@@ -883,9 +883,9 @@ It should stick out from any other faces currently displayed."
 
 ;;;;;; Window Divs
      ;; divide windows more attractively
-     `(window-divider                               ((,class (:foreground ,lambda-highlight))))
-     `(window-divider-first-pixel                   ((,class (:foreground ,lambda-highlight))))
-     `(window-divider-last-pixel                    ((,class (:foreground ,lambda-highlight))))
+     `(window-divider                            ((,class (:foreground ,lambda-highlight))))
+     `(window-divider-first-pixel                ((,class (:foreground ,lambda-highlight))))
+     `(window-divider-last-pixel                 ((,class (:foreground ,lambda-highlight))))
      ;; divide windows better in terminal
      ;; see https://www.reddit.com/r/emacs/comments/3u0d0u/how_do_i_make_the_vertical_window_divider_more/
      ;; (when (not (display-graphic-p))
@@ -895,38 +895,38 @@ It should stick out from any other faces currently displayed."
 ;;;;; Help, Info, & Menus
 
 ;;;;;; Bookmarks
-     `(bookmark-menu-heading                         ((,class (:foreground ,lambda-strong))))
-     `(bookmark-menu-bookmark                        ((,class (:foreground ,lambda-focus))))
-     `(bookmark-face                                 ((,class (:foreground ,lambda-focus))))
+     `(bookmark-menu-heading                     ((,class (:foreground ,lambda-strong))))
+     `(bookmark-menu-bookmark                    ((,class (:foreground ,lambda-focus))))
+     `(bookmark-face                             ((,class (:foreground ,lambda-focus))))
 
 ;;;;;; Help(ful)
      `(helpful-heading ((,class (:inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default) :height 1.4 :foreground ,lambda-blue))))
 
 ;;;;;; Hydra
-     `(hydra-face-red ((,class (:foreground ,lambda-red :weight bold))))
-     `(hydra-face-blue ((,class (:foreground ,lambda-blue :weight bold))))
-     `(hydra-face-amaranth ((,class (:foreground ,lambda-yellow :weight bold))))
-     `(hydra-face-pink ((,class (:foreground ,lambda-purple :weight bold))))
-     `(hydra-face-teal ((,class (:foreground ,lambda-aqua :weight bold))))
+     `(hydra-face-red                            ((,class (:foreground ,lambda-red :weight bold))))
+     `(hydra-face-blue                           ((,class (:foreground ,lambda-blue :weight bold))))
+     `(hydra-face-amaranth                       ((,class (:foreground ,lambda-yellow :weight bold))))
+     `(hydra-face-pink                           ((,class (:foreground ,lambda-purple :weight bold))))
+     `(hydra-face-teal                           ((,class (:foreground ,lambda-aqua :weight bold))))
 
 ;;;;;; Imenu List
-     `(imenu-list-entry-face                         ((,class (:foreground ,lambda-fg))))
-     `(imenu-list-entry-face-0                       ((,class (:inherit imenu-list-entry-face))))
-     `(imenu-list-entry-face-1                       ((,class (:inherit imenu-list-entry-face))))
-     `(imenu-list-entry-face-2                       ((,class (:inherit imenu-list-entry-face))))
-     `(imenu-list-entry-face-3                       ((,class (:inherit imenu-list-entry-face))))
+     `(imenu-list-entry-face                     ((,class (:foreground ,lambda-fg))))
+     `(imenu-list-entry-face-0                   ((,class (:inherit imenu-list-entry-face))))
+     `(imenu-list-entry-face-1                   ((,class (:inherit imenu-list-entry-face))))
+     `(imenu-list-entry-face-2                   ((,class (:inherit imenu-list-entry-face))))
+     `(imenu-list-entry-face-3                   ((,class (:inherit imenu-list-entry-face))))
 
 ;;;;;; Info (Documentation)
-     `(info-menu-header                              ((,class (:foreground ,lambda-strong))))
-     `(info-header-node                              ((,class (:foreground ,lambda-green))))
-     `(info-index-match                              ((,class (:foreground ,lambda-crucial))))
-     `(info-xref                                     ((,class (:foreground ,lambda-focus))))
-     `(info-xref-visited                             ((,class (:foreground ,lambda-purple))))
-     `(Info-quoted                                   ((,class (:foreground ,lambda-meek))))
-     `(info-title-1                                  ((,class (:inherit outline-1))))
-     `(info-title-2                                  ((,class (:inherit outline-2))))
-     `(info-title-3                                  ((,class (:inherit outline-3))))
-     `(info-title-4                                  ((,class (:inherit outline-4))))
+     `(info-menu-header                          ((,class (:foreground ,lambda-strong))))
+     `(info-header-node                          ((,class (:foreground ,lambda-green))))
+     `(info-index-match                          ((,class (:foreground ,lambda-crucial))))
+     `(info-xref                                 ((,class (:foreground ,lambda-focus))))
+     `(info-xref-visited                         ((,class (:foreground ,lambda-purple))))
+     `(Info-quoted                               ((,class (:foreground ,lambda-meek))))
+     `(info-title-1                              ((,class (:inherit outline-1))))
+     `(info-title-2                              ((,class (:inherit outline-2))))
+     `(info-title-3                              ((,class (:inherit outline-3))))
+     `(info-title-4                              ((,class (:inherit outline-4))))
 
 ;;;;;; Marginalia
      `(marginalia-documentation                  ((,class (:italic t :foreground ,lambda-strong))))
@@ -944,20 +944,21 @@ It should stick out from any other faces currently displayed."
      `(message-mml                               ((,class (:foreground ,lambda-green :weight bold))))
 
 ;;;;;; Package (M-x list-packages)
-     `(package-description ((,class :inherit font-lock-string-face)))
-     `(package-help-section-name ((,class :inherit lambda-strong)))
-     `(package-name ((,class :inherit button)))
-     `(package-status-available ((,class :foreground ,lambda-fg)))
-     `(package-status-avail-obso ((,class :inherit error)))
-     `(package-status-built-in ((,class :foreground ,lambda-purple)))
-     `(package-status-dependency ((,class :foreground ,lambda-orange)))
-     `(package-status-disabled ((,class :inherit warning)))
-     `(package-status-external ((,class :foreground ,lambda-fg)))
-     `(package-status-held ((,class :foreground ,lambda-yellow)))
-     `(package-status-incompat ((,class :inherit warning)))
-     `(package-status-installed ((,class :foreground ,lambda-meek)))
-     `(package-status-new ((,class :inherit success)))
-     `(package-status-unsigned ((,class :inherit error)))
+     `(package-description                       ((,class :inherit font-lock-string-face)))
+     `(package-help-section-name                 ((,class :inherit lambda-strong)))
+     `(package-name                              ((,class :inherit button)))
+     `(package-status-available                  ((,class :foreground ,lambda-fg)))
+     `(package-status-avail-obso                 ((,class :inherit error)))
+     `(package-status-built-in                   ((,class :foreground ,lambda-purple)))
+     `(package-status-dependency                 ((,class :foreground ,lambda-orange)))
+     `(package-status-disabled                   ((,class :inherit warning)))
+     `(package-status-external                   ((,class :foreground ,lambda-fg)))
+     `(package-status-held                       ((,class :foreground ,lambda-yellow)))
+     `(package-status-incompat                   ((,class :inherit warning)))
+     `(package-status-installed                  ((,class :foreground ,lambda-meek)))
+     `(package-status-new                        ((,class :inherit success)))
+     `(package-status-unsigned                   ((,class :inherit error)))
+
 ;;;;;; Which-function-mode
      `(which-func                                 ((,class (:foreground ,lambda-blue))))
 
