@@ -292,7 +292,7 @@ It should stick out from any other faces currently displayed."
 ;;;;;; Consult
      `(consult-separator                           ((,class (:foreground ,lambda-meek))))
      `(consult-file                                ((,class (:foreground ,lambda-fg))))
-     `(consult-preview-line                        ((,class (:foreground ,lambda-fg))))
+     `(consult-preview-line                        ((,class (:foreground ,lambda-crucial :background ,lambda-lowlight))))
      `(consult-line-number                         ((,class (:foreground ,lambda-meek))))
      `(consult-line-number-prefix                  ((,class (:foreground ,lambda-meek))))
      `(consult-help                                ((,class (:foreground ,lambda-meek))))
@@ -639,6 +639,10 @@ It should stick out from any other faces currently displayed."
      `(hi-red-b                                  ((,class (:foreground ,lambda-red :weight bold))))
      `(hi-yellow                                 ((,class (:foreground ,lambda-faint :background ,lambda-yellow))))
 
+;;;;;; iEdit Mode
+     `(iedit-occurrence                          ((,class (:foreground ,lambda-bg :background ,lambda-crucial))))
+     `(iedit-read-only-occurrence                ((,class (:foreground ,lambda-bg :background ,lambda-crucial))))
+
 ;;;;;; Line numbers
      `(line-number                               ((,class (:foreground ,lambda-ultralight))))
      `(line-number-current-line                  ((,class (:foreground ,lambda-orange :background ,lambda-faint))))
@@ -824,7 +828,7 @@ It should stick out from any other faces currently displayed."
        `(tab-bar                    ((,class (:foreground ,lambda-meek
                                               :weight light
                                               :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default)
-                                              :box (:line-width (2 . 2)
+                                              :box (:line-width (1 . 1)
                                                     :color nil
                                                     :style flat-button))))))
 
@@ -915,13 +919,14 @@ It should stick out from any other faces currently displayed."
 ;;;;;; Info (Documentation)
      `(info-menu-header                              ((,class (:foreground ,lambda-strong))))
      `(info-header-node                              ((,class (:foreground ,lambda-green))))
-     `(info-index-match                              ((,class (:foreground ,lambda-focus))))
+     `(info-index-match                              ((,class (:foreground ,lambda-crucial))))
+     `(info-xref                                     ((,class (:foreground ,lambda-focus))))
      `(info-xref-visited                             ((,class (:foreground ,lambda-purple))))
      `(Info-quoted                                   ((,class (:foreground ,lambda-meek))))
-     `(info-title-1                                  ((,class (:foreground ,lambda-strong))))
-     `(info-title-2                                  ((,class (:foreground ,lambda-strong))))
-     `(info-title-3                                  ((,class (:foreground ,lambda-strong))))
-     `(info-title-4                                  ((,class (:foreground ,lambda-strong))))
+     `(info-title-1                                  ((,class (:inherit outline-1))))
+     `(info-title-2                                  ((,class (:inherit outline-2))))
+     `(info-title-3                                  ((,class (:inherit outline-3))))
+     `(info-title-4                                  ((,class (:inherit outline-4))))
 
 ;;;;;; Marginalia
      `(marginalia-documentation                  ((,class (:italic t :foreground ,lambda-strong))))
