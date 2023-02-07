@@ -17,6 +17,8 @@
 
 (provide-theme 'lambda-light-faded)
 
+(provide 'lambda-light-faded-theme)
+
 ;; Local Variables:
 ;; eval: (when (fboundp 'rainbow-mode) (rainbow-mode +1))
 ;; End:

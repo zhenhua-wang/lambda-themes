@@ -18,6 +18,8 @@
 
 (provide-theme 'lambda-dark-faded)
 
+(provide 'lambda-dark-faded-theme)
+
 ;; Local Variables:
 ;; eval: (when (fboundp 'rainbow-mode) (rainbow-mode +1))
 ;; End:
