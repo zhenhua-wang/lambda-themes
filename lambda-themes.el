@@ -245,7 +245,7 @@ It should stick out from any other faces currently displayed."
 
      `(font-lock-builtin-face        ((,class (:foreground ,lambda-fg :weight light))))
      `(font-lock-constant-face       ((,class (:foreground ,lambda-fg :weight light))))
-     `(font-lock-comment-face        ((,class (:foreground ,lambda-meek :slant ,(if lambda-themes-set-italic-comments 'italic 'normal) :weight light))))
+     `(font-lock-comment-face        ((,class (:foreground ,lambda-meek :slant ,(if lambda-themes-set-italic-comments 'italic 'normal) :weight normal))))
      `(font-lock-function-name-face  ((,class (:foreground ,lambda-strong :weight bold))))
      `(font-lock-keyword-face        ((,class (:foreground ,lambda-fg :weight light :slant ,(if lambda-themes-set-italic-keywords 'italic 'normal)))))
      `(font-lock-string-face         ((,class (:foreground ,lambda-fg :background ,lambda-faint))))
