@@ -164,8 +164,8 @@ It should stick out from any other faces currently displayed."
         (lambda-fg          (cond ((eq variant 'dark)  "#EBE9E7") ((eq variant 'dark-faded) "#eceff1") ((eq variant 'light) "#0C0D0D") ((eq variant 'light-faded) "#282b35")))
         (lambda-bg          (cond ((eq variant 'dark)  "#141414") ((eq variant 'dark-faded) "#282b35") ((eq variant 'light) "#FFFEFD") ((eq variant 'light-faded) "#fcfaf6")))
         ;; highlighting
-        (lambda-ultralight  (cond ((eq variant 'dark)  "#2c2c34") ((eq variant 'dark-faded) "#525868") ((eq variant 'light) "#E3E1E0") ((eq variant 'light-faded) "#cfd6e2")))
-        (lambda-highlight   (cond ((eq variant 'dark)  "#212228") ((eq variant 'dark-faded) "#444B5c") ((eq variant 'light) "#EBE9E7") ((eq variant 'light-faded) "#dbe1eb")))
+        (lambda-ultralight  (cond ((eq variant 'dark)  "#2c2c34") ((eq variant 'dark-faded) "#525868") ((eq variant 'light) "#EBE9E7") ((eq variant 'light-faded) "#cfd6e2")))
+        (lambda-highlight   (cond ((eq variant 'dark)  "#212228") ((eq variant 'dark-faded) "#444B5c") ((eq variant 'light) "#F5F2F0") ((eq variant 'light-faded) "#dbe1eb")))
         (lambda-lowlight    (cond ((eq variant 'dark)  "#1A1919") ((eq variant 'dark-faded) "#3c4353") ((eq variant 'light) "#F8F6F4") ((eq variant 'light-faded) "#e3e7ef")))
         ;; attention
         (lambda-urgent      (cond ((eq variant 'dark)  "#CF6752") ((eq variant 'dark-faded) "#f46715") ((eq variant 'light) "#B30000") ((eq variant 'light-faded) "#f53137")))
@@ -174,7 +174,7 @@ It should stick out from any other faces currently displayed."
         (lambda-strong      (cond ((eq variant 'dark)  "#F5F2F0") ((eq variant 'dark-faded) "#ffffff") ((eq variant 'light) "#000000") ((eq variant 'light-faded) "#000000")))
         (lambda-meek        (cond ((eq variant 'dark)  "#A3A3A3") ((eq variant 'dark-faded) "#959eb1") ((eq variant 'light) "#706F6F") ((eq variant 'light-faded) "#727d97")))
         (lambda-mild        (cond ((eq variant 'dark)  "#474648") ((eq variant 'dark-faded) "#8791A7") ((eq variant 'light) "#D1CFCF") ((eq variant 'light-faded) "#C8CDD8")))
-        (lambda-faint       (cond ((eq variant 'dark)  "#37373E") ((eq variant 'dark-faded) "#333a47") ((eq variant 'light) "#F5F2F0") ((eq variant 'light-faded) "#eceff1")))
+        (lambda-faint       (cond ((eq variant 'dark)  "#37373E") ((eq variant 'dark-faded) "#333a47") ((eq variant 'light) "#E3E1E0") ((eq variant 'light-faded) "#eceff1")))
         ;; accent
         (lambda-black       (cond ((eq variant 'dark)  "#000000") ((eq variant 'dark-faded) "#000000") ((eq variant 'light) "#000000") ((eq variant 'light-faded) "#000000")))
         (lambda-white       (cond ((eq variant 'dark)  "#FFFFFF") ((eq variant 'dark-faded) "#FFFFFF") ((eq variant 'light) "#FFFFFF") ((eq variant 'light-faded) "#FFFFFF")))
