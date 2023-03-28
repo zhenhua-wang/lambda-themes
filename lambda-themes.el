@@ -1104,6 +1104,8 @@ It should stick out from any other faces currently displayed."
 
 ;;;;;; Org-Modern
      `(org-modern-label                          ((,class (:height 1.0 :inherit ,(if lambda-themes-set-variable-pitch 'variable-pitch 'default)))))
+     `(org-modern-bracket-line                   ((,class (:foreground ,lambda-mild :weight light))))
+
 ;;;;; Search
 ;;;;;; Ag (The Silver Searcher)
      `(ag-hit-face                               ((,class (:foreground ,lambda-blue))))
