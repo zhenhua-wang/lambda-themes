@@ -173,7 +173,7 @@ It should stick out from any other faces currently displayed."
         (lambda-focus       (cond ((eq variant 'dark)  "#4560E6") ((eq variant 'dark-faded) "#bc85cf") ((eq variant 'light) "#0044CC") ((eq variant 'light-faded) "#940b96")))
         (lambda-strong      (cond ((eq variant 'dark)  "#F5F2F0") ((eq variant 'dark-faded) "#ffffff") ((eq variant 'light) "#000000") ((eq variant 'light-faded) "#000000")))
         (lambda-meek        (cond ((eq variant 'dark)  "#A3A3A3") ((eq variant 'dark-faded) "#959eb1") ((eq variant 'light) "#706F6F") ((eq variant 'light-faded) "#727d97")))
-        (lambda-mild        (cond ((eq variant 'dark)  "#474648") ((eq variant 'dark-faded) "#8791A7") ((eq variant 'light) "#D1CFCF") ((eq variant 'light-faded) "#C8CDD8")))
+        (lambda-mild        (cond ((eq variant 'dark)  "#474648") ((eq variant 'dark-faded) "#8791A7") ((eq variant 'light) "#C1C1C1") ((eq variant 'light-faded) "#C8CDD8")))
         (lambda-faint       (cond ((eq variant 'dark)  "#37373E") ((eq variant 'dark-faded) "#333a47") ((eq variant 'light) "#E3E1E0") ((eq variant 'light-faded) "#eceff1")))
         ;; accent
         (lambda-black       (cond ((eq variant 'dark)  "#000000") ((eq variant 'dark-faded) "#000000") ((eq variant 'light) "#000000") ((eq variant 'light-faded) "#000000")))
