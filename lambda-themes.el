@@ -85,6 +85,11 @@
   :group 'lambda-themes
   :type 'boolean)
 
+(defcustom lambda-themes-set-vibrant nil
+  "If t then use vibrant syntax coloring.variable-pitch for headings and status-line."
+  :group 'lambda-themes
+  :type 'boolean)
+
 (defcustom lambda-themes-custom-colors nil
   "Specify a list of custom colors."
   :type 'alist
@@ -245,17 +250,30 @@ It should stick out from any other faces currently displayed."
      `(match                ((,class (:foreground ,lambda-lowlight :background ,lambda-focus))))
 
 ;;;;; Built-in syntax (Font-Lock)
-
-     `(font-lock-builtin-face        ((,class (:foreground ,lambda-fg :weight light))))
-     `(font-lock-constant-face       ((,class (:foreground ,lambda-fg :weight light))))
-     `(font-lock-comment-face        ((,class (:foreground ,lambda-meek :slant ,(if lambda-themes-set-italic-comments 'italic 'normal) :weight normal))))
-     `(font-lock-function-name-face  ((,class (:foreground ,lambda-strong :weight bold))))
-     `(font-lock-keyword-face        ((,class (:foreground ,lambda-fg :weight light :slant ,(if lambda-themes-set-italic-keywords 'italic 'normal)))))
-     `(font-lock-string-face         ((,class (:foreground ,lambda-fg :background ,lambda-faint))))
-     `(font-lock-variable-name-face  ((,class (:foreground ,lambda-strong :weight light))))
-     `(font-lock-type-face           ((,class (:foreground ,lambda-fg :weight light))))
+     `(font-lock-builtin-face        ((,class ,(if lambda-themes-set-vibrant `(:foreground ,lambda-purple :weight normal) `(:foreground ,lambda-fg :weight light)))))
+     `(font-lock-constant-face       ((,class ,(if lambda-themes-set-vibrant `(:foreground ,lambda-aqua :weight normal) `(:foreground ,lambda-fg :weight light)))))
+     `(font-lock-comment-face        ((,class (:foreground ,(if lambda-themes-set-vibrant lambda-green lambda-meek) :slant ,(if lambda-themes-set-italic-comments 'italic 'normal)
+                                               :weight ,(if lambda-themes-set-vibrant 'light 'normal)))))
+     `(font-lock-function-name-face  ((,class ,(if lambda-themes-set-vibrant `(:foreground ,lambda-crucial :weight bold) `(:foreground ,lambda-strong :weight bold)))))
+     `(font-lock-keyword-face        ((,class ,(if lambda-themes-set-vibrant `(:foreground ,lambda-focus :weight light :slant ,(if lambda-themes-set-italic-keywords 'italic 'normal))
+                                                 `(:foreground ,lambda-fg :weight light :slant ,(if lambda-themes-set-italic-keywords 'italic 'normal))))))
+     `(font-lock-string-face         ((,class ,(if lambda-themes-set-vibrant `(:foreground ,lambda-strong :background ,lambda-ultralight :weight light)
+                                                 `(:foreground ,lambda-fg :background ,lambda-faint)))))
+     `(font-lock-variable-name-face  ((,class ,(if lambda-themes-set-vibrant `(:foreground ,lambda-cyan :weight normal) `(:foreground ,lambda-strong :weight light)))))
+     `(font-lock-type-face           ((,class ,(if lambda-themes-set-vibrant `(:foreground ,lambda-purple :weight normal) `(:foreground ,lambda-fg :weight light)))))
      `(font-lock-warning-face        ((,class (:foreground ,lambda-urgent :weight bold))))
-     `(font-lock-preprocessor-face   ((,class (:foreground ,lambda-fg :weight medium))))
+     `(font-lock-preprocessor-face   ((,class ,(if lambda-themes-set-vibrant `(:foreground ,lambda-aqua :weight normal) `(:foreground ,lambda-fg :weight medium)))))
+
+     ;; `(font-lock-builtin-face        ((,class (:foreground ,lambda-fg :weight light))))
+     ;; `(font-lock-constant-face       ((,class (:foreground ,lambda-fg :weight light))))
+     ;; `(font-lock-comment-face        ((,class (:foreground ,lambda-meek :slant ,(if lambda-themes-set-italic-comments 'italic 'normal) :weight normal))))
+     ;; `(font-lock-function-name-face  ((,class (:foreground ,lambda-strong :weight bold))))
+     ;; `(font-lock-keyword-face        ((,class (:foreground ,lambda-fg :weight light :slant ,(if lambda-themes-set-italic-keywords 'italic 'normal)))))
+     ;; `(font-lock-string-face         ((,class (:foreground ,lambda-fg :background ,lambda-faint))))
+     ;; `(font-lock-variable-name-face  ((,class (:foreground ,lambda-strong :weight light))))
+     ;; `(font-lock-type-face           ((,class (:foreground ,lambda-fg :weight light))))
+     ;; `(font-lock-warning-face        ((,class (:foreground ,lambda-urgent :weight bold))))
+     ;; `(font-lock-preprocessor-face   ((,class (:foreground ,lambda-fg :weight medium))))
 
 ;;;;; Childframes
 ;;;;;; Mini-Frame
