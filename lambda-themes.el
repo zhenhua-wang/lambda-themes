@@ -264,23 +264,12 @@ It should stick out from any other faces currently displayed."
      `(font-lock-warning-face        ((,class (:foreground ,lambda-urgent :weight bold))))
      `(font-lock-preprocessor-face   ((,class ,(if lambda-themes-set-vibrant `(:foreground ,lambda-aqua :weight normal) `(:foreground ,lambda-fg :weight medium)))))
 
-     ;; `(font-lock-builtin-face        ((,class (:foreground ,lambda-fg :weight light))))
-     ;; `(font-lock-constant-face       ((,class (:foreground ,lambda-fg :weight light))))
-     ;; `(font-lock-comment-face        ((,class (:foreground ,lambda-meek :slant ,(if lambda-themes-set-italic-comments 'italic 'normal) :weight normal))))
-     ;; `(font-lock-function-name-face  ((,class (:foreground ,lambda-strong :weight bold))))
-     ;; `(font-lock-keyword-face        ((,class (:foreground ,lambda-fg :weight light :slant ,(if lambda-themes-set-italic-keywords 'italic 'normal)))))
-     ;; `(font-lock-string-face         ((,class (:foreground ,lambda-fg :background ,lambda-faint))))
-     ;; `(font-lock-variable-name-face  ((,class (:foreground ,lambda-strong :weight light))))
-     ;; `(font-lock-type-face           ((,class (:foreground ,lambda-fg :weight light))))
-     ;; `(font-lock-warning-face        ((,class (:foreground ,lambda-urgent :weight bold))))
-     ;; `(font-lock-preprocessor-face   ((,class (:foreground ,lambda-fg :weight medium))))
-
 ;;;;; Childframes
 ;;;;;; Mini-Frame
      `(mini-popup-background ((,class (:background ,lambda-faint))))
      `(mini-popup-border     ((,class (:background ,lambda-faint))))
 
-     `;;;;;; Mini-Popup (Childframe)
+     ;;;;;; Mini-Popup (Childframe)
      `(mini-popup-background ((,class (:background ,lambda-faint))))
      `(mini-popup-border     ((,class (:background ,lambda-faint))))
 
