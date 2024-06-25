@@ -169,9 +169,9 @@ It should stick out from any other faces currently displayed."
         (lambda-fg          (cond ((eq variant 'dark)  "#EBE9E7") ((eq variant 'dark-faded) "#eceff1") ((eq variant 'light) "#0C0D0D") ((eq variant 'light-faded) "#282b35")))
         (lambda-bg          (cond ((eq variant 'dark)  "#141414") ((eq variant 'dark-faded) "#282b35") ((eq variant 'light) "#FFFEFD") ((eq variant 'light-faded) "#fcfaf6")))
         ;; highlighting
-        (lambda-ultralight  (cond ((eq variant 'dark)  "#2c2c34") ((eq variant 'dark-faded) "#525868") ((eq variant 'light) "#EBE9E7") ((eq variant 'light-faded) "#cfd6e2")))
+        (lambda-ultralight  (cond ((eq variant 'dark)  "#2c2c34") ((eq variant 'dark-faded) "#525868") ((eq variant 'light) "#F8F6F4") ((eq variant 'light-faded) "#e3e7ef")))
         (lambda-highlight   (cond ((eq variant 'dark)  "#212228") ((eq variant 'dark-faded) "#444B5c") ((eq variant 'light) "#F5F2F0") ((eq variant 'light-faded) "#dbe1eb")))
-        (lambda-lowlight    (cond ((eq variant 'dark)  "#1A1919") ((eq variant 'dark-faded) "#3c4353") ((eq variant 'light) "#F8F6F4") ((eq variant 'light-faded) "#e3e7ef")))
+        (lambda-lowlight    (cond ((eq variant 'dark)  "#1A1919") ((eq variant 'dark-faded) "#3c4353") ((eq variant 'light) "#EBE9E7") ((eq variant 'light-faded) "#cfd6e2")))
         ;; attention
         (lambda-urgent      (cond ((eq variant 'dark)  "#CF6752") ((eq variant 'dark-faded) "#f46715") ((eq variant 'light) "#B30000") ((eq variant 'light-faded) "#f53137")))
         (lambda-crucial     (cond ((eq variant 'dark)  "#F4BF4F") ((eq variant 'dark-faded) "#88c0d0") ((eq variant 'light) "#5D00DA") ((eq variant 'light-faded) "#303db4")))
