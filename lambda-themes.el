@@ -1344,6 +1344,10 @@ It should stick out from any other faces currently displayed."
 ;;;;; Ledger-mode
      `(ledger-font-xact-highlight-face  ((,class (:background ,lambda-mild))))
 
+;;;;; Keycast
+     `(keycast-command             ((,class (:background ,lambda-highlight))))
+     `(keycast-key                 ((,class (:inherit bold))))
+
 ;;;;; Modeline/Headerline
 ;;;;;; Basic Modeline/Headerline
      (unless (or (fboundp 'lambda-line)
